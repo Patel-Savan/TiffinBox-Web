@@ -13,8 +13,13 @@ import OrderDetailsPage from "./pages/Order/OrderDetailsPage";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import OrderCartPage from "./pages/Order/OrderCartPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import ViewProfile from "./pages/Profile/ViewProfile";
-import EditProfile from "./pages/Profile/EditProfile";
+// import ViewProfile from "./pages/Profile/ViewProfile";
+// import EditProfile from "./pages/Profile/EditProfile";
+import ViewProfileCustomer from "./pages/Profile/ViewProfileCustomer";
+import ViewProfileSeller from "./pages/Profile/ViewProfileSeller";
+import EditProfileCustomer from "./pages/Profile/EditProfileCustomer";
+import EditProfileSeller from "./pages/Profile/EditProfileSeller";
+import ProfileAppProvider from "./context/ProfileContext";
 import AcceptedOrders from "./pages/Order/AcceptedOrders";
 import { OrderTrackAppProvider } from "./context/OrderTrackContext/OrderTrackContext";
 import TrackOrderStatus from "./pages/Order/TrackOrderStatus";
@@ -23,7 +28,7 @@ import MealMenuManagement from "./pages/FoodProvider/MealMenuManagement";
 import AddAMeal from "./pages/FoodProvider/AddAMeal";
 import MealPage from "./pages/FoodProvider/MealPage";
 import UpdateAMeal from "./pages/FoodProvider/UpdateAMeal";
-import {CustomerMealAppProvider} from "./context/CustomerMealContext/CustomerMealContext"
+import { CustomerMealAppProvider } from "./context/CustomerMealContext/CustomerMealContext"
 import CustomerHomePage from "./pages/Customer/CustomerHomePage";
 import FoodProviderPage from "./pages/Customer/FoodProviderPage";
 import MealPageCustomer from "./pages/Customer/MealPageCustomer";
@@ -72,9 +77,25 @@ function App() {
             }
           />
           {/* order track routes ends */}
-          {/* profile routes starts */}
-          <Route path="/view-profile" element={<ViewProfile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route
+            path="/profile/*"
+            element={
+              <ProfileAppProvider>
+                <Routes>
+                  <Route
+                    path="view-customer"
+                    element={<ViewProfileCustomer />}
+                  />
+                  <Route
+                    path="edit-customer"
+                    element={<EditProfileCustomer />}
+                  />
+                  <Route path="view-seller" element={<ViewProfileSeller />} />
+                  <Route path="edit-seller" element={<EditProfileSeller />} />
+                </Routes>
+              </ProfileAppProvider>
+            }
+          />
           {/* profile routes ends */}
           {/*Food Service Provider routes starts */}
           <Route
@@ -105,7 +126,7 @@ function App() {
               <CustomerMealAppProvider>
                 <Routes>
                   <Route path="home-page" element={<CustomerHomePage />} />
-                  <Route path="food-provider-page/:foodProviderId" element={<FoodProviderPage />}/>
+                  <Route path="food-provider-page/:foodProviderId" element={<FoodProviderPage />} />
                   <Route path="meal-page/:mealId" element={<MealPageCustomer />} />
                 </Routes>
               </CustomerMealAppProvider>
