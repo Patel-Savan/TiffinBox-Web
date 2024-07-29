@@ -42,6 +42,12 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
     @Autowired
     private EmailService emailService;
 
+    /**
+     * Retrieves all accepted orders for a given user.
+     *
+     * @param principal the security principal of the authenticated user
+     * @return a response containing a list of accepted orders
+     */
     @Override
     public GetAllAcceptedOrdersResponse getAllAcceptedOrders(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
@@ -57,6 +63,15 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
                 .build();
     }
 
+    /**
+     * Updates the status of an order.
+     *
+     * @param updateOrderRequest the request containing the new status of the order
+     * @param orderId the ID of the order to update
+     * @param principal the security principal of the authenticated user
+     * @return a basic response indicating success or failure
+     * @throws MessagingException if an error occurs while sending an email
+     */
     @Override
     public BasicResponse updateStatus(UpdateOrderRequest updateOrderRequest, String orderId, Principal principal) throws MessagingException {
         User user = userRepository.findByEmail(principal.getName());
@@ -95,6 +110,13 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
         }
     }
 
+    /**
+     * Verifies the OTP for a given order.
+     *
+     * @param verifyOTPRequest the request containing the OTP to verify
+     * @param orderId the ID of the order to verify
+     * @return a basic response indicating success or failure
+     */
     @Override
     public BasicResponse verifyOTP(VerifyOTPRequest verifyOTPRequest, String orderId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);
@@ -123,6 +145,12 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
         }
     }
 
+    /**
+     * Retrieves the status of a given order.
+     *
+     * @param orderId the ID of the order to retrieve the status of
+     * @return a response containing the status of the order
+     */
     @Override
     public GetOrderStatusResponse getOrderStatus(String orderId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);
