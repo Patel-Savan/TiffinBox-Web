@@ -77,6 +77,7 @@ public class ProfileServiceImpl implements IProfileService {
         viewProfileResponseSeller.setCompanyAddress(seller.getCompanyAddress());
         viewProfileResponseSeller.setCompanyZipCode(seller.getCompanyPostalCode());
         viewProfileResponseSeller.setContactNumber(seller.getContact());
+        viewProfileResponseSeller.setCuisine(seller.getCuisineType());
 
         return viewProfileResponseSeller;
     }
