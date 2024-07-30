@@ -26,4 +26,9 @@ public class SubscriptionController {
     private ResponseEntity<?> createSubscription(@Valid @RequestBody CreateSubscriptionRequest request, Principal principal){
         return new ResponseEntity<>(subscriptionService.createSubscription(request, principal), HttpStatus.OK);
     }
+
+    @GetMapping
+    private ResponseEntity<?> getOwnSubscription(Principal principal){
+        return new ResponseEntity<>(subscriptionService.getOwnSubscription(principal), HttpStatus.OK);
+    }
 }
