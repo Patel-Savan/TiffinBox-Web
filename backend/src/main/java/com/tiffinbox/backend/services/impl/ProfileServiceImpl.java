@@ -178,6 +178,7 @@ public class ProfileServiceImpl implements IProfileService {
             customer.setProfileImage(uploadedFile.get("url").toString());
             customerRepository.save(customer);
             response.setMessage("Hello Customer, "+customer.getFirstName()+" "+customer.getLastName()+", your Avatar has been successfully updated");
+            response.setProfileImage(uploadedFile.get("url").toString());
             response.setSuccess(true);
             response.setTimeStamp(LocalDateTime.now());
         }
