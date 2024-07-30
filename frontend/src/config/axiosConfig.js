@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const api = axios.create({
   baseURL: "http://localhost:8080/api",
@@ -23,6 +24,7 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
     } else {
+      toast.error(error?.response?.data?.message);
       return error;
     }
 
@@ -43,6 +45,7 @@ api.interceptors.response.use(
       return axios(originalRequest);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   }
 );
