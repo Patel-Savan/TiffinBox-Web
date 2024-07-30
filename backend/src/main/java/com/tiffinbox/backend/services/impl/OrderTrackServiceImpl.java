@@ -63,6 +63,26 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
                 .build();
     }
 
+    @Override
+    public BasicResponse acceptOrder(String orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+
+        if(!orderOptional.isPresent()) {
+            throw new NotFoundException(ResponseMessages.ORDER_NOT_FOUND);
+        }
+
+        Order order = orderOptional.get();
+
+        order.setOrderStatus(OrderStatus.ACCEPTED);
+        orderRepository.save(order);
+
+        return BasicResponse.builder()
+                .success(true)
+                .timeStamp(LocalDateTime.now())
+                .message(ResponseMessages.ORDER_ACCEPTED)
+                .build();
+    }
+
     /**
      * Updates the status of an order.
      *

@@ -32,6 +32,11 @@ public class OrderTrackController {
         return new ResponseEntity<>(orderTrackService.getAllAcceptedOrders(principal), HttpStatus.OK);
     }
 
+    @PostMapping(path = "acceptOrder/{orderId}")
+    public ResponseEntity<BasicResponse> acceptOrder(@PathVariable String orderId) {
+        return new ResponseEntity<>(orderTrackService.acceptOrder(orderId), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/updateStatus/{orderId}")
     public ResponseEntity<BasicResponse> updateOrderStatus(@RequestBody UpdateOrderRequest updateOrderRequest, @PathVariable String orderId, Principal principal) throws MessagingException {
         return new ResponseEntity<>(orderTrackService.updateStatus(updateOrderRequest, orderId, principal), HttpStatus.OK);

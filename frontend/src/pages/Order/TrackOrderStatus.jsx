@@ -1,3 +1,7 @@
+/**
+ * Author: Keval Gandevia
+ */
+
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useOrderTrackContext } from "../../context/OrderTrackContext/OrderTrackContext";
@@ -25,9 +29,10 @@ const TrackOrderStatus = () => {
 
   return (
     <div className="container mx-auto px-6 py-6">
-      <div>
-        <h1 className="font-bold text-3xl">Track Order Status</h1>
-      </div>
+      <p className="mb-10 text-4xl font-bold">
+          <span className="text-5xl text-primary">/</span>
+          <span>Track Order Status</span>
+        </p>
       <div className="mt-10 w-full flex justify-center">
         <ul className="steps steps-horizontal">
           {steps.map((step, index) => (

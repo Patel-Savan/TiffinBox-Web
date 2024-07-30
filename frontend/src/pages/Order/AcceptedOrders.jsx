@@ -1,3 +1,7 @@
+/**
+ * Author: Keval Gandevia
+ */
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOrderTrackContext } from "../../context/OrderTrackContext/OrderTrackContext";
@@ -15,6 +19,7 @@ function AcceptedOrders() {
     getAllAcceptedOrders,
     updateOrderStatus,
     verifyOtp,
+    isLoading,
   } = useOrderTrackContext();
 
   const handleSearchChange = (event) => {
@@ -83,9 +88,10 @@ function AcceptedOrders() {
   return (
     <div className="container px-6 py-6 mx-auto min-h-dvh">
       <div className="grid grid-cols-1 gap-10">
-        <div>
-          <h1 className="text-3xl font-bold">Accepted Orders</h1>
-        </div>
+        <p className="mb-10 text-4xl font-bold">
+          <span className="text-5xl text-primary">/</span>
+          <span>Accepted Orders</span>
+        </p>
         {/* Search box starts */}
         <div>
           <label className="flex items-center gap-2 input input-bordered">
@@ -133,6 +139,10 @@ function AcceptedOrders() {
                       <div className="flex">
                         {item.currentOrderStatus === "IN_PREPARATION" ? (
                           <span className="badge badge-secondary text-[8px] md:text-sm md:font-light font-bold">
+                            {item.currentOrderStatus}
+                          </span>
+                        ) : item.currentOrderStatus === "ACCEPTED" ? (
+                          <span className="badge badge-info text-[8px] md:text-sm md:font-light font-bold">
                             {item.currentOrderStatus}
                           </span>
                         ) : (

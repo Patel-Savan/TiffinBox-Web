@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useOrderContext } from "../../context/OrderContext/OrderContext";
 import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 /**
  * Author: Raj Kamlesh Patel
@@ -9,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
  */
 
 function ViewOrderDetailsPage() {
-  const { orders, fetchOrderDetails, loading } = useOrderContext();
+  const { orders, fetchOrderDetails, loading, acceptOrder } = useOrderContext();
   const { orderId } = useParams();
   const navigate = useNavigate();
   const { orderDetails } = orders;
@@ -17,6 +18,16 @@ function ViewOrderDetailsPage() {
   useEffect(() => {
     fetchOrderDetails(orderId);
   }, [orderId]);
+
+  const handleAccept = async (data) => {
+    const response = await acceptOrder(data);
+    if (response.success) {
+      toast.success(response.message);
+      navigate("/foodprovider/accepted-orders");
+    } else {
+      toast.error(response.message);
+    }
+  };
 
   return (
     <div className="w-full max-w-5xl px-6 mx-auto my-10 min-h-dvh">
@@ -48,13 +59,17 @@ function ViewOrderDetailsPage() {
               {orderDetails.orderStatus !== "PLACED" && (
                 <p>
                   <span className="font-semibold">Status: </span>
-                  {orderDetails.currentStatus === "In-Preparation" ? (
+                  {orderDetails.orderStatus === "IN_PREPARATION" ? (
                     <span className="badge badge-secondary text-[8px] md:text-sm md:font-light font-bold">
-                      {orderDetails.currentStatus}
+                      {orderDetails.orderStatus}
+                    </span>
+                  ) : orderDetails.orderStatus === "ACCEPTED" ? (
+                    <span className="badge badge-info text-[8px] md:text-sm md:font-light font-bold">
+                      {orderDetails.orderStatus}
                     </span>
                   ) : (
                     <span className="badge badge-success text-[8px] font-bold md:text-sm md:font-light">
-                      {orderDetails.currentStatus}
+                      {orderDetails.orderStatus}
                     </span>
                   )}
                 </p>
@@ -158,7 +173,12 @@ function ViewOrderDetailsPage() {
           </div>
           {orderDetails.orderStatus === "PLACED" && (
             <div className="text-left">
-              <button className="my-4 btn btn-success">Accept</button>
+              <button
+                className="my-4 btn btn-success"
+                onClick={() => handleAccept(orderDetails.orderId)}
+              >
+                Accept
+              </button>
             </div>
           )}
         </>
