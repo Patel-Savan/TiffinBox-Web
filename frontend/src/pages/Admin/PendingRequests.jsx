@@ -1,3 +1,7 @@
+/**
+ * Author: Keval Gandevia
+ */
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAdminContext } from "../../context/AdminContext/AdminContext";
@@ -6,7 +10,8 @@ const PendingRequests = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
-  const { userPendingRequests, getAllPendingRequests } = useAdminContext();
+  const { userPendingRequests, getAllPendingRequests, isLoading } =
+    useAdminContext();
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -28,12 +33,21 @@ const PendingRequests = () => {
     getAllPendingRequests();
   }, [location]);
 
+  if (isLoading) {
+    return (
+      <div className="grid max-w-5xl mx-auto min-h-dvh place-content-center">
+        <span className="loading loading-dots loading-lg text-primary"></span>
+      </div>
+    );
+  }
+
   return (
-    <div className="container px-6 py-6 mx-auto">
+    <div className="container px-6 py-6 mx-auto min-h-dvh">
       <div className="grid grid-cols-1 gap-10">
-        <div>
-          <h1 className="text-3xl font-bold">User Pending Requests</h1>
-        </div>
+        <p className="mb-10 text-4xl font-bold">
+          <span className="text-5xl text-primary">/</span>
+          <span>User Pending Requests</span>
+        </p>
         {/* Search box starts */}
         <div>
           <label className="flex items-center gap-2 input input-bordered">

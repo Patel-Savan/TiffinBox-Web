@@ -91,6 +91,22 @@ const OrderProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
+  const acceptOrder = async (orderId) => {
+    setLoading(true);
+    const response = await api
+      .post(`${BASE_URL}/ordertrack/acceptOrder/${orderId}`, {})
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      })
+      .finally(() => setLoading(false));
+
+    return response;
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -100,6 +116,7 @@ const OrderProvider = ({ children }) => {
         fetchReceivedOrders,
         placeOrder,
         subscribe,
+        acceptOrder,
         loading,
       }}
     >

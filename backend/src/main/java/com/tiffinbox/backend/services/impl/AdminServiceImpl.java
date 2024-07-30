@@ -42,6 +42,11 @@ public class AdminServiceImpl implements IAdminService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    /**
+     * Get all pending requests for food service providers.
+     *
+     * @return GetAllPendingRequestsResponse containing the list of all pending requests.
+     */
     @Override
     public GetAllPendingRequestsResponse getAllPendingRequests() {
 
@@ -61,6 +66,12 @@ public class AdminServiceImpl implements IAdminService {
                 .build();
     }
 
+    /**
+     * Get details of a single pending request for a food service provider.
+     *
+     * @param foodServiceProviderId the ID of the food service provider.
+     * @return GetSinglePendingRequestResponse containing details of the pending request.
+     */
     @Override
     public GetSinglePendingRequestResponse getSinglePendingRequest(String foodServiceProviderId) {
 
@@ -80,6 +91,12 @@ public class AdminServiceImpl implements IAdminService {
                 .build();
     }
 
+    /**
+     * Approve a pending request for a food service provider.
+     *
+     * @param email the email of the food service provider.
+     * @return BasicResponse indicating the success of the operation.
+     */
     @Override
     public BasicResponse approvePendingRequest(String email) {
         User user = userRepository.findByEmail(email);
@@ -98,6 +115,12 @@ public class AdminServiceImpl implements IAdminService {
                 .build();
     }
 
+    /**
+     * Reject a pending request for a food service provider.
+     *
+     * @param email the email of the food service provider.
+     * @return BasicResponse indicating the success of the operation.
+     */
     @Override
     public BasicResponse rejectPendingRequest(String email) {
         User user = userRepository.findByEmail(email);
@@ -116,6 +139,11 @@ public class AdminServiceImpl implements IAdminService {
                 .build();
     }
 
+    /**
+     * Get all users who are verified food service providers.
+     *
+     * @return GetAllUsersResponse containing the list of all verified food service providers.
+     */
     @Override
     public GetAllUsersResponse getAllUsers() {
         List<User> userList = userRepository.findAllByIsAdminVerifiedAndUserRole(true, UserRole.FOOD_SERVICE_PROVIDER);
@@ -134,6 +162,12 @@ public class AdminServiceImpl implements IAdminService {
                 .build();
     }
 
+    /**
+     * Remove a verified food service provider.
+     *
+     * @param email the email of the food service provider.
+     * @return BasicResponse indicating the success of the operation.
+     */
     @Override
     public BasicResponse removeUser(String email) {
         User user = userRepository.findByEmailAndIsAdminVerifiedAndUserRole(email, true, UserRole.FOOD_SERVICE_PROVIDER);
@@ -158,6 +192,11 @@ public class AdminServiceImpl implements IAdminService {
                 .build();
     }
 
+    /**
+     * Get analysis data including total users, total orders, and total earnings.
+     *
+     * @return GetAnalysisResponse containing the analysis data.
+     */
     @Override
     public GetAnalysisResponse getAnalysis() {
         Long totalUsers = userRepository.countByIsAdminVerified(true);
