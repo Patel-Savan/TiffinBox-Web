@@ -17,6 +17,7 @@ import EditProfile from "../pages/Profile/EditProfile";
 import TrackOrderStatus from "../pages/Order/TrackOrderStatus";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { UserRoles } from "../utils/UserRoles";
+import ViewSubscriptions from "../pages/Order/ViewSubscriptions";
 
 function CustomerRoutes() {
   return (
@@ -42,13 +43,14 @@ function CustomerRoutes() {
                   path="order-details/:orderId"
                   element={<OrderDetailsPage />}
                 />
-                <Route path="/cart" element={<OrderCartPage />} />
-                <Route path="/view-profile" element={<ViewProfile />} />
-                <Route path="/edit-profile" element={<EditProfile />} />
+                <Route path="cart" element={<OrderCartPage />} />
+                <Route path="view-profile" element={<ViewProfile />} />
+                <Route path="edit-profile" element={<EditProfile />} />
                 <Route
                   path="order-track/:orderId"
                   element={<TrackOrderStatus />}
                 />
+                <Route path="subscriptions" element={<ViewSubscriptions />} />
               </Routes>
               <Footer />
             </OrderCartProvider>

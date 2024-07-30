@@ -36,13 +36,13 @@ const AuthProvider = ({ children }) => {
     await api
       .post(backendURLs.LOGIN_URL, requestBody)
       .then((res) => {
+        console.log(res);
         const data = res.data;
         setTokens(data);
         toast.success("Login Successfull.");
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Invalid email or password.");
       });
   };
 

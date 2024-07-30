@@ -109,6 +109,7 @@ const OrderCartProvider = ({ children }) => {
     <OrderCartContext.Provider
       value={{
         cart,
+        setCart,
         addToCart,
         increaseQuantity,
         decreaseQuantity,

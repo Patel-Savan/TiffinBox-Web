@@ -1,7 +1,13 @@
 import React from "react";
 import { BiSolidDish } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../context/AuthenticationContext/AuthContext";
+import { UserRoles } from "../utils/UserRoles";
 
 function Hero() {
+  const { userData } = useAuthContext();
+  const { userRole } = userData;
+
   return (
     <div className="flex flex-col items-center w-full">
       <section className="max-w-5xl overflow-hidden rounded-md shadow-md hero h-96 bg-bgHero">
@@ -14,9 +20,16 @@ function Hero() {
             <h2 className="mb-5 text-2xl font-semibold sm:mb-7 sm:text-2xl">
               Find the best tiffins near you
             </h2>
-            <button className="px-8 text-xl text-white btn btn-secondary">
+            <Link
+              to={`${
+                userRole === UserRoles.CUSTOMER
+                  ? "/customer/home-page"
+                  : "/login"
+              }`}
+              className="px-8 text-xl text-white btn btn-secondary"
+            >
               Explore <BiSolidDish className="w-6 h-6 ml-2" />
-            </button>
+            </Link>
           </div>
         </div>
       </section>
