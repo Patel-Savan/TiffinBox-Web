@@ -121,6 +121,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                     .paymentMethod("Card")
                     .amount(subscription.getMeal().getMealPrice())
                     .paymentDate(subscription.getStartDate().minusDays(1))
+                    .amount(subscription.getMeal().getMealPrice())
                     .build();
 
             Order order = Order.builder()
