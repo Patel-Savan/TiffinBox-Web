@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
       .then((res) => {
         console.log(res?.data);
         if (res?.status === 200 || res?.status === 201) {
-          toast.success("Seller Registration Successful.");
+          toast.success(res?.data.message);
           userData.isRegistered = true;
           return true;
         }
@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Invalid Seller Data.");
+        toast.error(res?.data.message);
         return false;
       });
   };
@@ -85,7 +85,7 @@ const AuthProvider = ({ children }) => {
       .then((res) => {
         console.log(res?.data);
         if (res?.status === 200 || res?.status === 201) {
-          toast.success("Customer Registration Successful.");
+          toast.success(res?.data.message);
           userData.isRegistered = true;
           return true;
         }
@@ -95,7 +95,7 @@ const AuthProvider = ({ children }) => {
         return false;
       }).catch((error) => {
         console.log(error);
-        toast.error("Invalid Customer Data.");
+        toast.error(res?.data.message);
         return false;
       });
   };
@@ -111,13 +111,13 @@ const AuthProvider = ({ children }) => {
       .then((res) => {
         console.log(res?.data);
         if (res?.status === 200 || res?.status === 201) {
-          toast.success("Your Password has been changed succesully");
+          toast.success(res?.data.message);
           return true;
         }
         return false;
       }).catch((error) => {
         console.log(error);
-        toast.error("Error changing in password");
+        toast.error(res?.data.message);
         return false;
       });
   };
@@ -133,11 +133,11 @@ const AuthProvider = ({ children }) => {
       .then((res) => {
         const data = res.data;
         setTokens(data);
-        toast.success("Login Successfull.");
+        toast.success(res?.data.message);
       })
       .catch((error) => {
-        console.log(error);
-        toast.error("Invalid email or password.");
+        console.log(error.data);
+        toast.error(error.res?.data?.message);
       });
   };
 
