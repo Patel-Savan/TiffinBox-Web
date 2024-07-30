@@ -9,13 +9,12 @@ import { Link } from "react-router-dom";
 function OrderCard({ order }) {
   return (
     <section
-      className={`shadow card md:card-side bg-base-100 ${
-        order.orderStatus === "DELIVERED" && "bg-slate-300"
-      }`}
+      className={`shadow card md:card-side bg-base-100 ${order.orderStatus === "DELIVERED" && "bg-slate-300"
+        }`}
     >
       <figure className="h-60">
         <img
-          src={order.mealImage}
+          src={order.mealImage || "https://picsum.photos/200"}
           alt="Album"
           className="w-full h-full object-fit md:w-80"
         />

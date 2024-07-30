@@ -103,13 +103,11 @@ const SellerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("first_name")
+                    className={`${getValues("first_name")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.first_name ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                      } ${errors.first_name ? "border-red-400" : "border-gray-300"
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
 
                   {errors.first_name && (
@@ -131,13 +129,11 @@ const SellerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("last_name")
+                    className={`${getValues("last_name")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.first_name ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                      } ${errors.first_name ? "border-red-400" : "border-gray-300"
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
                   {errors.last_name && (
                     <span className="block mt-2 text-red-400">
@@ -163,13 +159,11 @@ const SellerRegisterPage = () => {
                         message: "Invalid email address format",
                       },
                     })}
-                    className={`${
-                      getValues("email_id")
+                    className={`${getValues("email_id")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${
-                      errors.email_id ? "border-red-400" : "border-gray-300"
-                    }`}
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${errors.email_id ? "border-red-400" : "border-gray-300"
+                      }`}
                   />
                   {errors.email_id && (
                     <span className="block mt-2 text-red-400">
@@ -191,15 +185,13 @@ const SellerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("contact_number")
+                    className={`${getValues("contact_number")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${
-                      errors.contact_number
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${errors.contact_number
                         ? "border-red-400"
                         : "border-gray-300"
-                    }
+                      }
                             `}
                   />
 
@@ -223,15 +215,13 @@ const SellerRegisterPage = () => {
                     required: "* This is required",
                     onChange: handleChange,
                   })}
-                  className={`${
-                    getValues("company_address")
+                  className={`${getValues("company_address")
                       ? "border-orange-300"
                       : "border-gray-300"
-                  } ${
-                    errors.company_address
+                    } ${errors.company_address
                       ? "border-red-400"
                       : "border-gray-300"
-                  } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.company_address && (
                   <span className="block mt-2 text-red-400">
@@ -253,13 +243,11 @@ const SellerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("company_name")
+                    className={`${getValues("company_name")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.company_name ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                      } ${errors.company_name ? "border-red-400" : "border-gray-300"
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
                   {errors.company_name && (
                     <span className="block mt-2 text-red-400">
@@ -285,15 +273,13 @@ const SellerRegisterPage = () => {
                         message: "Please enter valid postal code eg.(B9J1K8)",
                       },
                     })}
-                    className={`${
-                      getValues("company_postal_code")
+                    className={`${getValues("company_postal_code")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-600 ${
-                      errors.company_postal_code
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-600 ${errors.company_postal_code
                         ? "border-red-400"
                         : "border-gray-300"
-                    }
+                      }
                     `}
                   />
 
@@ -315,11 +301,10 @@ const SellerRegisterPage = () => {
                       City name
                     </label>
                     <input
-                      className={`w-full text-black focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm ${
-                        getValues("city")
+                      className={`w-full text-black focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm ${getValues("city")
                           ? "border-orange-300"
                           : "border-gray-300"
-                      }`}
+                        }`}
                       {...register("city", {
                         required: "* This is required",
                         onChange: handleChange,
@@ -342,11 +327,10 @@ const SellerRegisterPage = () => {
                       Province name
                     </label>
                     <select
-                      className={`${
-                        getValues("province")
+                      className={`${getValues("province")
                           ? "border-orange-300"
                           : "border-gray-300"
-                      } w-full text-black  focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm`}
+                        } w-full text-black  focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm`}
                       {...register("province", {
                         required: "* This is required",
                         onChange: handleChange,
@@ -456,13 +440,11 @@ const SellerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("cuisine_type")
+                    className={`${getValues("cuisine_type")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.cuisine_type ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                      } ${errors.cuisine_type ? "border-red-400" : "border-gray-300"
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
                   {errors.cuisine_type && (
                     <span className="block mt-2 text-red-400">
@@ -495,13 +477,11 @@ const SellerRegisterPage = () => {
                     },
                     onChange: handleChange,
                   })}
-                  className={`${
-                    getValues("password")
+                  className={`${getValues("password")
                       ? "border-orange-300"
                       : "border-gray-300"
-                  } ${
-                    errors.password ? "border-red-400" : "border-gray-300"
-                  } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                    } ${errors.password ? "border-red-400" : "border-gray-300"
+                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.password && (
                   <span className="block mt-2 text-red-400">
@@ -539,15 +519,13 @@ const SellerRegisterPage = () => {
                     },
                     onChange: handleChange,
                   })}
-                  className={`${
-                    getValues("confirm_password")
+                  className={`${getValues("confirm_password")
                       ? "border-orange-300"
                       : "border-gray-300"
-                  } ${
-                    errors.confirm_password
+                    } ${errors.confirm_password
                       ? "border-red-400"
                       : "border-gray-300"
-                  } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.confirm_password && (
                   <span className="block mt-2 text-red-400">
