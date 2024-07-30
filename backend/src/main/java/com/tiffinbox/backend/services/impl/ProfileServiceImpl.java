@@ -12,12 +12,16 @@ import com.tiffinbox.backend.models.User;
 import com.tiffinbox.backend.repositories.CustomerRepository;
 import com.tiffinbox.backend.repositories.SellerRepository;
 import com.tiffinbox.backend.repositories.UserRepository;
+import com.tiffinbox.backend.services.CloudinaryService;
 import com.tiffinbox.backend.services.IProfileService;
 import com.tiffinbox.backend.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -32,16 +36,14 @@ public class ProfileServiceImpl implements IProfileService {
     private SellerRepository sellerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
-    public ViewProfileResponseCustomer customerProfile(Principal principal, String userId){
+    public ViewProfileResponseCustomer customerProfile(Principal principal){
         ViewProfileResponseCustomer viewProfileResponseCustomer = new ViewProfileResponseCustomer();
-        User user = userRepository.findByUserId(userId);
         Customer customer = userRepository.findByEmail(principal.getName()).getCustomer();
         if(customer==null){
           throw new NotFoundException("User not Found!");
-        }
-        if(!customer.getUser().getUserId().equals(user.getUserId())){
-            throw new ApiRequestException("User Miss-Match!");
         }
 
         viewProfileResponseCustomer.setProfileImage(customer.getProfileImage());
@@ -57,17 +59,13 @@ public class ProfileServiceImpl implements IProfileService {
         return viewProfileResponseCustomer;
     }
 
-    public ViewProfileResponseSeller sellerProfile(Principal principal, String userId){
+    public ViewProfileResponseSeller sellerProfile(Principal principal){
         ViewProfileResponseSeller viewProfileResponseSeller = new ViewProfileResponseSeller();
-        User user = userRepository.findByUserId(userId);
         FoodServiceProvider seller = userRepository.findByEmail(principal.getName()).getFoodServiceProvider();
         if(seller==null){
           throw new NotFoundException("Seller not Found!");
         }
 
-        if(!seller.getUser().getUserId().equals(user.getUserId())){
-            throw new ApiRequestException("User Miss-Match!");
-        }
         viewProfileResponseSeller.setProfileImage(seller.getProfileImage());
         viewProfileResponseSeller.setFirstname(seller.getFirstName());
         viewProfileResponseSeller.setLastname(seller.getLastName());
@@ -104,7 +102,7 @@ public class ProfileServiceImpl implements IProfileService {
         customerRepository.save(customer);
         basicResponse.setTimeStamp(LocalDateTime.now());
         basicResponse.setSuccess(true);
-        basicResponse.setMessage("Hello Customer, "+customer.getFirstName()+" "+customer.getLastName()+", your profile id updated");
+        basicResponse.setMessage("Hello Customer, "+customer.getFirstName()+" "+customer.getLastName()+", your profile updated");
         return basicResponse;
     }
 
@@ -131,7 +129,7 @@ public class ProfileServiceImpl implements IProfileService {
         sellerRepository.save(seller);
         basicResponse.setTimeStamp(LocalDateTime.now());
         basicResponse.setSuccess(true);
-        basicResponse.setMessage("Hello Seller, "+seller.getFirstName()+" "+seller.getLastName()+", your profile id updated");
+        basicResponse.setMessage("Hello Seller, "+seller.getFirstName()+" "+seller.getLastName()+", your profile is updated");
         return basicResponse;
     }
 
@@ -149,6 +147,37 @@ public class ProfileServiceImpl implements IProfileService {
         basicResponse.setTimeStamp(LocalDateTime.now());
         basicResponse.setSuccess(true);
         basicResponse.setMessage("Password Reset was Successful!");
+        return basicResponse;
+    }
+
+    public BasicResponse uploadProfilePicture (Principal principal, ImageUploadRequest profileImage) throws IOException {
+        BasicResponse basicResponse = new BasicResponse();
+        User user = userRepository.findByEmail(principal.getName());
+
+        if (user == null){
+            throw new NotFoundException("User Not Logged In");
+        }
+        if(profileImage == null){
+            throw new ApiRequestException("Please upload a valid Image"+System.lineSeparator()+"Format Supported: .jpeg, .jpg, .png");
+        }
+        if(user.getUserRole()==UserRole.FOOD_SERVICE_PROVIDER){
+            FoodServiceProvider foodServiceProvider = user.getFoodServiceProvider();
+            Map uploadedFile = cloudinaryService.upload(profileImage.getImage());
+            foodServiceProvider.setProfileImage(uploadedFile.get("url").toString());
+            sellerRepository.save(foodServiceProvider);
+            basicResponse.setMessage("Hello Seller, "+foodServiceProvider.getFirstName()+" "+foodServiceProvider.getLastName()+", your Avatar has been successfully updated");
+            basicResponse.setSuccess(true);
+            basicResponse.setTimeStamp(LocalDateTime.now());
+        }
+        if(user.getUserRole()==UserRole.CUSTOMER){
+            Customer customer = user.getCustomer();
+            Map uploadedFile = cloudinaryService.upload(profileImage.getImage());
+            customer.setProfileImage(uploadedFile.get("url").toString());
+            customerRepository.save(customer);
+            basicResponse.setMessage("Hello Customer, "+customer.getFirstName()+" "+customer.getLastName()+", your Avatar has been successfully updated");
+            basicResponse.setSuccess(true);
+            basicResponse.setTimeStamp(LocalDateTime.now());
+        }
         return basicResponse;
     }
 }
