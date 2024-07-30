@@ -20,6 +20,7 @@ const backendURLs = {
 
 const initialState = {
   user: "",
+  userProfile: "",
   userRole: "",
   authToken: "",
   refreshToken: "",

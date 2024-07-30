@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../../context/ProfileContext";
+import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const ViewProfileCustomer = () => {
+  const { userData } = useAuthContext();
+  const { getProfileInfo, profileInfo, updateProfileImage } = useProfile();
   const defaultImage =
-    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
+    "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png ";
   const [avatar, setAvatar] = useState(defaultImage);
 
-  const { getProfileInfo, profileInfo, updateProfileImage } = useProfile();
 
   // console.log("profileInfo", profileInfo);
   // const userId = localStorage.getItem('userId');
@@ -17,6 +19,12 @@ const ViewProfileCustomer = () => {
   useEffect(() => {
     getProfileInfo(userId);
   }, []);
+
+  useEffect(() => {
+    if (profileInfo) {
+      setAvatar(profileInfo.profileImage)
+    }
+  }, [profileInfo])
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -36,7 +44,7 @@ const ViewProfileCustomer = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container px-5 py-6 rounded-lg mx-auto w-full md:w-3/4 lg:w-[65%]">
+    <div className="max-w-5xl px-5 py-6 rounded-lg mx-auto min-h-dvh">
       <h2 className="font-bold text-xl sm:text-2xl mb-6 sm:text-left text-center py-3 px-4">
         My Profile
       </h2>
@@ -45,7 +53,7 @@ const ViewProfileCustomer = () => {
           <div className="text-center md:px-10">
             <div className="avatar">
               <div className="w-48 rounded-xl relative mx-auto md:mx-0">
-                <img className="h-full w-full" src={avatar} alt="Avatar" />
+                <img className="h-full w-full" src={avatar} alt={profileInfo.firstName + " " + profileInfo.lastname} />
               </div>
             </div>
             <div className="relative mt-4">
@@ -168,14 +176,14 @@ const ViewProfileCustomer = () => {
                 <button
                   type="button"
                   className="btn btn-secondary rounded-lg py-2 px-4"
-                  onClick={() => navigate("/profile/edit-customer")}
+                  onClick={() => navigate("/customer/edit-profile")}
                 >
                   Edit Profile
                 </button>
                 <button
                   type="button"
                   className="btn btn-secondary rounded-lg py-2 px-4"
-                  onClick={() => navigate("/profile/reset-password")}
+                  onClick={() => navigate("/customer/reset-password")}
                 >
                   Reset Password
                 </button>

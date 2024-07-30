@@ -4,6 +4,7 @@ import com.tiffinbox.backend.dto.request.*;
 import com.tiffinbox.backend.dto.response.BasicResponse;
 import com.tiffinbox.backend.dto.response.ViewProfileResponseCustomer;
 import com.tiffinbox.backend.dto.response.ViewProfileResponseSeller;
+import com.tiffinbox.backend.dto.response.profile.UploadProfileImageResponse;
 import com.tiffinbox.backend.exceptions.ApiRequestException;
 import com.tiffinbox.backend.exceptions.NotFoundException;
 import com.tiffinbox.backend.models.Customer;
@@ -20,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
 import java.util.*;
 
 import java.io.IOException;
@@ -152,8 +153,8 @@ public class ProfileServiceImpl implements IProfileService {
         return basicResponse;
     }
 
-    public BasicResponse uploadProfilePicture (Principal principal, ImageUploadRequest profileImage) throws IOException {
-        BasicResponse basicResponse = new BasicResponse();
+    public UploadProfileImageResponse uploadProfilePicture (Principal principal, ImageUploadRequest profileImage) throws IOException {
+        UploadProfileImageResponse response = new UploadProfileImageResponse();
         User user = userRepository.findByEmail(principal.getName());
 
         if (user == null){
@@ -167,19 +168,19 @@ public class ProfileServiceImpl implements IProfileService {
             Map uploadedFile = cloudinaryService.upload(profileImage.getImage());
             foodServiceProvider.setProfileImage(uploadedFile.get("url").toString());
             sellerRepository.save(foodServiceProvider);
-            basicResponse.setMessage("Hello Seller, "+foodServiceProvider.getFirstName()+" "+foodServiceProvider.getLastName()+", your Avatar has been successfully updated");
-            basicResponse.setSuccess(true);
-            basicResponse.setTimeStamp(LocalDateTime.now());
+            response.setMessage("Hello Seller, "+foodServiceProvider.getFirstName()+" "+foodServiceProvider.getLastName()+", your Avatar has been successfully updated");
+            response.setSuccess(true);
+            response.setTimeStamp(LocalDateTime.now());
         }
         if(user.getUserRole()==UserRole.CUSTOMER){
             Customer customer = user.getCustomer();
             Map uploadedFile = cloudinaryService.upload(profileImage.getImage());
             customer.setProfileImage(uploadedFile.get("url").toString());
             customerRepository.save(customer);
-            basicResponse.setMessage("Hello Customer, "+customer.getFirstName()+" "+customer.getLastName()+", your Avatar has been successfully updated");
-            basicResponse.setSuccess(true);
-            basicResponse.setTimeStamp(LocalDateTime.now());
+            response.setMessage("Hello Customer, "+customer.getFirstName()+" "+customer.getLastName()+", your Avatar has been successfully updated");
+            response.setSuccess(true);
+            response.setTimeStamp(LocalDateTime.now());
         }
-        return basicResponse;
+        return response;
     }
 }

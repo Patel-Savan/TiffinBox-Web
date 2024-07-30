@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { IoArrowBack } from "react-icons/io5";
 import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
+import { UserRoles } from "../../utils/UserRoles";
 
 const ResetPassword = () => {
-
+    const { userData } = useAuthContext();
+    const { userRole } = userData;
     const navigate = useNavigate();
     const [formData, setFormData] = useState({});
     const { handleResetPassword } = useAuthContext();
@@ -146,7 +148,13 @@ const ResetPassword = () => {
                         <button
                             type="submit"
                             className="btn btn-secondary rounded-lg py-2 px-4"
-                            onClick={() => navigate("/profile/reset-password")}
+                            onClick={() => {
+                                if (userRole === UserRoles.CUSTOMER) {
+                                    navigate("/customer/reset-password")
+                                } else if (userRole === UserRoles.FOOD_SERVICE_PROVIDER) {
+                                    navigate("/foodprovider/reset-password")
+                                }
+                            }}
                         >
                             Reset Password
                         </button>

@@ -57,7 +57,7 @@ const EditProfileCustomer = () => {
   };
 
   return (
-    <div className="container px-4 sm:px-10 py-6 rounded-lg w-full sm:w-[90%] lg:w-[65%] mx-auto">
+    <div className="max-w-5xl px-4 sm:px-10 py-6 rounded-lg min-h-dvh mx-auto">
       <h2 className="font-bold text-xl sm:text-2xl mb-6 py-3">Edit Profile</h2>
       <div className="py-4 flex flex-col space-x-0 lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
         <div className="w-full">
@@ -173,7 +173,7 @@ const EditProfileCustomer = () => {
               <button
                 type="button"
                 className="btn absolute left-0 top-0"
-                onClick={() => navigate("/profile/view-customer")}
+                onClick={() => navigate(-1)}
               >
                 <IoArrowBack />
                 Back

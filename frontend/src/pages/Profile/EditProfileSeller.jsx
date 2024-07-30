@@ -59,12 +59,8 @@ const EditProfileSeller = () => {
     editSellerProfileInfo(formData);
   };
 
-
-
-
-
   return (
-    <div className="container px-4 sm:px-10 py-6 rounded-lg w-full sm:w-[90%] lg:w-[65%] mx-auto">
+    <div className="max-w-5xl px-4 sm:px-10 py-6 rounded-lg mx-auto min-h-dvh">
       <h2 className="font-bold text-xl sm:text-2xl mb-6 py-3">Edit Profile</h2>
       <div className="py-4 flex flex-col space-x-0 lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
         <div className="w-full">
@@ -188,7 +184,7 @@ const EditProfileSeller = () => {
             <div className="flex items-center space-x-8 mt-8 justify-center relative">
               <button
                 className="btn absolute left-0 top-0"
-                onClick={() => navigate("/profile/view-seller")}
+                onClick={() => navigate(-1)}
               >
                 <IoArrowBack />
                 Back

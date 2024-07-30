@@ -4,16 +4,15 @@ import com.tiffinbox.backend.dto.request.*;
 import com.tiffinbox.backend.dto.response.BasicResponse;
 import com.tiffinbox.backend.dto.response.ViewProfileResponseCustomer;
 import com.tiffinbox.backend.dto.response.ViewProfileResponseSeller;
+import com.tiffinbox.backend.dto.response.profile.UploadProfileImageResponse;
 import com.tiffinbox.backend.services.IProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -52,8 +51,8 @@ public class ProfileController {
 
     @SneakyThrows
     @PostMapping(path = "/uploadImg", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<BasicResponse> editProfileImg(@ModelAttribute ImageUploadRequest image, Principal principal){
-        BasicResponse response = profileService.uploadProfilePicture(principal,image);
+    public ResponseEntity<UploadProfileImageResponse> editProfileImg(@ModelAttribute ImageUploadRequest image, Principal principal){
+        UploadProfileImageResponse response = profileService.uploadProfilePicture(principal,image);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

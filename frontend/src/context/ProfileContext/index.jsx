@@ -9,6 +9,7 @@ import {
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../config/axiosConfig";
+import { useAuthContext } from "../AuthenticationContext/AuthContext";
 
 const initialState = {
   profileInfo: {},
@@ -38,6 +39,7 @@ export const useProfile = () => useContext(ProfileContext);
 
 const ProfileAppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { userData } = useAuthContext();
   const navigate = useNavigate();
 
   const getProfileInfo = () => {
@@ -49,7 +51,7 @@ const ProfileAppProvider = ({ children }) => {
   const editProfileInfo = (payload) => {
     return api.post(`/profile/customer/editProfile`, payload).then((res) => {
       toast.success(res.data.message);
-      navigate("/profile/view-customer");
+      navigate("/customer/view-profile");
     });
   };
 
@@ -63,15 +65,18 @@ const ProfileAppProvider = ({ children }) => {
   const editSellerProfileInfo = (payload) => {
     return api.post(`/profile/seller/editProfile`, payload).then((res) => {
       toast.success(res.data.message);
-      navigate("/profile/view-seller");
+      navigate("/foodprovider/view-profile");
     });
   };
 
   const updateProfileImage = (file) => {
     const formData = new FormData();
     formData.append("image", file)
-
-    return api.post("/profile/uploadImg", formData).then(res => toast.success(res.data.message))
+    return api.post("/profile/uploadImg", formData).then(res => {
+      userData.userProfile = res.data.profileImage;
+      localStorage.setItem("userProfile", res.data.profileImage);
+      toast.success(res.data.message)
+    })
   }
 
   return (
