@@ -86,6 +86,11 @@ function Sidebar({ children }) {
                       Meals
                     </NavLink>
                   </li>
+                  <li onClick={closeDrawer}>
+                    <NavLink to="/foodprovider/review-analytics">
+                      Review Analytics
+                    </NavLink>
+                  </li>
                 </>
               )}
               {userRole === UserRoles.ADMIN && (

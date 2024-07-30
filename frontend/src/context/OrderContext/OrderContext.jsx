@@ -23,6 +23,7 @@ const initialStates = {
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState(initialStates);
   const [loading, setLoading] = useState(true);
+  const [searchDate, setSearchDate] = useState(new Date());
 
   const fetchAllOrders = async () => {
     setLoading(true);
@@ -51,9 +52,14 @@ const OrderProvider = ({ children }) => {
   };
 
   const fetchReceivedOrders = async () => {
+    const orderDate = new Date(searchDate);
+    const params = {
+      orderDate,
+    };
     setLoading(true);
+    setOrders({ ...orders, orderList: [] });
     await api
-      .get(`${BASE_URL}/orders/received`)
+      .get(`${BASE_URL}/orders/received`, { params })
       .then((res) => {
         const { orderDetails } = res.data;
         setOrders({ ...orders, orderList: orderDetails, orderDetails: null });
@@ -128,6 +134,8 @@ const OrderProvider = ({ children }) => {
     <OrderContext.Provider
       value={{
         orders,
+        searchDate,
+        setSearchDate,
         fetchAllOrders,
         fetchOrderDetails,
         fetchReceivedOrders,

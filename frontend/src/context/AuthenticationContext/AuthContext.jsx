@@ -165,7 +165,7 @@ const AuthProvider = ({ children }) => {
     setUserData(initialState);
     localStorage.removeItem("user");
     localStorage.removeItem("userRole");
-    localStorage.setItem("userProfile");
+    localStorage.removeItem("userProfile");
     localStorage.removeItem("authToken");
     localStorage.removeItem("refreshToken");
   };
