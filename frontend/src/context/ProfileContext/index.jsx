@@ -57,7 +57,7 @@ const ProfileAppProvider = ({ children }) => {
 
   const getSellerProfileInfo = () => {
     return api.get(`/profile/seller`).then((res) => {
-      console.log(res, "ress")
+      console.log(res, "ress");
       dispatch({ type: GET_SELLER_PROFILE, payload: res.data });
     });
   };
@@ -71,13 +71,14 @@ const ProfileAppProvider = ({ children }) => {
 
   const updateProfileImage = (file) => {
     const formData = new FormData();
-    formData.append("image", file)
-    return api.post("/profile/uploadImg", formData).then(res => {
+    formData.append("image", file);
+    return api.post("/profile/uploadImg", formData).then((res) => {
+      console.log(res);
       userData.userProfile = res.data.profileImage;
       localStorage.setItem("userProfile", res.data.profileImage);
-      toast.success(res.data.message)
-    })
-  }
+      toast.success(res.data.message);
+    });
+  };
 
   return (
     <ProfileContext.Provider
@@ -87,7 +88,7 @@ const ProfileAppProvider = ({ children }) => {
         editProfileInfo,
         getSellerProfileInfo,
         editSellerProfileInfo,
-        updateProfileImage
+        updateProfileImage,
       }}
     >
       {children}

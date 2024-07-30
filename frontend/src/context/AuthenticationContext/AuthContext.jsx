@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(res?.data.message);
+        toast.error(error.res?.data.message);
         return false;
       });
   };
@@ -97,7 +97,7 @@ const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(res?.data.message);
+        toast.error(error.res?.data.message);
         return false;
       });
   };
@@ -120,7 +120,7 @@ const AuthProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error(res?.data.message);
+        toast.error(error.res?.data.message);
         return false;
       });
   };
@@ -149,12 +149,14 @@ const AuthProvider = ({ children }) => {
       ...userData,
       user: data,
       userRole: data.userRole,
+      userProfile: data.profileImage,
       authToken: data.token,
       refreshToken: data.refreshToken,
     });
 
     localStorage.setItem("user", JSON.stringify(data));
     localStorage.setItem("userRole", data.userRole);
+    localStorage.setItem("userProfile", data.profileImage);
     localStorage.setItem("authToken", data.token);
     localStorage.setItem("refreshToken", data.refreshToken);
   };
@@ -163,6 +165,7 @@ const AuthProvider = ({ children }) => {
     setUserData(initialState);
     localStorage.removeItem("user");
     localStorage.removeItem("userRole");
+    localStorage.setItem("userProfile");
     localStorage.removeItem("authToken");
     localStorage.removeItem("refreshToken");
   };
@@ -171,6 +174,7 @@ const AuthProvider = ({ children }) => {
     if (
       localStorage.getItem("user") &&
       localStorage.getItem("userRole") &&
+      localStorage.getItem("userProfile") &&
       localStorage.getItem("authToken") &&
       localStorage.getItem("refreshToken")
     ) {
@@ -178,6 +182,7 @@ const AuthProvider = ({ children }) => {
         ...userData,
         user: localStorage.getItem("user"),
         userRole: localStorage.getItem("userRole"),
+        userProfile: localStorage.getItem("userProfile"),
         authToken: localStorage.getItem("authToken"),
         refreshToken: localStorage.getItem("refreshToken"),
       });
