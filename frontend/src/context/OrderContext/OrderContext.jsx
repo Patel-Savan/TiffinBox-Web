@@ -106,7 +106,8 @@ const OrderProvider = ({ children }) => {
         toast.error(error);
       })
       .finally(() => setLoading(false));
-      
+  };
+
   const acceptOrder = async (orderId) => {
     setLoading(true);
     const response = await api

@@ -30,6 +30,8 @@ function Navbar() {
     }
   };
 
+  useEffect(() => {}, [userProfile]);
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -152,7 +154,10 @@ function Navbar() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src={userProfile || "https://res.cloudinary.com/dk1fim9hl/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png"}
+                    src={
+                      userProfile ||
+                      "https://res.cloudinary.com/dk1fim9hl/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png"
+                    }
                   />
                 </div>
               </div>

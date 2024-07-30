@@ -16,7 +16,7 @@ const FoodProviderCard = ({ provider, handleClick }) => {
           "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722358736/TiffinBox/Food_Provider_eesnwt.png"
         }
         alt={provider.name}
-        className="object-cover w-full h-48 border-b-2 filter grayscale"
+        className="object-cover w-full h-48 border-b-2"
       />
       <div className="p-4">
         <h3 className="text-lg font-semibold">{provider.companyName}</h3>
