@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const CustomerRegisterPage = () => {
