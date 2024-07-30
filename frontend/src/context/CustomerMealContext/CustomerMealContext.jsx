@@ -32,7 +32,7 @@ const AppContext = createContext();
 
 const CustomerMealAppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const token = localStorage.getItem('authToken')
   const getAllFoodServiceProvider = async () => {
     await api
       .get(`${backendURLs.GET_ALL_FOOD_SERVICE_PROVIDER_URL}`)
