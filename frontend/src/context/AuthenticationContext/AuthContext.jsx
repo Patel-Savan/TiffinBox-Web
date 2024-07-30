@@ -13,9 +13,8 @@ const backendURLs = {
   CUSTOMER_SIGNUP_URL: `/auth/customer/signUp`,
   SELLER_SIGNUP_URL: `/auth/seller/signUp`,
   RESET_PASSWORD_URL: `/profile/resetPassword`,
-  //   UPDATE_ORDER_STATUS_URL: `/ordertrack/updateStatus`,
-  //   VERIFY_ORDER_STATUS_URL: `/ordertrack/verifyOTP`,
-  //   GET_ORDER_STATUS_URL: `/ordertrack/getOrderStatus`,
+  // FORGOT_PASSWORD_URL:`/auth/forgotPassword`
+  
 };
 
 const initialState = {
