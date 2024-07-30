@@ -1,6 +1,9 @@
 package com.tiffinbox.backend.services.impl;
 
+import com.tiffinbox.backend.dto.SubscriptionDTO;
+import com.tiffinbox.backend.dto.mappers.SubscriptionMapper;
 import com.tiffinbox.backend.dto.request.CreateSubscriptionRequest;
+import com.tiffinbox.backend.dto.response.subscription.GetSubscriptionResponse;
 import com.tiffinbox.backend.exceptions.AlreadySubscribedException;
 import com.tiffinbox.backend.exceptions.ApiRequestException;
 import com.tiffinbox.backend.exceptions.NotFoundException;
@@ -11,7 +14,9 @@ import com.tiffinbox.backend.utils.OrderStatus;
 import com.tiffinbox.backend.utils.OrderType;
 import com.tiffinbox.backend.utils.ResponseMessages;
 import com.tiffinbox.backend.utils.SubscriptionType;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +32,7 @@ import java.util.Optional;
  */
 
 @Service
+@Transactional
 public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
@@ -103,8 +109,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
      * Cron Job to place order for subscribers
      */
 //    @Scheduled(cron = "0 */1 * * * *")
-    @Scheduled(cron = "*/10 * * * * *")
-//    @Scheduled(cron = "55 23 * * * *")
+//    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "55 23 * * * *")
     @Override
     public void placeOrderCron() {
         List<Subscription> subscriptionList = subscriptionRepository.findAll();
@@ -121,6 +127,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                     .paymentMethod("Card")
                     .amount(subscription.getMeal().getMealPrice())
                     .paymentDate(subscription.getStartDate().minusDays(1))
+                    .amount(subscription.getMeal().getMealPrice())
                     .build();
 
             Order order = Order.builder()
@@ -139,5 +146,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             paymentRepository.save(payment);
             orderRepository.save(order);
         }
+    }
+
+    @Override
+    public GetSubscriptionResponse getOwnSubscription(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+        Sort sort = Sort.by(Sort.Direction.DESC, "startDate");
+        List<Subscription> subscriptionList = subscriptionRepository.findAllByCustomer(user, sort);
+
+        List<SubscriptionDTO> subscriptionDTOList = SubscriptionMapper.convertToSubscriptionDTOList(subscriptionList);
+
+        return GetSubscriptionResponse.builder()
+                .success(true)
+                .message(ResponseMessages.SUBSCRIPTIONS_RETRIEVED)
+                .subscriptionDetails(subscriptionDTOList)
+                .timeStamp(LocalDateTime.now())
+                .build();
     }
 }

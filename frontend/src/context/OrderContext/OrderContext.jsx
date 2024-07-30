@@ -17,6 +17,7 @@ const OrderContext = React.createContext();
 const initialStates = {
   orderList: [],
   orderDetails: null,
+  subscriptionList: [],
 };
 
 const OrderProvider = ({ children }) => {
@@ -74,7 +75,6 @@ const OrderProvider = ({ children }) => {
       .post("/orders", data)
       .then((res) => {
         toast.success("Order Placed.");
-        setCart(initialState);
       })
       .catch((error) => console.log(error));
   };
@@ -91,6 +91,22 @@ const OrderProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
+  const getSubscription = async () => {
+    setLoading(true);
+    await api
+      .get("/subscription")
+      .then((res) => {
+        console.log(res);
+        const { subscriptionDetails } = res.data;
+        setOrders({ ...orders, subscriptionList: subscriptionDetails });
+        toast.success(res.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error);
+      })
+      .finally(() => setLoading(false));
+      
   const acceptOrder = async (orderId) => {
     setLoading(true);
     const response = await api
@@ -116,6 +132,7 @@ const OrderProvider = ({ children }) => {
         fetchReceivedOrders,
         placeOrder,
         subscribe,
+        getSubscription,
         acceptOrder,
         loading,
       }}

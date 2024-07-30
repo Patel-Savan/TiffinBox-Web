@@ -12,8 +12,6 @@ import MealPageCustomer from "../pages/Customer/MealPageCustomer";
 import OrderHistoryPage from "../pages/Order/OrderHistoryPage";
 import OrderDetailsPage from "../pages/Order/OrderDetailsPage";
 import OrderCartPage from "../pages/OrderCart/OrderCartPage";
-// import ViewProfile from "../pages/Profile/ViewProfile";
-// import EditProfile from "../pages/Profile/EditProfile";
 import TrackOrderStatus from "../pages/Order/TrackOrderStatus";
 import AllReviewsPage from "../pages/Customer/AllReviewsPage";
 import SubmitReview from "../components/SubmitReview";
@@ -21,6 +19,7 @@ import ViewProfileCustomer from "../pages/Profile/ViewProfileCustomer";
 import EditProfileCustomer from "../pages/Profile/EditProfileCustomer";
 import ProfileAppProvider from "../context/ProfileContext";
 import ResetPassword from "../pages/Profile/ResetPassword";
+import ViewSubscriptions from "../pages/Order/ViewSubscriptions";
 
 function CustomerRoutes() {
   return (
@@ -29,7 +28,6 @@ function CustomerRoutes() {
         <OrderTrackAppProvider>
           <OrderCartProvider>
             <ProfileAppProvider>
-
               <Navbar />
               <Routes>
                 <Route path="home-page" element={<CustomerHomePage />} />
@@ -37,11 +35,19 @@ function CustomerRoutes() {
                   path="food-provider-page/:foodProviderId"
                   element={<FoodProviderPage />}
                 />
-                <Route path="all-reviews/:foodProviderId" element={<AllReviewsPage />} />
-                <Route path="add-review/:foodProviderId" element={<SubmitReview />} />
-                <Route path="meal-page/:mealId" element={<MealPageCustomer />} />
+                <Route
+                  path="all-reviews/:foodProviderId"
+                  element={<AllReviewsPage />}
+                />
+                <Route
+                  path="add-review/:foodProviderId"
+                  element={<SubmitReview />}
+                />
+                <Route
+                  path="meal-page/:mealId"
+                  element={<MealPageCustomer />}
+                />
                 <Route path="order-history" element={<OrderHistoryPage />} />
-
                 <Route
                   path="order-details/:orderId"
                   element={<OrderDetailsPage />}
@@ -53,6 +59,7 @@ function CustomerRoutes() {
                   path="order-track/:orderId"
                   element={<TrackOrderStatus />}
                 />
+                <Route path="subscriptions" element={<ViewSubscriptions />} />
                 <Route path="reset-password" element={<ResetPassword />} />
               </Routes>
               <Footer />

@@ -1,8 +1,9 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { FaBars, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { FaBagShopping, FaBarsStaggered } from "react-icons/fa6";
 import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
+import { MdEventRepeat } from "react-icons/md";
 
 /**
  * Author: Raj Kamlesh Patel
@@ -102,14 +103,21 @@ function Navbar() {
         <div className="hidden navbar-center lg:flex">
           <ul className="flex gap-8 px-1">
             <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? "text-secondary" : "hover:text-primary transition"
-                }
-              >
-                Home
-              </NavLink>
+              {user ? (
+                <NavLink
+                  to="/customer/home-page"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Home
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="/"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Home
+                </NavLink>
+              )}
             </li>
             <li>
               <NavLink
@@ -175,6 +183,18 @@ function Navbar() {
                       }
                     >
                       <FaBagShopping /> Orders
+                    </NavLink>
+                  </li>
+                  <li onClick={handleLinkClick}>
+                    <NavLink
+                      to="/customer/subscriptions"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary"
+                          : "hover:text-primary transition"
+                      }
+                    >
+                      <MdEventRepeat /> Subscriptions
                     </NavLink>
                   </li>
                   <li className="mt-2">

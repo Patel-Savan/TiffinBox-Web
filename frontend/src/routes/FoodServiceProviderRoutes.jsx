@@ -17,6 +17,7 @@ import ReviewAnalytics from "../pages/FoodProvider/ReviewAnalytics";
 import ViewProfileSeller from "../pages/Profile/ViewProfileSeller";
 import EditProfileSeller from "../pages/Profile/EditProfileSeller";
 import ProfileAppProvider from "../context/ProfileContext";
+import ResetPassword from "../pages/Profile/ResetPassword";
 
 function FoodServiceProviderRoutes() {
   return (
@@ -24,7 +25,6 @@ function FoodServiceProviderRoutes() {
       <OrderProvider>
         <OrderTrackAppProvider>
           <ProfileAppProvider>
-
             <Sidebar>
               <Routes>
                 <Route

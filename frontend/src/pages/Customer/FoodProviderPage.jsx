@@ -52,9 +52,12 @@ const FoodProviderPage = () => {
       <div className="w-1/3 mx-3">
         <div className="p-4 bg-white rounded-lg shadow-md">
           <img
-            src={foodServiceProvider.profileImage}
+            src={
+              foodServiceProvider.profileImage ||
+              "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722358736/TiffinBox/Food_Provider_eesnwt.png"
+            }
             alt={foodServiceProvider.companyName}
-            className="object-cover w-full h-48 mb-4"
+            className="object-cover w-full h-48 mb-4 filter grayscale"
           />
           <h2 className="mb-2 text-2xl font-bold">
             {foodServiceProvider.firstName} {foodServiceProvider.lastName}
