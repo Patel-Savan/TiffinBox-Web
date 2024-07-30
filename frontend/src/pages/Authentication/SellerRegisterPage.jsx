@@ -1,35 +1,38 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowDown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const SellerRegisterPage = () => {
   const [formData, setFormData] = useState({});
-  const { handleSellerRegistration, userData } = useAuthContext();
-  const navigate = useNavigate();
+  const [hasFile, setHasFile] = useState(false);
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     getValues,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     console.log(data);
-    await handleSellerRegistration(data);
-    if (userData.isRegistered) {
-      navigate("/login");
-      toast.success("Register successfully");
-    }
+    // Handle form submission logic here
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    setHasFile(e.target.files.length > 0);
+    if (!e.target.files.length) {
+      setError("lice_cert_file", {
+        type: "manual",
+        message: "* This is required",
+      });
+    } else {
+      setError("lice_cert_file", undefined);
+    }
   };
 
   const handlecontact_numberChange = (e) => {
@@ -47,11 +50,11 @@ const SellerRegisterPage = () => {
     let ext = "";
 
     // Handling country code
-    if (value.startsWith('1')) {
-      countryCode = '+1';
+    if (value.startsWith("1")) {
+      countryCode = "+1";
       value = value.substring(1);
-    } else if (value.startsWith('+1')) {
-      countryCode = '+1';
+    } else if (value.startsWith("+1")) {
+      countryCode = "+1";
       value = value.substring(2);
     }
 
@@ -282,7 +285,7 @@ const SellerRegisterPage = () => {
                       onChange: handleChange,
                       pattern: {
                         value: /^[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]$/,
-                        message: "Please enter valid postal code eg.(B9J1K8)",
+                        message: "Please enter valid postal code",
                       },
                     })}
                     className={`${
@@ -358,19 +361,45 @@ const SellerRegisterPage = () => {
                         select
                       </option>
 
-                      <option className='pt-4 ' value="Ontario">Alberta</option >
-                      <option className='pt-4 ' value="British Columbia">British Columbia</option >
-                      <option className='pt-4 ' value="Manitoba">Manitoba</option >
-                      <option className='pt-4 ' value="New Brunswick">New Brunswick</option >
-                      <option className='pt-4 ' value="Newfoundland">Newfoundland</option >
-                      <option className='pt-4 ' value="Northwest Territories">Northwest Territories</option >
-                      <option className='pt-4 ' value="Nova Scotia">Nova Scotia</option >
-                      <option className='pt-4 ' value="Nunavut">Nunavut</option >
-                      <option className='pt-4 ' value="Ontario">Ontario</option >
-                      <option className='pt-4 ' value="Prince Edward Island">Prince Edward Island</option >
-                      <option className='pt-4 ' value="Quebec">Quebec</option >
-                      <option className='pt-4 ' value="Saskatchwan">Saskatchwan</option >
-                      <option className='pt-4 ' value="Yukon">Yukon</option >
+                      <option className="pt-4 " value="Ontario">
+                        Alberta
+                      </option>
+                      <option className="pt-4 " value="Province 55">
+                        British Columbia
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Manitoba
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        New Brunswick
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Newfoundland
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Northwest Territories
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Nova Scotia
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Nunavut
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Ontario
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Prince Edward Island
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Quebec
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Saskatchwan
+                      </option>
+                      <option className="pt-4 " value="Province 58">
+                        Yukon
+                      </option>
                     </select>
                     <IoIosArrowDown className="absolute top-[62%] right-6 text-xl text-gray-500" />
                   </div>
@@ -388,27 +417,20 @@ const SellerRegisterPage = () => {
                   htmlFor="lic_number"
                   className="mb-2 text-lg text-gray-800"
                 >
-                  CFCR License Number
+                  FSSAI License Number
                 </label>
                 <input
                   {...register("lic_number", {
                     required: "* This is required",
-                    pattern: {
-                      value: /^\d{16}$/,
-                      message: "License number must be exactly 16 digits",
-                    },
                     onChange: handleChange,
-                    maxLength: {
-                      value: 16,
-                      message: "License number cannot exceed 16 digits",
-                    },
                   })}
-                  maxLength={16}
-                  className={`${getValues("lic_number")
-                    ? "border-orange-300"
-                    : "border-gray-300"
-                    } ${errors.lic_number ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+                  className={`${
+                    getValues("lic_number")
+                      ? "border-orange-300"
+                      : "border-gray-300"
+                  } ${
+                    errors.lic_number ? "border-red-400" : "border-gray-300"
+                  } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.lic_number && (
                   <span className="block mt-2 text-red-400">
