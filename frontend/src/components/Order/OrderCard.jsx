@@ -9,9 +9,8 @@ import { Link } from "react-router-dom";
 function OrderCard({ order }) {
   return (
     <section
-      className={`shadow card md:card-side bg-base-100 ${
-        order.orderStatus === "DELIVERED" && "bg-slate-300"
-      }`}
+      className={`shadow card md:card-side bg-base-100 ${order.orderStatus === "DELIVERED" && "bg-slate-300"
+        }`}
     >
       <figure className="h-60">
         <img
@@ -27,11 +26,14 @@ function OrderCard({ order }) {
           <span className="text-gray-500 text-md">{order.orderDate}</span>
         </p>
         <div className="justify-end card-actions">
-          <Link to="#" className="btn btn-neutral">
+          <Link
+            to={`/customer/order-track/${order.orderId}`}
+            className="btn btn-neutral"
+          >
             Track Order
           </Link>
           <Link
-            to={`/orders/order-details/${order.orderId}`}
+            to={`/customer/order-details/${order.orderId}`}
             className="btn btn-primary"
           >
             View

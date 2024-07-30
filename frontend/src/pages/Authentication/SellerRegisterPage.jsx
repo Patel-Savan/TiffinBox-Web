@@ -1,68 +1,65 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowDown } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const SellerRegisterPage = () => {
   const [formData, setFormData] = useState({});
-  const [hasFile, setHasFile] = useState(false);
+  const { handleSellerRegistration, userData } = useAuthContext();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     getValues,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    // Handle form submission logic here
+    await handleSellerRegistration(data);
+    if (userData.isRegistered) {
+      navigate("/login");
+      toast.success("Register successfully");
+    }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
-    setHasFile(e.target.files.length > 0);
-    if (!e.target.files.length) {
-      setError("lice_cert_file", {
-        type: "manual",
-        message: "* This is required",
-      });
-    } else {
-      setError("lice_cert_file", undefined);
-    }
   };
 
   const handlecontact_numberChange = (e) => {
-    const value = e.target.value.replace(/[^+\d\sx]/g, "").replace(/\s+/g, ' ');
+    const value = e.target.value.replace(/[^+\d\sx]/g, "").replace(/\s+/g, " ");
     const formattedValue = formatPhoneNumber(value);
-    setValue("contact_number",formattedValue);
-};
+    setValue("contact_number", formattedValue);
+  };
 
-const formatPhoneNumber = (value) => {
+  const formatPhoneNumber = (value) => {
     // Remove any previous formatting
-    value = value.replace(/[^\d+]/g, '');
+    value = value.replace(/[^\d+]/g, "");
 
     // Check for country code and extensions
-    let countryCode = '';
-    let ext = '';
+    let countryCode = "";
+    let ext = "";
 
     // Handling country code
     if (value.startsWith('1')) {
-        countryCode = '+1';
-        value = value.substring(1);
+      countryCode = '+1';
+      value = value.substring(1);
     } else if (value.startsWith('+1')) {
-        countryCode = '+1';
-        value = value.substring(2);
+      countryCode = '+1';
+      value = value.substring(2);
     }
 
     // Handling extensions
-    let extIndex = value.indexOf('ext');
+    let extIndex = value.indexOf("ext");
     if (extIndex !== -1) {
-        ext = value.substring(extIndex + 3); // Getting the digits after "ext"
-        value = value.substring(0, extIndex); // Getting the number part
+      ext = value.substring(extIndex + 3); // Getting the digits after "ext"
+      value = value.substring(0, extIndex); // Getting the number part
     }
 
     // Extract area code, first part, and second part of the phone number
@@ -74,7 +71,7 @@ const formatPhoneNumber = (value) => {
     let formattedNumber = `${countryCode}(${areaCode})-${firstPart}(${secondPart})`;
 
     if (ext) {
-        formattedNumber += ` ext ${ext}`;
+      formattedNumber += ` ext ${ext}`;
     }
 
     return formattedNumber;
@@ -82,15 +79,18 @@ const formatPhoneNumber = (value) => {
 
   return (
     <div>
-      <div className="md:w-1/2 px-10 w-full mx-auto mt-6">
-        <h4 className="text-center text-4xl font-medium" style={{ color: '#FFA500' }}>
+      <div className="w-full px-10 mx-auto mt-6 md:w-1/2 min-h-dvh">
+        <h4
+          className="text-4xl font-medium text-center"
+          style={{ color: "#FFA500" }}
+        >
           Register as a Seller
         </h4>
 
         <div>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
-            <div className=" w-full flex flex-col gap-4">
-              <div className="flex md:flex-row flex-col gap-6">
+            <div className="flex flex-col w-full gap-4 ">
+              <div className="flex flex-col gap-6 md:flex-row">
                 <div className="w-full">
                   <label
                     htmlFor="first_name"
@@ -104,14 +104,14 @@ const formatPhoneNumber = (value) => {
                       onChange: handleChange,
                     })}
                     className={`${getValues("first_name")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } ${errors.first_name ? "border-red-400" : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
 
                   {errors.first_name && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.first_name.message}
                     </span>
                   )}
@@ -130,20 +130,20 @@ const formatPhoneNumber = (value) => {
                       onChange: handleChange,
                     })}
                     className={`${getValues("last_name")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } ${errors.first_name ? "border-red-400" : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
                   {errors.last_name && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.last_name.message}
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="flex md:flex-row flex-col gap-6">
+              <div className="flex flex-col gap-6 md:flex-row">
                 <div className="w-full">
                   <label htmlFor="email" className="mb-2 text-lg text-gray-800">
                     Email address
@@ -154,18 +154,19 @@ const formatPhoneNumber = (value) => {
                       required: "* This is required",
                       onChange: handleChange,
                       pattern: {
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/,
-                        message: "Invalid email address format"
-                      }
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/,
+                        message: "Invalid email address format",
+                      },
                     })}
                     className={`${getValues("email_id")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${errors.email_id ? "border-red-400" : "border-gray-300"
                       }`}
                   />
                   {errors.email_id && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.email_id.message}
                     </span>
                   )}
@@ -185,8 +186,8 @@ const formatPhoneNumber = (value) => {
                       onChange: handleChange,
                     })}
                     className={`${getValues("contact_number")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${errors.contact_number
                         ? "border-red-400"
                         : "border-gray-300"
@@ -195,7 +196,7 @@ const formatPhoneNumber = (value) => {
                   />
 
                   {errors.contact_number && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.contact_number.message}
                     </span>
                   )}
@@ -215,21 +216,21 @@ const formatPhoneNumber = (value) => {
                     onChange: handleChange,
                   })}
                   className={`${getValues("company_address")
-                    ? "border-orange-300"
-                    : "border-gray-300"
+                      ? "border-orange-300"
+                      : "border-gray-300"
                     } ${errors.company_address
                       ? "border-red-400"
                       : "border-gray-300"
                     } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.company_address && (
-                  <span className="text-red-400 mt-2 block">
+                  <span className="block mt-2 text-red-400">
                     {errors.company_address.message}
                   </span>
                 )}
               </div>
 
-              <div className="flex md:flex-row flex-col gap-6">
+              <div className="flex flex-col gap-6 md:flex-row">
                 <div className="w-full">
                   <label
                     htmlFor="company_name"
@@ -243,13 +244,13 @@ const formatPhoneNumber = (value) => {
                       onChange: handleChange,
                     })}
                     className={`${getValues("company_name")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } ${errors.company_name ? "border-red-400" : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
                   {errors.company_name && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.company_name.message}
                     </span>
                   )}
@@ -269,12 +270,12 @@ const formatPhoneNumber = (value) => {
                       onChange: handleChange,
                       pattern: {
                         value: /^[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]$/,
-                        message: "Please enter valid postal code",
+                        message: "Please enter valid postal code eg.(B9J1K8)",
                       },
                     })}
                     className={`${getValues("company_postal_code")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-600 ${errors.company_postal_code
                         ? "border-red-400"
                         : "border-gray-300"
@@ -283,14 +284,14 @@ const formatPhoneNumber = (value) => {
                   />
 
                   {errors.company_postal_code && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.company_postal_code.message}
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="flex md:flex-row flex-col gap-6">
+              <div className="flex flex-col gap-6 md:flex-row">
                 <div className="w-full">
                   <div className="relative w-full">
                     <label
@@ -301,8 +302,8 @@ const formatPhoneNumber = (value) => {
                     </label>
                     <input
                       className={`w-full text-black focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm ${getValues("city")
-                        ? "border-orange-300"
-                        : "border-gray-300"
+                          ? "border-orange-300"
+                          : "border-gray-300"
                         }`}
                       {...register("city", {
                         required: "* This is required",
@@ -311,7 +312,7 @@ const formatPhoneNumber = (value) => {
                     />
                   </div>
                   {errors.city && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.city.message}
                     </span>
                   )}
@@ -327,8 +328,8 @@ const formatPhoneNumber = (value) => {
                     </label>
                     <select
                       className={`${getValues("province")
-                        ? "border-orange-300"
-                        : "border-gray-300"
+                          ? "border-orange-300"
+                          : "border-gray-300"
                         } w-full text-black  focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm`}
                       {...register("province", {
                         required: "* This is required",
@@ -337,27 +338,29 @@ const formatPhoneNumber = (value) => {
                     >
                       {/* this value should be blank this is use for title add province from down*/}
 
-                      <option className='pt-4 ' value="">select</option >
+                      <option className="pt-4 " value="">
+                        select
+                      </option>
 
                       <option className='pt-4 ' value="Ontario">Alberta</option >
-                      <option className='pt-4 ' value="Province 55">British Columbia</option >
-                      <option className='pt-4 ' value="Province 58">Manitoba</option >
-                      <option className='pt-4 ' value="Province 58">New Brunswick</option >
-                      <option className='pt-4 ' value="Province 58">Newfoundland</option >
-                      <option className='pt-4 ' value="Province 58">Northwest Territories</option >
-                      <option className='pt-4 ' value="Province 58">Nova Scotia</option >
-                      <option className='pt-4 ' value="Province 58">Nunavut</option >
-                      <option className='pt-4 ' value="Province 58">Ontario</option >
-                      <option className='pt-4 ' value="Province 58">Prince Edward Island</option >
-                      <option className='pt-4 ' value="Province 58">Quebec</option >
-                      <option className='pt-4 ' value="Province 58">Saskatchwan</option >
-                      <option className='pt-4 ' value="Province 58">Yukon</option >
+                      <option className='pt-4 ' value="British Columbia">British Columbia</option >
+                      <option className='pt-4 ' value="Manitoba">Manitoba</option >
+                      <option className='pt-4 ' value="New Brunswick">New Brunswick</option >
+                      <option className='pt-4 ' value="Newfoundland">Newfoundland</option >
+                      <option className='pt-4 ' value="Northwest Territories">Northwest Territories</option >
+                      <option className='pt-4 ' value="Nova Scotia">Nova Scotia</option >
+                      <option className='pt-4 ' value="Nunavut">Nunavut</option >
+                      <option className='pt-4 ' value="Ontario">Ontario</option >
+                      <option className='pt-4 ' value="Prince Edward Island">Prince Edward Island</option >
+                      <option className='pt-4 ' value="Quebec">Quebec</option >
+                      <option className='pt-4 ' value="Saskatchwan">Saskatchwan</option >
+                      <option className='pt-4 ' value="Yukon">Yukon</option >
                     </select>
                     <IoIosArrowDown className="absolute top-[62%] right-6 text-xl text-gray-500" />
                   </div>
 
                   {errors.province && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.province.message}
                     </span>
                   )}
@@ -369,13 +372,22 @@ const formatPhoneNumber = (value) => {
                   htmlFor="lic_number"
                   className="mb-2 text-lg text-gray-800"
                 >
-                  FSSAI License Number
+                  CFCR License Number
                 </label>
                 <input
                   {...register("lic_number", {
                     required: "* This is required",
+                    pattern: {
+                      value: /^\d{16}$/,
+                      message: "License number must be exactly 16 digits",
+                    },
                     onChange: handleChange,
+                    maxLength: {
+                      value: 16,
+                      message: "License number cannot exceed 16 digits",
+                    },
                   })}
+                  maxLength={16}
                   className={`${getValues("lic_number")
                     ? "border-orange-300"
                     : "border-gray-300"
@@ -383,13 +395,13 @@ const formatPhoneNumber = (value) => {
                     } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.lic_number && (
-                  <span className="text-red-400 mt-2 block">
+                  <span className="block mt-2 text-red-400">
                     {errors.lic_number.message}
                   </span>
                 )}
               </div>
 
-              <div className="flex md:flex-row flex-col gap-6">
+              <div className="flex flex-col gap-6 md:flex-row">
                 {/* <div className="w-full">
                   <label
                     htmlFor="lice_cert_file"
@@ -410,7 +422,7 @@ const formatPhoneNumber = (value) => {
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-600`}
                   />
                   {errors.lice_cert_file && (
-                    <span className="text-red-500 mt-2 block">
+                    <span className="block mt-2 text-red-500">
                       {errors.lice_cert_file.message}
                     </span>
                   )}
@@ -429,13 +441,13 @@ const formatPhoneNumber = (value) => {
                       onChange: handleChange,
                     })}
                     className={`${getValues("cuisine_type")
-                      ? "border-orange-300"
-                      : "border-gray-300"
+                        ? "border-orange-300"
+                        : "border-gray-300"
                       } ${errors.cuisine_type ? "border-red-400" : "border-gray-300"
                       } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                   />
                   {errors.cuisine_type && (
-                    <span className="text-red-400 mt-2 block">
+                    <span className="block mt-2 text-red-400">
                       {errors.cuisine_type.message}
                     </span>
                   )}
@@ -458,19 +470,21 @@ const formatPhoneNumber = (value) => {
                       message: "Password must be at least 8 characters long",
                     },
                     pattern: {
-                      value: /^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s])[a-zA-Z\d\S]{8,}$/,
-                      message: "Password must contain at least one uppercase letter, one number, and one special character",
+                      value:
+                        /^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s])[a-zA-Z\d\S]{8,}$/,
+                      message:
+                        "Password must contain at least one uppercase letter, one number, and one special character",
                     },
                     onChange: handleChange,
                   })}
                   className={`${getValues("password")
-                    ? "border-orange-300"
-                    : "border-gray-300"
+                      ? "border-orange-300"
+                      : "border-gray-300"
                     } ${errors.password ? "border-red-400" : "border-gray-300"
                     } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.password && (
-                  <span className="text-red-400 mt-2 block">
+                  <span className="block mt-2 text-red-400">
                     {errors.password.message}
                   </span>
                 )}
@@ -498,21 +512,23 @@ const formatPhoneNumber = (value) => {
                       message: "Password must be at least 8 characters long",
                     },
                     pattern: {
-                      value: /^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s])[a-zA-Z\d\S]{8,}$/,
-                      message: "Password must contain at least one uppercase letter, one number, and one special character",
+                      value:
+                        /^(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s])[a-zA-Z\d\S]{8,}$/,
+                      message:
+                        "Password must contain at least one uppercase letter, one number, and one special character",
                     },
                     onChange: handleChange,
                   })}
                   className={`${getValues("confirm_password")
-                    ? "border-orange-300"
-                    : "border-gray-300"
+                      ? "border-orange-300"
+                      : "border-gray-300"
                     } ${errors.confirm_password
                       ? "border-red-400"
                       : "border-gray-300"
                     } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
                 />
                 {errors.confirm_password && (
-                  <span className="text-red-400 mt-2 block">
+                  <span className="block mt-2 text-red-400">
                     {errors.confirm_password.message}
                   </span>
                 )}
@@ -520,7 +536,8 @@ const formatPhoneNumber = (value) => {
             </div>
             <button
               type="submit"
-              className="btn btn-secondary block py-3 min-w-48 mx-auto mt-6 mb-8 rounded-md text-white font-semibold">
+              className="block py-3 mx-auto mt-6 mb-8 font-semibold text-white rounded-md btn btn-secondary min-w-48"
+            >
               REGISTER
             </button>
           </form>
