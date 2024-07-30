@@ -39,7 +39,7 @@ const AppContext = createContext();
 const FoodProviderMealAppProvider = ({ children }) => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const token = localStorage.getItem('authToken')
   const addAMeal = async (formData) => {
     await api
       .post(backendURLs.ADD_A_MEAL_URL, formData, {})
