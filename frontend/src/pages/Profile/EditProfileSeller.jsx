@@ -9,19 +9,19 @@ const EditProfileSeller = () => {
   const { getSellerProfileInfo, profileInfo, editSellerProfileInfo } = useProfile();
   const [formData, setFormData] = useState({
     cityName: "",
-    contactNumber: "",
+    contact: "",
     email: "",
     firstname: "",
     lastname: "",
-    postalCode: "",
+    companyPostalCode: "",
     provinceName: "",
-    streetAddress: "",
+    companyAddress: "",
+    cuisineType: ""
   });
 
-  const userId = localStorage.getItem('userId');
-  console.log("profileInfo", profileInfo, userId);
+  console.log("profileInfo", profileInfo);
   useEffect(() => {
-    getSellerProfileInfo(userId);
+    getSellerProfileInfo();
   }, []);
 
 
@@ -31,13 +31,14 @@ const EditProfileSeller = () => {
     if (profileInfo) {
       setFormData({
         city: profileInfo.city || "",
-        contactNumber: profileInfo.contact || "",
+        contact: profileInfo.contactNumber || "",
         email: profileInfo.email || "",
         firstname: profileInfo.firstname || "",
         lastname: profileInfo.lastname || "",
-        postalCode: profileInfo.postalCode || "",
+        companyPostalCode: profileInfo.companyZipCode || "",
         province: profileInfo.province || "",
-        streetAddress: profileInfo.streetAddress,
+        companyAddress: profileInfo.companyAddress,
+        cuisineType: profileInfo.cuisine || ""
       });
     }
   }, [profileInfo]);
@@ -101,6 +102,7 @@ const EditProfileSeller = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  readOnly
                   className="input input-bordered w-full mt-4"
                   value={formData.email}
                   onChange={handleChange}
@@ -114,7 +116,7 @@ const EditProfileSeller = () => {
                   name="contact"
                   placeholder="Contact"
                   className="input input-bordered w-full mt-4"
-                  value={formData.contactNumber}
+                  value={formData.contact}
                   onChange={handleChange}
                 />
               </div>
@@ -124,7 +126,7 @@ const EditProfileSeller = () => {
               <label htmlFor="address">Company Address</label>
               <input
                 type="text"
-                name="company address"
+                name="companyAddress"
                 placeholder="Company Address"
                 className="input input-bordered w-full mt-4"
                 value={formData.companyAddress}
@@ -149,10 +151,10 @@ const EditProfileSeller = () => {
                 <label htmlFor="zipcode">Company zip code</label>
                 <input
                   type="text"
-                  name="zipcode"
+                  name="companyPostalCode"
                   placeholder="Company zip code"
                   className="input input-bordered w-full mt-4"
-                  value={formData.companyZipCode}
+                  value={formData.companyPostalCode}
                   onChange={handleChange}
                 />
               </div>
@@ -160,10 +162,11 @@ const EditProfileSeller = () => {
                 <label htmlFor="zipcode">Cuisine</label>
                 <input
                   type="text"
-                  name="cuisine"
+                  name="cuisineType"
                   placeholder="Cuisine"
                   className="input input-bordered w-full mt-4"
-
+                  value={formData.cuisineType}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -190,8 +193,7 @@ const EditProfileSeller = () => {
                 <IoArrowBack />
                 Back
               </button>
-              <button className="btn btn-secondary">Reset</button>
-              <button className="btn btn-secondary">Submit</button>
+              <button type="submit" className="btn btn-secondary">Submit</button>
             </div>
           </form>
         </div>

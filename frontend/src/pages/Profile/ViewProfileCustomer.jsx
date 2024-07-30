@@ -163,13 +163,20 @@ const ViewProfileCustomer = () => {
                   />
                 </div>
               </div>
-              <div className="flex space-x-6 mt-8 align-baseline">
+              <div className="flex justify-items-start space-x-6 items-center mt-8">
                 <button
                   type="button"
                   className="btn btn-secondary rounded-lg py-2 px-4"
                   onClick={() => navigate("/profile/edit-customer")}
                 >
-                  Edit
+                  Edit Profile
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary rounded-lg py-2 px-4"
+                  onClick={() => navigate("/profile/reset-password")}
+                >
+                  Reset Password
                 </button>
               </div>
             </form>

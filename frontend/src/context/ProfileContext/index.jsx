@@ -8,28 +8,29 @@ import {
 } from "./actions";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { api } from "../../config/axiosConfig";
 
 const initialState = {
   profileInfo: {},
 };
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api/profile",
-});
+// const axiosInstance = axios.create({
+//   baseURL: "http://localhost:8080/api/profile",
+// });
 
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token"); // Adjust based on how you store the token
-    console.log(token)
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("token"); // Adjust based on how you store the token
+//     console.log(token)
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
 
 const ProfileContext = createContext();
 
@@ -39,29 +40,30 @@ const ProfileAppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
 
-  const getProfileInfo = (userId) => {
-    return axiosInstance.get(`/customer/${userId}`).then((res) => {
+  const getProfileInfo = () => {
+    return api.get(`/profile/customer`).then((res) => {
       dispatch({ type: GET_CUSTOMER_PROFILE, payload: res.data });
     });
   };
 
   const editProfileInfo = (payload) => {
-    return axiosInstance.post(`/customer/editProfile`, payload).then((res) => {
+    return api.post(`/profile/customer/editProfile`, payload).then((res) => {
       toast.success(res.data.message);
       navigate("/profile/view-customer");
     });
   };
 
-  const getSellerProfileInfo = (userId) => {
-    return axiosInstance.get(`/seller/${userId}`).then((res) => {
+  const getSellerProfileInfo = () => {
+    return api.get(`/profile/seller`).then((res) => {
+      console.log(res, "ress")
       dispatch({ type: GET_SELLER_PROFILE, payload: res.data });
     });
   };
 
   const editSellerProfileInfo = (payload) => {
-    return axiosInstance.post(`/seller/editProfile`, payload).then((res) => {
+    return api.post(`/profile/seller/editProfile`, payload).then((res) => {
       toast.success(res.data.message);
-      navigate("/profile/view-customer");
+      navigate("/profile/view-seller");
     });
   };
 

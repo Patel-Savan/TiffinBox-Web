@@ -11,14 +11,13 @@ import UserList from "./pages/Admin/UserList";
 import OrderHistoryPage from "./pages/Order/OrderHistoryPage";
 import OrderDetailsPage from "./pages/Order/OrderDetailsPage";
 import ScrollToTop from "./components/shared/ScrollToTop";
-import OrderCartPage from "./pages/Order/OrderCartPage";
+import OrderCartPage from "./pages/OrderCart/OrderCartPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-// import ViewProfile from "./pages/Profile/ViewProfile";
-// import EditProfile from "./pages/Profile/EditProfile";
 import ViewProfileCustomer from "./pages/Profile/ViewProfileCustomer";
 import ViewProfileSeller from "./pages/Profile/ViewProfileSeller";
 import EditProfileCustomer from "./pages/Profile/EditProfileCustomer";
 import EditProfileSeller from "./pages/Profile/EditProfileSeller";
+import ResetPassword from "./pages/Profile/ResetPassword";
 import ProfileAppProvider from "./context/ProfileContext";
 import AcceptedOrders from "./pages/Order/AcceptedOrders";
 import { OrderTrackAppProvider } from "./context/OrderTrackContext/OrderTrackContext";
@@ -28,42 +27,96 @@ import MealMenuManagement from "./pages/FoodProvider/MealMenuManagement";
 import AddAMeal from "./pages/FoodProvider/AddAMeal";
 import MealPage from "./pages/FoodProvider/MealPage";
 import UpdateAMeal from "./pages/FoodProvider/UpdateAMeal";
-import { CustomerMealAppProvider } from "./context/CustomerMealContext/CustomerMealContext"
+import { CustomerMealAppProvider } from "./context/CustomerMealContext/CustomerMealContext";
 import CustomerHomePage from "./pages/Customer/CustomerHomePage";
 import FoodProviderPage from "./pages/Customer/FoodProviderPage";
 import MealPageCustomer from "./pages/Customer/MealPageCustomer";
+import LoginPage from "./pages/Authentication/LoginPage";
+import SellerRegisterPage from "./pages/Authentication/SellerRegisterPage";
+import CustomerRegisterPage from "./pages/Authentication/CustomerRegisterPage";
+import ViewReceivedOrdersPage from "./pages/Order/ViewReceivedOrdersPage";
+import { OrderProvider } from "./context/OrderContext/OrderContext";
+import ViewOrderDetailsPage from "./pages/Order/ViewOrderDetailsPage";
+import React from "react";
+import Sidebar from "./components/shared/Sidebar";
+import { OrderCartProvider } from "./context/OrderCartContext/OrderCartContext";
+
+const AnonymousRoutes = () => {
+  return (
+    <React.Fragment>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<LandingPage />} />
+        <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/faqs" element={<FAQPage />} />
+      </Routes>
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+const AdminRoutes = () => {
+  return (
+    <Routes>
+      <Route path="dashboard" element={<AdminDashboard />} />
+      <Route path="pending-request" element={<PendingRequests />} />
+      <Route
+        path="single-pending-request/:foodServiceProviderId"
+        element={<SinglePendingRequest />}
+      />
+      <Route path="user-list" element={<UserList />} />
+    </Routes>
+  );
+};
+
+const OrderRoutesCustomer = () => {
+  return (
+    <React.Fragment>
+      <Navbar />
+      <Routes>
+        <Route path="order-history" element={<OrderHistoryPage />} />
+        <Route path="order-details/:orderId" element={<OrderDetailsPage />} />
+      </Routes>
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+const OrderRoutesFoodServiceProvider = () => {
+  return (
+    <React.Fragment>
+      <Sidebar>
+        <Routes>
+          <Route path="received-orders" element={<ViewReceivedOrdersPage />} />
+          <Route
+            path="received-orders/:orderId"
+            element={<ViewOrderDetailsPage />}
+          />
+        </Routes>
+        <Footer />
+      </Sidebar>
+    </React.Fragment>
+  );
+};
+
 
 function App() {
   return (
     <main data-theme="bumblebee">
       <Router>
-        <Navbar />
         <ScrollToTop />
         <Routes>
-          <Route exact path="/" element={<LandingPage />} />
-          <Route path="/contact-us" element={<ContactUsPage />} />
-          <Route path="/faqs" element={<FAQPage />} />
+          <Route path="/*" element={<AnonymousRoutes />} />
           {/* admin routes starts */}
           <Route
             path="/admin/*"
             element={
               <AdminAppProvider>
-                <Routes>
-                  <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="pending-request" element={<PendingRequests />} />
-                  <Route
-                    path="single-pending-request/:foodServiceProviderId"
-                    element={<SinglePendingRequest />}
-                  />
-                  <Route path="user-list" element={<UserList />} />
-                </Routes>
+                <AdminRoutes />
               </AdminAppProvider>
             }
           />
           {/* admin routes ends */}
-          <Route path="/order-history" element={<OrderHistoryPage />} />
-          <Route path="/order-details" element={<OrderDetailsPage />} />
-          <Route path="/order-cart" element={<OrderCartPage />} />
           {/* order track routes starts */}
           <Route
             path="/order-track/*"
@@ -82,16 +135,11 @@ function App() {
             element={
               <ProfileAppProvider>
                 <Routes>
-                  <Route
-                    path="view-customer"
-                    element={<ViewProfileCustomer />}
-                  />
-                  <Route
-                    path="edit-customer"
-                    element={<EditProfileCustomer />}
-                  />
+                  <Route path="view-customer" element={<ViewProfileCustomer />} />
+                  <Route path="edit-customer" element={<EditProfileCustomer />} />
                   <Route path="view-seller" element={<ViewProfileSeller />} />
                   <Route path="edit-seller" element={<EditProfileSeller />} />
+                  <Route path="reset-password" element={<ResetPassword />} />
                 </Routes>
               </ProfileAppProvider>
             }
@@ -118,6 +166,14 @@ function App() {
             }
           />
           {/* Food Service Provider routes ends */}
+          {/* Routes for the Authentication starts */}
+
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/customer-register" element={<CustomerRegisterPage />} />
+          <Route path="/seller-register" element={<SellerRegisterPage />} />
+          {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+
+          {/* Routes for the Authentication ends */}
 
           {/* Routes for Customer */}
           <Route
@@ -126,14 +182,45 @@ function App() {
               <CustomerMealAppProvider>
                 <Routes>
                   <Route path="home-page" element={<CustomerHomePage />} />
-                  <Route path="food-provider-page/:foodProviderId" element={<FoodProviderPage />} />
-                  <Route path="meal-page/:mealId" element={<MealPageCustomer />} />
+                  <Route
+                    path="food-provider-page/:foodProviderId"
+                    element={<FoodProviderPage />}
+                  />
+                  <Route
+                    path="meal-page/:mealId"
+                    element={<MealPageCustomer />}
+                  />
                 </Routes>
               </CustomerMealAppProvider>
             }
           />
+          <Route
+            path="/orders/*"
+            element={
+              <OrderProvider>
+                <OrderRoutesCustomer />
+              </OrderProvider>
+            }
+          />
+          <Route
+            path="/orders/fsp/*"
+            element={
+              <OrderProvider>
+                <OrderRoutesFoodServiceProvider />
+              </OrderProvider>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <OrderCartProvider>
+                <Navbar />
+                <OrderCartPage />
+                <Footer />
+              </OrderCartProvider>
+            }
+          />
         </Routes>
-        <Footer />
       </Router>
     </main>
   );

@@ -95,6 +95,7 @@ const EditProfileCustomer = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  readOnly
                   className="input input-bordered w-full mt-4"
                   value={formData.email}
                   onChange={handleChange}
@@ -110,6 +111,7 @@ const EditProfileCustomer = () => {
                   className="input input-bordered w-full mt-4"
                   value={formData.contactNumber}
                   onChange={handleChange}
+                  maxLength="10"
                 />
               </div>
             </div>
@@ -148,6 +150,7 @@ const EditProfileCustomer = () => {
                   className="input input-bordered w-full mt-4"
                   value={formData.postalCode}
                   onChange={handleChange}
+                  maxLength="6"
                 />
               </div>
             </div>
@@ -174,13 +177,6 @@ const EditProfileCustomer = () => {
               >
                 <IoArrowBack />
                 Back
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-
-              >
-                Reset
               </button>
               <button type="submit" className="btn btn-secondary">
                 Submit

@@ -14,8 +14,10 @@ import com.tiffinbox.backend.repositories.SellerRepository;
 import com.tiffinbox.backend.repositories.UserRepository;
 import com.tiffinbox.backend.services.CloudinaryService;
 import com.tiffinbox.backend.services.IProfileService;
+import com.tiffinbox.backend.utils.ResponseMessages;
 import com.tiffinbox.backend.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -139,8 +141,8 @@ public class ProfileServiceImpl implements IProfileService {
         if (user == null){
             throw new NotFoundException("User not Found!");
         }
-        if (passwordEncoder.encode(resetPasswordRequest.getOldPassword()).equals(user.getPassword())){
-            throw new ApiRequestException("The old password doesn't match in our database. Try using Forget Password instead");
+        if (!BCrypt.checkpw(resetPasswordRequest.getOldPassword(), user.getPassword())) {
+            throw new ApiRequestException(ResponseMessages.PSWD_MISS_MATCH);
         }
         user.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
         userRepository.save(user);

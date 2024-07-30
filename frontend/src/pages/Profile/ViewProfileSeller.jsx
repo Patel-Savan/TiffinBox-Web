@@ -74,7 +74,7 @@ const ViewProfileSeller = () => {
                       name="firstname"
                       placeholder="First Name"
                       readOnly
-                      value={"Kunj"}
+                      value={profileInfo.firstname}
                       className="bg-zinc-300 focus:outline-none border-0 text-black input input-bordered w-full mt-4"
                     />
                   </div>
@@ -85,7 +85,7 @@ const ViewProfileSeller = () => {
                       name="lastname"
                       placeholder="Last Name"
                       readOnly
-                      value={"Pathak"}
+                      value={profileInfo.lastname}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -98,7 +98,7 @@ const ViewProfileSeller = () => {
                       name="email"
                       placeholder="Email"
                       readOnly
-                      value={"kunj@gmail.com"}
+                      value={profileInfo.email}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -109,7 +109,7 @@ const ViewProfileSeller = () => {
                       name="contact"
                       placeholder="Contact"
                       readOnly
-                      value="98465 13123"
+                      value={profileInfo.contactNumber}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -121,7 +121,7 @@ const ViewProfileSeller = () => {
                     name="address"
                     placeholder="Address"
                     readOnly
-                    value={"718, Ogilvie street"}
+                    value={profileInfo.companyAddress}
                     className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                   />
                 </div>
@@ -133,7 +133,7 @@ const ViewProfileSeller = () => {
                       name="city"
                       placeholder="City"
                       readOnly
-                      value={"Haliflax"}
+                      value={profileInfo.city}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -144,7 +144,7 @@ const ViewProfileSeller = () => {
                       name="zip code"
                       placeholder="Zip code"
                       readOnly
-                      value={"B3H 1B9"}
+                      value={profileInfo.companyZipCode}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -155,7 +155,7 @@ const ViewProfileSeller = () => {
                       name="cuisine"
                       placeholder="Cuisine"
                       readOnly
-                      value={"Indian"}
+                      value={profileInfo.cuisine}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -168,7 +168,7 @@ const ViewProfileSeller = () => {
                       name="province"
                       placeholder="Province"
                       readOnly
-                      value={"Nova Scotia"}
+                      value={profileInfo.province}
                       className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
                     />
                   </div>
@@ -189,7 +189,15 @@ const ViewProfileSeller = () => {
                     className="btn btn-secondary rounded-lg py-2 px-4"
                     onClick={() => navigate("/profile/edit-seller")}
                   >
-                    Edit
+                    Edit Profile
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary rounded-lg py-2 px-4"
+                    onClick={() => navigate("/profile/reset-password")}
+                  >
+                    Reset Password
                   </button>
                 </div>
               </form>
