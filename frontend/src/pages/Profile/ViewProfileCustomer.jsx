@@ -7,7 +7,7 @@ const ViewProfileCustomer = () => {
     "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
   const [avatar, setAvatar] = useState(defaultImage);
 
-  const { getProfileInfo, profileInfo } = useProfile();
+  const { getProfileInfo, profileInfo, updateProfileImage } = useProfile();
 
   // console.log("profileInfo", profileInfo);
   // const userId = localStorage.getItem('userId');
@@ -27,6 +27,7 @@ const ViewProfileCustomer = () => {
       };
       reader.readAsDataURL(file);
     }
+    updateProfileImage(e.target.files[0]);
   };
 
   const handleReset = () => {

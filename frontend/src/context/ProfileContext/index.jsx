@@ -67,6 +67,13 @@ const ProfileAppProvider = ({ children }) => {
     });
   };
 
+  const updateProfileImage = (file) => {
+    const formData = new FormData();
+    formData.append("image", file)
+
+    return api.post("/profile/uploadImg", formData).then(res => toast.success(res.data.message))
+  }
+
   return (
     <ProfileContext.Provider
       value={{
@@ -75,6 +82,7 @@ const ProfileAppProvider = ({ children }) => {
         editProfileInfo,
         getSellerProfileInfo,
         editSellerProfileInfo,
+        updateProfileImage
       }}
     >
       {children}

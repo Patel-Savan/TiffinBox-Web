@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { IoArrowBack } from "react-icons/io5";
+import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const ResetPassword = () => {
 
     const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+    const { handleResetPassword } = useAuthContext();
 
     const {
         register,
@@ -17,6 +19,7 @@ const ResetPassword = () => {
     } = useForm();
 
     const onSubmit = (data) => {
+
     };
 
     const handleChange = (e) => {
@@ -30,10 +33,10 @@ const ResetPassword = () => {
             <h4 className="text-center text-4xl font-medium mt-20" style={{ color: '#FFA500' }}>
                 Reset Password
             </h4>
-            <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
+            <form onSubmit={handleSubmit(handleResetPassword)} className="mt-6">
                 <div className=" w-full flex flex-col gap-4">
                     <div className="w-full">
-                        <label htmlFor="reset_password" className="mb-2 text-lg text-gray-800">
+                        <label htmlFor="old_password" className="mb-2 text-lg text-gray-800">
                             Old Password
                         </label>
                         <input
