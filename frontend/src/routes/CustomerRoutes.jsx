@@ -15,40 +15,47 @@ import OrderCartPage from "../pages/OrderCart/OrderCartPage";
 import ViewProfile from "../pages/Profile/ViewProfile";
 import EditProfile from "../pages/Profile/EditProfile";
 import TrackOrderStatus from "../pages/Order/TrackOrderStatus";
+import ProtectedRoutes from "./ProtectedRoutes";
+import { UserRoles } from "../utils/UserRoles";
 
 function CustomerRoutes() {
   return (
-    <CustomerMealAppProvider>
-      <OrderProvider>
-        <OrderTrackAppProvider>
-          <OrderCartProvider>
-            <Navbar />
-            <Routes>
-              <Route path="home-page" element={<CustomerHomePage />} />
-              <Route
-                path="food-provider-page/:foodProviderId"
-                element={<FoodProviderPage />}
-              />
-              <Route path="meal-page/:mealId" element={<MealPageCustomer />} />
-              <Route path="order-history" element={<OrderHistoryPage />} />
+    <ProtectedRoutes role={UserRoles.CUSTOMER}>
+      <CustomerMealAppProvider>
+        <OrderProvider>
+          <OrderTrackAppProvider>
+            <OrderCartProvider>
+              <Navbar />
+              <Routes>
+                <Route path="home-page" element={<CustomerHomePage />} />
+                <Route
+                  path="food-provider-page/:foodProviderId"
+                  element={<FoodProviderPage />}
+                />
+                <Route
+                  path="meal-page/:mealId"
+                  element={<MealPageCustomer />}
+                />
+                <Route path="order-history" element={<OrderHistoryPage />} />
 
-              <Route
-                path="order-details/:orderId"
-                element={<OrderDetailsPage />}
-              />
-              <Route path="/cart" element={<OrderCartPage />} />
-              <Route path="/view-profile" element={<ViewProfile />} />
-              <Route path="/edit-profile" element={<EditProfile />} />
-              <Route
-                path="order-track/:orderId"
-                element={<TrackOrderStatus />}
-              />
-            </Routes>
-            <Footer />
-          </OrderCartProvider>
-        </OrderTrackAppProvider>
-      </OrderProvider>
-    </CustomerMealAppProvider>
+                <Route
+                  path="order-details/:orderId"
+                  element={<OrderDetailsPage />}
+                />
+                <Route path="/cart" element={<OrderCartPage />} />
+                <Route path="/view-profile" element={<ViewProfile />} />
+                <Route path="/edit-profile" element={<EditProfile />} />
+                <Route
+                  path="order-track/:orderId"
+                  element={<TrackOrderStatus />}
+                />
+              </Routes>
+              <Footer />
+            </OrderCartProvider>
+          </OrderTrackAppProvider>
+        </OrderProvider>
+      </CustomerMealAppProvider>
+    </ProtectedRoutes>
   );
 }
 

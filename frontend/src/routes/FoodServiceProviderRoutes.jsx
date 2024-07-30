@@ -13,38 +13,42 @@ import AcceptedOrders from "../pages/Order/AcceptedOrders";
 import Footer from "../components/shared/Footer";
 import ViewProfile from "../pages/Profile/ViewProfile";
 import EditProfile from "../pages/Profile/EditProfile";
+import ProtectedRoutes from "./ProtectedRoutes";
+import { UserRoles } from "../utils/UserRoles";
 
 function FoodServiceProviderRoutes() {
   return (
-    <FoodProviderMealAppProvider>
-      <OrderProvider>
-        <OrderTrackAppProvider>
-          <Sidebar>
-            <Routes>
-              <Route
-                path="mealmenumanagement"
-                element={<MealMenuManagement />}
-              />
-              <Route path="meal-page/:mealId" element={<MealPage />} />
-              <Route path="add-a-meal" element={<AddAMeal />} />
-              <Route path="update-a-meal/:mealId" element={<UpdateAMeal />} />
-              <Route
-                path="received-orders"
-                element={<ViewReceivedOrdersPage />}
-              />
-              <Route
-                path="received-orders/:orderId"
-                element={<ViewOrderDetailsPage />}
-              />
-              <Route path="accepted-orders" element={<AcceptedOrders />} />
-              <Route path="/view-profile" element={<ViewProfile />} />
-              <Route path="/edit-profile" element={<EditProfile />} />
-            </Routes>
-            <Footer />
-          </Sidebar>
-        </OrderTrackAppProvider>
-      </OrderProvider>
-    </FoodProviderMealAppProvider>
+    <ProtectedRoutes role={UserRoles.FOOD_SERVICE_PROVIDER}>
+      <FoodProviderMealAppProvider>
+        <OrderProvider>
+          <OrderTrackAppProvider>
+            <Sidebar>
+              <Routes>
+                <Route
+                  path="mealmenumanagement"
+                  element={<MealMenuManagement />}
+                />
+                <Route path="meal-page/:mealId" element={<MealPage />} />
+                <Route path="add-a-meal" element={<AddAMeal />} />
+                <Route path="update-a-meal/:mealId" element={<UpdateAMeal />} />
+                <Route
+                  path="received-orders"
+                  element={<ViewReceivedOrdersPage />}
+                />
+                <Route
+                  path="received-orders/:orderId"
+                  element={<ViewOrderDetailsPage />}
+                />
+                <Route path="accepted-orders" element={<AcceptedOrders />} />
+                <Route path="/view-profile" element={<ViewProfile />} />
+                <Route path="/edit-profile" element={<EditProfile />} />
+              </Routes>
+              <Footer />
+            </Sidebar>
+          </OrderTrackAppProvider>
+        </OrderProvider>
+      </FoodProviderMealAppProvider>
+    </ProtectedRoutes>
   );
 }
 
