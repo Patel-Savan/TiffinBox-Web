@@ -145,10 +145,12 @@ public class AuthServiceImpl implements IAuthService {
             Customer customer = user.getCustomer();
             loginResponse.setFirstname(customer.getFirstName());
             loginResponse.setLastname(customer.getLastName());
+            loginResponse.setProfileImage(customer.getProfileImage());
         } else if(user.getUserRole() == UserRole.FOOD_SERVICE_PROVIDER) {
             FoodServiceProvider foodServiceProvider = user.getFoodServiceProvider();
             loginResponse.setFirstname(foodServiceProvider.getFirstName());
             loginResponse.setLastname(foodServiceProvider.getLastName());
+            loginResponse.setProfileImage(foodServiceProvider.getProfileImage());
         }else if(user.getUserRole() == UserRole.ADMIN) {
             loginResponse.setFirstname("Tiffin Box Admin");
             loginResponse.setLastname("Admin");
