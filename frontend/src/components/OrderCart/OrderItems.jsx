@@ -26,7 +26,7 @@ function OrderItems() {
           <h2 className="text-xl font-bold">{cartItem.companyName}</h2>
           <span className="text-slate-500">{cartItem.mealName}</span>
           <span className="font-semibold">
-            {cartItem.mealPrice}{" "}
+            ${cartItem.mealPrice}{" "}
             <div className="capitalize badge badge-info">trial</div>
           </span>
         </div>

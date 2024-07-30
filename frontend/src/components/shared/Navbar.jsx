@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { FaBagShopping, FaBarsStaggered } from "react-icons/fa6";
 import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 import { MdEventRepeat } from "react-icons/md";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
 
 /**
  * Author: Raj Kamlesh Patel
@@ -62,14 +63,22 @@ function Navbar() {
                   {user ? (
                     <NavLink
                       to="/customer/home-page"
-                      className={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary"
+                          : "hover:text-primary transition"
+                      }
                     >
                       Home
                     </NavLink>
                   ) : (
                     <NavLink
                       to="/"
-                      className={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary"
+                          : "hover:text-primary transition"
+                      }
                     >
                       Home
                     </NavLink>
@@ -78,7 +87,11 @@ function Navbar() {
                 <li onClick={handleNavClick}>
                   <NavLink
                     to="/contact-us"
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-secondary"
+                        : "hover:text-primary transition"
+                    }
                   >
                     Contact Us
                   </NavLink>
@@ -86,7 +99,11 @@ function Navbar() {
                 <li onClick={handleNavClick}>
                   <NavLink
                     to="/faqs"
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-secondary"
+                        : "hover:text-primary transition"
+                    }
                   >
                     FAQs
                   </NavLink>
@@ -108,14 +125,22 @@ function Navbar() {
               {user ? (
                 <NavLink
                   to="/customer/home-page"
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-secondary"
+                      : "hover:text-primary transition"
+                  }
                 >
                   Home
                 </NavLink>
               ) : (
                 <NavLink
                   to="/"
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-secondary"
+                      : "hover:text-primary transition"
+                  }
                 >
                   Home
                 </NavLink>
@@ -207,8 +232,8 @@ function Navbar() {
                       className="btn btn-sm btn-error"
                       onClick={() => {
                         logout();
+                        navigate("/", { replace: true });
                         handleLinkClick();
-                        navigate("/");
                       }}
                     >
                       Logout

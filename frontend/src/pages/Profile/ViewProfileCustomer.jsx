@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../../context/ProfileContext";
-import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const ViewProfileCustomer = () => {
-  const { userData } = useAuthContext();
   const { getProfileInfo, profileInfo, updateProfileImage } = useProfile();
   const defaultImage =
     "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png ";
   const [avatar, setAvatar] = useState(defaultImage);
 
-
   // console.log("profileInfo", profileInfo);
   // const userId = localStorage.getItem('userId');
 
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem("userId");
   console.log("profileInfo", profileInfo, userId);
   useEffect(() => {
     getProfileInfo(userId);
   }, []);
 
   useEffect(() => {
-    if (profileInfo) {
-      setAvatar(profileInfo.profileImage)
+    if (profileInfo.profileImage) {
+      setAvatar(profileInfo.profileImage);
     }
-  }, [profileInfo])
+  }, [profileInfo]);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -44,16 +41,20 @@ const ViewProfileCustomer = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-5xl px-5 py-6 rounded-lg mx-auto min-h-dvh">
-      <h2 className="font-bold text-xl sm:text-2xl mb-6 sm:text-left text-center py-3 px-4">
+    <div className="max-w-5xl px-5 py-6 mx-auto rounded-lg min-h-dvh">
+      <h2 className="px-4 py-3 mb-6 text-xl font-bold text-center sm:text-2xl sm:text-left">
         My Profile
       </h2>
       <div>
-        <div className="py-4 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+        <div className="flex flex-col py-4 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
           <div className="text-center md:px-10">
             <div className="avatar">
-              <div className="w-48 rounded-xl relative mx-auto md:mx-0">
-                <img className="h-full w-full" src={avatar} alt={profileInfo.firstName + " " + profileInfo.lastname} />
+              <div className="relative w-48 mx-auto rounded-xl md:mx-0">
+                <img
+                  className="w-full h-full"
+                  src={avatar}
+                  alt={profileInfo.firstName + " " + profileInfo.lastname}
+                />
               </div>
             </div>
             <div className="relative mt-4">
@@ -68,16 +69,16 @@ const ViewProfileCustomer = () => {
               />
               <label
                 htmlFor="upload-photo"
-                className="cursor-pointer text-black font-medium btn btn-secondary rounded-lg py-2 px-4"
+                className="px-4 py-2 font-medium text-black rounded-lg cursor-pointer btn btn-secondary"
               >
                 Change Avatar
               </label>
             </div>
           </div>
-          <div className="lg:w-3/4 pt-6 lg:pt-0">
+          <div className="pt-6 lg:w-3/4 lg:pt-0">
             <form>
               <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-                <div className="w-full flex flex-col">
+                <div className="flex flex-col w-full">
                   <label htmlFor="firstname">First Name</label>
                   <input
                     type="text"
@@ -85,10 +86,10 @@ const ViewProfileCustomer = () => {
                     placeholder="First Name"
                     readOnly
                     value={profileInfo.firstname}
-                    className="bg-zinc-300 focus:outline-none border-0 text-black input input-bordered w-full mt-4"
+                    className="w-full mt-4 text-black border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
-                <div className="w-full flex flex-col">
+                <div className="flex flex-col w-full">
                   <label htmlFor="lastname">Last Name</label>
                   <input
                     type="text"
@@ -96,12 +97,12 @@ const ViewProfileCustomer = () => {
                     placeholder="Last Name"
                     readOnly
                     value={profileInfo.lastname}
-                    className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
               </div>
-              <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6 mt-4">
-                <div className="w-full flex flex-col">
+              <div className="flex flex-col mt-4 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+                <div className="flex flex-col w-full">
                   <label htmlFor="email">Email</label>
                   <input
                     type="email"
@@ -109,10 +110,10 @@ const ViewProfileCustomer = () => {
                     placeholder="Email"
                     readOnly
                     value={profileInfo.email}
-                    className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
-                <div className="w-full flex flex-col">
+                <div className="flex flex-col w-full">
                   <label htmlFor="contact">Contact</label>
                   <input
                     type="tel"
@@ -120,11 +121,11 @@ const ViewProfileCustomer = () => {
                     placeholder="Contact"
                     readOnly
                     value={profileInfo.contact}
-                    className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
               </div>
-              <div className="w-full flex flex-col mt-10">
+              <div className="flex flex-col w-full mt-10">
                 <label htmlFor="address">Address</label>
                 <input
                   type="text"
@@ -132,11 +133,11 @@ const ViewProfileCustomer = () => {
                   placeholder="Address"
                   readOnly
                   value={profileInfo.streetAddress}
-                  className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                  className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                 />
               </div>
-              <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6 mt-10">
-                <div className="w-full flex flex-col">
+              <div className="flex flex-col mt-10 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+                <div className="flex flex-col w-full">
                   <label htmlFor="city">City</label>
                   <input
                     type="text"
@@ -144,10 +145,10 @@ const ViewProfileCustomer = () => {
                     placeholder="City"
                     readOnly
                     value={profileInfo.city}
-                    className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
-                <div className="w-full flex flex-col">
+                <div className="flex flex-col w-full">
                   <label htmlFor="zip code">Zip code</label>
                   <input
                     type="text"
@@ -155,12 +156,12 @@ const ViewProfileCustomer = () => {
                     placeholder="Zip code"
                     readOnly
                     value={profileInfo.postalCode}
-                    className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
               </div>
-              <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6 mt-4">
-                <div className="w-full flex flex-col">
+              <div className="flex flex-col mt-4 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+                <div className="flex flex-col w-full">
                   <label htmlFor="province">Province</label>
                   <input
                     type="text"
@@ -168,21 +169,21 @@ const ViewProfileCustomer = () => {
                     placeholder="Province"
                     readOnly
                     value={profileInfo.province}
-                    className="bg-zinc-300 focus:outline-none border-0 input input-bordered w-full mt-4"
+                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
               </div>
-              <div className="flex justify-items-start space-x-6 items-center mt-8">
+              <div className="flex items-center mt-8 space-x-6 justify-items-start">
                 <button
                   type="button"
-                  className="btn btn-secondary rounded-lg py-2 px-4"
+                  className="px-4 py-2 rounded-lg btn btn-secondary"
                   onClick={() => navigate("/customer/edit-profile")}
                 >
                   Edit Profile
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary rounded-lg py-2 px-4"
+                  className="px-4 py-2 rounded-lg btn btn-secondary"
                   onClick={() => navigate("/customer/reset-password")}
                 >
                   Reset Password
