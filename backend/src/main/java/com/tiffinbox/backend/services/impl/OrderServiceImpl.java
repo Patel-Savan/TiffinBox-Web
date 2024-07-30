@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,10 +139,18 @@ public class OrderServiceImpl implements OrderService {
      * @return - list of received order details
      */
     @Override
-    public GetAllOrderDetailsResponse getFoodServiceProviderOrders(Principal principal) {
+    public GetAllOrderDetailsResponse getFoodServiceProviderOrders(LocalDateTime orderDate, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
+
+        if(orderDate == null){
+            orderDate = LocalDateTime.now();
+        }
+
+        LocalDateTime startOfDay = orderDate.with(LocalTime.MIN);
+        LocalDateTime endOfDay = orderDate.with(LocalTime.MAX);
+
         Sort sort = Sort.by(Sort.Direction.DESC, "orderDate");
-        List<Order> orders = orderRepository.findAllByFoodServiceProviderAndOrderStatus(user, OrderStatus.PLACED, sort);
+        List<Order> orders = orderRepository.findAllByFoodServiceProviderAndOrderStatus(user.getUserId(), OrderStatus.PLACED, startOfDay, endOfDay, sort);
 
         List<OrderDetailsDTO> orderDetailsDTOList = OrderDetailsMapper.convertToOrderDetailsDTOList(orders);
 
