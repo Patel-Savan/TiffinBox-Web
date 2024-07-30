@@ -4,11 +4,13 @@ import com.tiffinbox.backend.dto.request.CreateOrderRequest;
 import com.tiffinbox.backend.services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 /**
  * Author: Raj Kamlesh Patel
@@ -38,7 +40,7 @@ public class OrderController {
     }
 
     @GetMapping(path = "/received")
-    private ResponseEntity<?> getFoodServiceProviderOrders(Principal principal){
-        return new ResponseEntity<>(orderService.getFoodServiceProviderOrders(principal), HttpStatus.OK);
+    private ResponseEntity<?> getFoodServiceProviderOrders(@RequestParam(value = "orderDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime orderDate, Principal principal){
+        return new ResponseEntity<>(orderService.getFoodServiceProviderOrders(orderDate, principal), HttpStatus.OK);
     }
 }

@@ -6,7 +6,7 @@ import com.tiffinbox.backend.dto.response.orders.GetOrderDetailsResponse;
 import com.tiffinbox.backend.models.Order;
 
 import java.security.Principal;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Author: Raj Kamlesh Patel
@@ -18,5 +18,5 @@ public interface OrderService {
     Order createOrder(CreateOrderRequest request, Principal principal);
     GetAllOrderDetailsResponse getOwnOrders(Principal principal);
     GetOrderDetailsResponse getOrderDetails(String orderId, Principal principal);
-    GetAllOrderDetailsResponse getFoodServiceProviderOrders(Principal principal);
+    GetAllOrderDetailsResponse getFoodServiceProviderOrders(LocalDateTime orderDate, Principal principal);
 }

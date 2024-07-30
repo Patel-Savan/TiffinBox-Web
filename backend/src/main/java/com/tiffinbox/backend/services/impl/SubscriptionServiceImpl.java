@@ -148,6 +148,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
     }
 
+    /**
+     * Function to get customer subscriptions
+     * @param principal
+     * @return - list of subscriptions
+     */
     @Override
     public GetSubscriptionResponse getOwnSubscription(Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
