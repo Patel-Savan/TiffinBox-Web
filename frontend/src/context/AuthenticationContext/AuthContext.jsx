@@ -13,7 +13,7 @@ const backendURLs = {
   CUSTOMER_SIGNUP_URL: `/auth/customer/signUp`,
   SELLER_SIGNUP_URL: `/auth/seller/signUp`,
   RESET_PASSWORD_URL: `/profile/resetPassword`,
-  // FORGOT_PASSWORD_URL:`/auth/forgotPassword`
+  FORGOT_PASSWORD_URL:`/auth/forgotPassword`
   
 };
 
@@ -169,6 +169,28 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("refreshToken");
   };
 
+  const handleForgotSubmit = async (data) => {
+    const requestBody = {
+      email: data.email_id,
+    };
+
+    try {
+      const result = await api.post(backendURLs.FORGOT_PASSWORD_URL, requestBody);
+
+      if (result.status === 200 || result.status === 201) {
+        toast.success(result.data.message);
+        navigate('/auth/logIn');
+        return true;
+      }
+      
+    } 
+    catch (error) {
+      
+      console.log(error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     if (
       localStorage.getItem("user") &&
@@ -196,6 +218,7 @@ const AuthProvider = ({ children }) => {
         handleCustomerRegistration,
         handleLoginSubmit,
         handleResetPassword,
+        handleForgotSubmit,
         logout,
       }}
     >
