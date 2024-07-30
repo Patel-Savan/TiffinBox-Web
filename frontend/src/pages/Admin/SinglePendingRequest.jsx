@@ -1,10 +1,14 @@
+/**
+ * Author: Keval Gandevia
+ */
+
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAdminContext } from "../../context/AdminContext/AdminContext";
 
 const SinglePendingRequest = () => {
   const navigate = useNavigate();
-  const { foodServiceProviderId } = useParams();
+  const { foodServiceProviderId, isLoading } = useParams();
   const {
     singleUserDetails,
     getSinglePendingRequest,
@@ -26,26 +30,23 @@ const SinglePendingRequest = () => {
     getSinglePendingRequest(foodServiceProviderId);
   }, [foodServiceProviderId]);
 
+  if (isLoading) {
+    return (
+      <div className="grid max-w-5xl mx-auto min-h-dvh place-content-center">
+        <span className="loading loading-dots loading-lg text-primary"></span>
+      </div>
+    );
+  }
+
   return (
-    <div className="container px-6 py-6 mx-auto">
+    <div className="container px-6 py-6 mx-auto min-h-dvh">
       <div className="grid grid-cols-1 gap-10">
         <div className="flex flex-row justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">User Details</h1>
-          </div>
+          <p className="mb-10 text-4xl font-bold">
+            <span className="text-5xl text-primary">/</span>
+            <span>User Pending Requests</span>
+          </p>
           <div className="flex space-x-4">
-            <button
-              className="btn btn-success"
-              onClick={() => handleApprove(singleUserDetails?.email)}
-            >
-              Accept
-            </button>
-            <button
-              className="btn btn-error"
-              onClick={() => handleReject(singleUserDetails?.email)}
-            >
-              Reject
-            </button>
             <button
               className="btn btn-neutral"
               onClick={() => navigate("/admin/pending-request")}
@@ -151,11 +152,16 @@ const SinglePendingRequest = () => {
         <div className="flex justify-start space-x-4">
           <button
             className="btn btn-success"
-            onClick={() => approvePendingRequest(singleUserDetails?.email)}
+            onClick={() => handleApprove(singleUserDetails?.email)}
           >
             Accept
           </button>
-          <button className="btn btn-error">Reject</button>
+          <button
+            className="btn btn-error"
+            onClick={() => handleReject(singleUserDetails?.email)}
+          >
+            Reject
+          </button>
         </div>
       </div>
     </div>

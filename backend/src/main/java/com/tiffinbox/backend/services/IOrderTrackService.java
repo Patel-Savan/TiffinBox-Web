@@ -16,6 +16,8 @@ import java.security.Principal;
 public interface IOrderTrackService {
     public GetAllAcceptedOrdersResponse getAllAcceptedOrders(Principal principal);
 
+    public BasicResponse acceptOrder(String orderId);
+
     public BasicResponse updateStatus(UpdateOrderRequest updateOrderRequest, String orderId, Principal principal) throws MessagingException;
 
     public BasicResponse verifyOTP(VerifyOTPRequest verifyOTPRequest, String orderId);

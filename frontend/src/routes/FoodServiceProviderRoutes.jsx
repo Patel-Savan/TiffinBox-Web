@@ -11,17 +11,20 @@ import ViewReceivedOrdersPage from "../pages/Order/ViewReceivedOrdersPage";
 import ViewOrderDetailsPage from "../pages/Order/ViewOrderDetailsPage";
 import AcceptedOrders from "../pages/Order/AcceptedOrders";
 import Footer from "../components/shared/Footer";
-import ViewProfile from "../pages/Profile/ViewProfile";
-import EditProfile from "../pages/Profile/EditProfile";
-import ProtectedRoutes from "./ProtectedRoutes";
-import { UserRoles } from "../utils/UserRoles";
+// import ViewProfile from "../pages/Profile/ViewProfile";
+// import EditProfile from "../pages/Profile/EditProfile";
+import ReviewAnalytics from "../pages/FoodProvider/ReviewAnalytics";
+import ViewProfileSeller from "../pages/Profile/ViewProfileSeller";
+import EditProfileSeller from "../pages/Profile/EditProfileSeller";
+import ProfileAppProvider from "../context/ProfileContext";
+import ResetPassword from "../pages/Profile/ResetPassword";
 
 function FoodServiceProviderRoutes() {
   return (
-    <ProtectedRoutes role={UserRoles.FOOD_SERVICE_PROVIDER}>
-      <FoodProviderMealAppProvider>
-        <OrderProvider>
-          <OrderTrackAppProvider>
+    <FoodProviderMealAppProvider>
+      <OrderProvider>
+        <OrderTrackAppProvider>
+          <ProfileAppProvider>
             <Sidebar>
               <Routes>
                 <Route
@@ -40,15 +43,17 @@ function FoodServiceProviderRoutes() {
                   element={<ViewOrderDetailsPage />}
                 />
                 <Route path="accepted-orders" element={<AcceptedOrders />} />
-                <Route path="/view-profile" element={<ViewProfile />} />
-                <Route path="/edit-profile" element={<EditProfile />} />
+                <Route path="view-profile" element={<ViewProfileSeller />} />
+                <Route path="edit-profile" element={<EditProfileSeller />} />
+                <Route path="review-analytics" element={<ReviewAnalytics />} />
+                <Route path="reset-password" element={<ResetPassword />} />
               </Routes>
               <Footer />
             </Sidebar>
-          </OrderTrackAppProvider>
-        </OrderProvider>
-      </FoodProviderMealAppProvider>
-    </ProtectedRoutes>
+          </ProfileAppProvider>
+        </OrderTrackAppProvider>
+      </OrderProvider>
+    </FoodProviderMealAppProvider>
   );
 }
 

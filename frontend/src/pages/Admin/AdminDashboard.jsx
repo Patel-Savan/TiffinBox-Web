@@ -1,15 +1,27 @@
+/**
+ * Author: Keval Gandevia
+ */
+
 import { useEffect } from "react";
 import { useAdminContext } from "../../context/AdminContext/AdminContext";
 
 const AdminDashboard = () => {
-  const { analysisDetails, getAnalysis } = useAdminContext();
+  const { analysisDetails, getAnalysis, isLoading } = useAdminContext();
 
   useEffect(() => {
     getAnalysis();
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className="grid max-w-5xl mx-auto min-h-dvh place-content-center">
+        <span className="loading loading-dots loading-lg text-primary"></span>
+      </div>
+    );
+  }
+
   return (
-    <div className="container px-6 py-6 mx-auto">
+    <div className="container px-6 py-6 mx-auto min-h-dvh">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 md:grid-cols-2 justify-stretch">
         <div className="shadow-md card bg-base-100">
           <div className="card-body">

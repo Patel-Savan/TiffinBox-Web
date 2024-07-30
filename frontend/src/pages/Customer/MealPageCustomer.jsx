@@ -109,11 +109,10 @@ const MealPageCustomer = () => {
               <label
                 htmlFor="weekly"
                 role="button"
-                className={`btn ${
-                  subscriptionType === SubscriptionType.WEEKLY
+                className={`btn ${subscriptionType === SubscriptionType.WEEKLY
                     ? "btn-primary"
                     : "btn-outline btn-primary"
-                }`}
+                  }`}
               >
                 Weekly
                 <input
@@ -128,11 +127,10 @@ const MealPageCustomer = () => {
               <label
                 htmlFor="monthly"
                 role="button"
-                className={`btn ${
-                  subscriptionType === SubscriptionType.MONTHLY
+                className={`btn ${subscriptionType === SubscriptionType.MONTHLY
                     ? "btn-primary"
                     : "btn-outline btn-primary"
-                }`}
+                  }`}
               >
                 Monthly
                 <input

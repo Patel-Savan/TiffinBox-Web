@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                .authorizeHttpRequests(request -> request
                        .requestMatchers("/api/auth/**").permitAll()
-                       .requestMatchers("/api/admin/**").permitAll()
+                       .requestMatchers("/api/admin/**").hasAnyAuthority(UserRole.ADMIN.name())
                        .requestMatchers("/api/home/**").permitAll()
                        .requestMatchers("/api/meal/**").permitAll()
                        .requestMatchers("/api/orders/**").authenticated()

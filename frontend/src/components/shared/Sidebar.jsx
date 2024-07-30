@@ -109,7 +109,12 @@ function Sidebar({ children }) {
             <ul className="grid gap-4">
               {userRole === UserRoles.FOOD_SERVICE_PROVIDER && (
                 <li onClick={closeDrawer}>
-                  <NavLink to="/profile">Profile</NavLink>
+                  <NavLink to="/foodprovider/view-profile">Profile</NavLink>
+                </li>
+              )}
+              {userRole === UserRoles.CUSTOMER && (
+                <li onClick={closeDrawer}>
+                  <NavLink to="/customer/view-profile">Profile</NavLink>
                 </li>
               )}
               <li onClick={closeDrawer}>

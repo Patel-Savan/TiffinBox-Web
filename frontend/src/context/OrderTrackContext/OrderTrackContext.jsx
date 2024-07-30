@@ -1,13 +1,16 @@
-import axios from "axios";
+/**
+ * Author: Keval Gandevia
+ */
+
 import { createContext, useContext, useReducer } from "react";
 import reducer from "./reducer";
 import { toast } from "react-hot-toast";
 import { api } from "../../config/axiosConfig";
-import { GET_ALL_ACCEPTED_ORDERS, GET_ORDER_STATUS } from "./action";
-
-// const API = axios.create({
-//   baseURL: "http://localhost:8080/api/",
-// });
+import {
+  GET_ALL_ACCEPTED_ORDERS,
+  GET_ORDER_STATUS,
+  SET_LOADING,
+} from "./action";
 
 const backendURLs = {
   GET_ALL_ACCEPTED_ORDERS_URL: `/ordertrack/getAllAcceptedOrders`,
@@ -18,7 +21,8 @@ const backendURLs = {
 
 const initialState = {
   acceptedOrderList: [],
-  orderStatus: ""
+  orderStatus: "",
+  isLoading: true,
 };
 
 const AppContext = createContext();
@@ -36,7 +40,7 @@ const OrderTrackAppProvider = ({ children }) => {
       .catch((err) => {
         console.log(err);
         return err;
-      });
+      })
   };
 
   const updateOrderStatus = async (data) => {
@@ -53,7 +57,7 @@ const OrderTrackAppProvider = ({ children }) => {
       .catch((err) => {
         console.log(err);
         return err;
-      });
+      })
   };
 
   const verifyOtp = async (data) => {
@@ -70,23 +74,24 @@ const OrderTrackAppProvider = ({ children }) => {
       .catch((err) => {
         console.log(err);
         return err;
-      });
+      })
 
     return response;
   };
 
   const getOrderStatus = async (orderId) => {
-    console.log(orderId);
-    await api.get(`${backendURLs.GET_ORDER_STATUS_URL}/${orderId}`)
-    .then((res) => {
-      console.log(res.data);
-      dispatch({type: GET_ORDER_STATUS, payload: res.data});
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
-    });
-  }
+    dispatch({ type: SET_LOADING, payload: true });
+    await api
+      .get(`${backendURLs.GET_ORDER_STATUS_URL}/${orderId}`)
+      .then((res) => {
+        dispatch({ type: GET_ORDER_STATUS, payload: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      })
+      .finally(() => dispatch({ type: SET_LOADING, payload: false }));
+  };
 
   return (
     <AppContext.Provider

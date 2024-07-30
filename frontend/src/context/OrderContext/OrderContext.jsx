@@ -106,6 +106,21 @@ const OrderProvider = ({ children }) => {
         toast.error(error);
       })
       .finally(() => setLoading(false));
+      
+  const acceptOrder = async (orderId) => {
+    setLoading(true);
+    const response = await api
+      .post(`${BASE_URL}/ordertrack/acceptOrder/${orderId}`, {})
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      })
+      .finally(() => setLoading(false));
+
+    return response;
   };
 
   return (
@@ -118,6 +133,7 @@ const OrderProvider = ({ children }) => {
         placeOrder,
         subscribe,
         getSubscription,
+        acceptOrder,
         loading,
       }}
     >
