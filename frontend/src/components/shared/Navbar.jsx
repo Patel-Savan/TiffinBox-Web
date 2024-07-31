@@ -1,8 +1,10 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { FaBars, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { FaBagShopping, FaBarsStaggered } from "react-icons/fa6";
 import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
+import { MdEventRepeat } from "react-icons/md";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
 
 /**
  * Author: Raj Kamlesh Patel
@@ -12,7 +14,7 @@ import { useAuthContext } from "../../context/AuthenticationContext/AuthContext"
 
 function Navbar() {
   const { userData, logout } = useAuthContext();
-  const { user } = userData;
+  const { user, userProfile } = userData;
   const navigate = useNavigate();
   const ref = useRef(null);
   const [navLinkOpen, setNavLinkOpen] = useState(false);
@@ -28,6 +30,8 @@ function Navbar() {
       ref.current.classList.remove("shadow-md");
     }
   };
+
+  useEffect(() => {}, [userProfile]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -59,14 +63,22 @@ function Navbar() {
                   {user ? (
                     <NavLink
                       to="/customer/home-page"
-                      className={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary"
+                          : "hover:text-primary transition"
+                      }
                     >
                       Home
                     </NavLink>
                   ) : (
                     <NavLink
                       to="/"
-                      className={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary"
+                          : "hover:text-primary transition"
+                      }
                     >
                       Home
                     </NavLink>
@@ -75,7 +87,11 @@ function Navbar() {
                 <li onClick={handleNavClick}>
                   <NavLink
                     to="/contact-us"
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-secondary"
+                        : "hover:text-primary transition"
+                    }
                   >
                     Contact Us
                   </NavLink>
@@ -83,7 +99,11 @@ function Navbar() {
                 <li onClick={handleNavClick}>
                   <NavLink
                     to="/faqs"
-                    className={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-secondary"
+                        : "hover:text-primary transition"
+                    }
                   >
                     FAQs
                   </NavLink>
@@ -102,14 +122,29 @@ function Navbar() {
         <div className="hidden navbar-center lg:flex">
           <ul className="flex gap-8 px-1">
             <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? "text-secondary" : "hover:text-primary transition"
-                }
-              >
-                Home
-              </NavLink>
+              {user ? (
+                <NavLink
+                  to="/customer/home-page"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-secondary"
+                      : "hover:text-primary transition"
+                  }
+                >
+                  Home
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-secondary"
+                      : "hover:text-primary transition"
+                  }
+                >
+                  Home
+                </NavLink>
+              )}
             </li>
             <li>
               <NavLink
@@ -144,7 +179,10 @@ function Navbar() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
-                    src="https://res.cloudinary.com/dk1fim9hl/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png"
+                    src={
+                      userProfile ||
+                      "https://res.cloudinary.com/dk1fim9hl/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png"
+                    }
                   />
                 </div>
               </div>
@@ -177,13 +215,25 @@ function Navbar() {
                       <FaBagShopping /> Orders
                     </NavLink>
                   </li>
+                  <li onClick={handleLinkClick}>
+                    <NavLink
+                      to="/customer/subscriptions"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-secondary"
+                          : "hover:text-primary transition"
+                      }
+                    >
+                      <MdEventRepeat /> Subscriptions
+                    </NavLink>
+                  </li>
                   <li className="mt-2">
                     <button
                       className="btn btn-sm btn-error"
                       onClick={() => {
                         logout();
+                        navigate("/", { replace: true });
                         handleLinkClick();
-                        navigate("/");
                       }}
                     >
                       Logout

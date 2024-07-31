@@ -1,32 +1,30 @@
-import axios from "axios";
-import React, { useContext, useState } from "react";
-import { api } from "../../config/axiosConfig";
-import toast from "react-hot-toast";
-import { useOrderCartContext } from "../OrderCartContext/OrderCartContext";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
 
-const BASE_URL = "http://localhost:8080/api";
+import React, { useContext, useState } from "react";
+import { api } from "../../config/axiosConfig";
+import toast from "react-hot-toast";
 
 const OrderContext = React.createContext();
 
 const initialStates = {
   orderList: [],
   orderDetails: null,
+  subscriptionList: [],
 };
 
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState(initialStates);
   const [loading, setLoading] = useState(true);
+  const [searchDate, setSearchDate] = useState(new Date());
 
   const fetchAllOrders = async () => {
     setLoading(true);
     await api
-      .get(`${BASE_URL}/orders`)
+      .get(`/orders`)
       .then((res) => {
         const { orderDetails } = res.data;
         console.log(orderDetails);
@@ -39,7 +37,7 @@ const OrderProvider = ({ children }) => {
   const fetchOrderDetails = async (orderId) => {
     setLoading(true);
     await api
-      .get(`${BASE_URL}/orders/${orderId}`)
+      .get(`/orders/${orderId}`)
       .then((res) => {
         const { orderDetails } = res.data;
         console.log(orderDetails);
@@ -50,9 +48,14 @@ const OrderProvider = ({ children }) => {
   };
 
   const fetchReceivedOrders = async () => {
+    const orderDate = new Date(searchDate);
+    const params = {
+      orderDate,
+    };
     setLoading(true);
+    setOrders({ ...orders, orderList: [] });
     await api
-      .get(`${BASE_URL}/orders/received`)
+      .get(`/orders/received`, { params })
       .then((res) => {
         const { orderDetails } = res.data;
         setOrders({ ...orders, orderList: orderDetails, orderDetails: null });
@@ -74,7 +77,6 @@ const OrderProvider = ({ children }) => {
       .post("/orders", data)
       .then((res) => {
         toast.success("Order Placed.");
-        setCart(initialState);
       })
       .catch((error) => console.log(error));
   };
@@ -91,15 +93,52 @@ const OrderProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
+  const getSubscription = async () => {
+    setLoading(true);
+    await api
+      .get("/subscription")
+      .then((res) => {
+        console.log(res);
+        const { subscriptionDetails } = res.data;
+        setOrders({ ...orders, subscriptionList: subscriptionDetails });
+        toast.success(res.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const acceptOrder = async (orderId) => {
+    setLoading(true);
+    const response = await api
+      .post(`/ordertrack/acceptOrder/${orderId}`, {})
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        return err;
+      })
+      .finally(() => setLoading(false));
+
+    return response;
+  };
+
   return (
     <OrderContext.Provider
       value={{
         orders,
+        searchDate,
+        setSearchDate,
         fetchAllOrders,
         fetchOrderDetails,
         fetchReceivedOrders,
         placeOrder,
         subscribe,
+        getSubscription,
+        acceptOrder,
         loading,
       }}
     >

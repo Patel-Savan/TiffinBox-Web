@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { useParams } from "react-router-dom";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React, { useEffect } from "react";
+import { useOrderContext } from "../../context/OrderContext/OrderContext";
+import { useParams } from "react-router-dom";
 
 function OrderDetailsPage() {
   const { orderId } = useParams();
@@ -71,13 +71,9 @@ function OrderDetailsPage() {
               <div className="card-body">
                 <h2 className="font-bold card-title">Order Details:</h2>
                 <p>Order Id: {orderDetails.orderId}</p>
-                {/* {order.meals.map((meal) => {
-                  return ( */}
                 <p>
                   {orderDetails.mealName} X {orderDetails.quantity}
                 </p>
-                {/* );
-                })} */}
                 <p>Order Date: {orderDetails.orderDate}</p>
               </div>
             </div>

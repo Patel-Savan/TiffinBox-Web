@@ -1,3 +1,9 @@
+/**
+ * Author : Kunj Hiteshkumar Pathak
+ * Dalhousie Email : kn743706@dal.ca
+ * Commit Email : kunjpathak1212@gmail.com
+ */
+
 package com.tiffinbox.backend.services.impl;
 
 import com.tiffinbox.backend.dto.request.*;
@@ -145,13 +151,18 @@ public class AuthServiceImpl implements IAuthService {
             Customer customer = user.getCustomer();
             loginResponse.setFirstname(customer.getFirstName());
             loginResponse.setLastname(customer.getLastName());
+            loginResponse.setProfileImage(customer.getProfileImage());
+            loginResponse.setMessage("Hello "+customer.getFirstName()+" "+customer.getLastName()+" Welcome to Tiffin Box!");
         } else if(user.getUserRole() == UserRole.FOOD_SERVICE_PROVIDER) {
             FoodServiceProvider foodServiceProvider = user.getFoodServiceProvider();
             loginResponse.setFirstname(foodServiceProvider.getFirstName());
             loginResponse.setLastname(foodServiceProvider.getLastName());
+            loginResponse.setProfileImage(foodServiceProvider.getProfileImage());
+            loginResponse.setMessage("Hello "+foodServiceProvider.getFirstName()+" "+foodServiceProvider.getLastName()+" Welcome to Tiffin Box!");
         }else if(user.getUserRole() == UserRole.ADMIN) {
             loginResponse.setFirstname("Tiffin Box Admin");
             loginResponse.setLastname("Admin");
+            loginResponse.setMessage("Hello Admin, Welcome to your Tiffin Box Administrative Panel.");
         }
         else {
             loginResponse.setFirstname("Tiffin Box User");

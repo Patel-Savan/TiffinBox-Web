@@ -8,6 +8,7 @@ import FAQPage from "../pages/FAQPage";
 import LoginPage from "../pages/Authentication/LoginPage";
 import CustomerRegisterPage from "../pages/Authentication/CustomerRegisterPage";
 import SellerRegisterPage from "../pages/Authentication/SellerRegisterPage";
+import ForgotPasswordPage from "../pages/Authentication/ForgotPasswordPage";
 
 function AnonymousRoutes() {
   return (
@@ -20,6 +21,7 @@ function AnonymousRoutes() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/customer-register" element={<CustomerRegisterPage />} />
         <Route path="/seller-register" element={<SellerRegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage/>} />
       </Routes>
       <Footer />
     </React.Fragment>

@@ -24,10 +24,12 @@ import com.tiffinbox.backend.utils.OrderStatus;
 import com.tiffinbox.backend.utils.ResponseMessages;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -42,11 +44,28 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
     @Autowired
     private EmailService emailService;
 
+    /**
+     * Retrieves all accepted orders for a given user.
+     *
+     * @param principal the security principal of the authenticated user
+     * @return a response containing a list of accepted orders
+     */
     @Override
-    public GetAllAcceptedOrdersResponse getAllAcceptedOrders(Principal principal) {
+    public GetAllAcceptedOrdersResponse getAllAcceptedOrders(LocalDateTime orderDate, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
+        if(orderDate == null){
+            orderDate = LocalDateTime.now();
+        }
+
+        LocalDateTime startOfDay = orderDate.with(LocalTime.MIN);
+        LocalDateTime endOfDay = orderDate.with(LocalTime.MAX);
+        Sort sort = Sort.by(Sort.Direction.DESC, "orderDate");
+
         List<OrderStatus> orderStatuses = Arrays.asList(OrderStatus.ACCEPTED, OrderStatus.IN_PREPARATION, OrderStatus.DELIVERED);
-        List<Order> orderList = orderRepository.findAllByFoodServiceProviderAndOrderStatusIn(user, orderStatuses);
+
+        List<Order> orderList = orderRepository.findAllByUserIdAndOrderStatusInAndOrderDateBetween(user.getUserId(), orderStatuses, startOfDay, endOfDay, sort);
+
+//        List<Order> orderList = orderRepository.findAllByFoodServiceProviderAndOrderStatusIn(user, orderStatuses);
         List<AcceptedOrderListDTO> acceptedOrderList = AcceptedOrderMapper.convertToAcceptedOrderListDTO(orderList);
 
         return GetAllAcceptedOrdersResponse.builder()
@@ -57,6 +76,35 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
                 .build();
     }
 
+    @Override
+    public BasicResponse acceptOrder(String orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+
+        if(!orderOptional.isPresent()) {
+            throw new NotFoundException(ResponseMessages.ORDER_NOT_FOUND);
+        }
+
+        Order order = orderOptional.get();
+
+        order.setOrderStatus(OrderStatus.ACCEPTED);
+        orderRepository.save(order);
+
+        return BasicResponse.builder()
+                .success(true)
+                .timeStamp(LocalDateTime.now())
+                .message(ResponseMessages.ORDER_ACCEPTED)
+                .build();
+    }
+
+    /**
+     * Updates the status of an order.
+     *
+     * @param updateOrderRequest the request containing the new status of the order
+     * @param orderId the ID of the order to update
+     * @param principal the security principal of the authenticated user
+     * @return a basic response indicating success or failure
+     * @throws MessagingException if an error occurs while sending an email
+     */
     @Override
     public BasicResponse updateStatus(UpdateOrderRequest updateOrderRequest, String orderId, Principal principal) throws MessagingException {
         User user = userRepository.findByEmail(principal.getName());
@@ -95,6 +143,13 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
         }
     }
 
+    /**
+     * Verifies the OTP for a given order.
+     *
+     * @param verifyOTPRequest the request containing the OTP to verify
+     * @param orderId the ID of the order to verify
+     * @return a basic response indicating success or failure
+     */
     @Override
     public BasicResponse verifyOTP(VerifyOTPRequest verifyOTPRequest, String orderId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);
@@ -123,6 +178,12 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
         }
     }
 
+    /**
+     * Retrieves the status of a given order.
+     *
+     * @param orderId the ID of the order to retrieve the status of
+     * @return a response containing the status of the order
+     */
     @Override
     public GetOrderStatusResponse getOrderStatus(String orderId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);

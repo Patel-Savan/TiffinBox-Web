@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
 
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useOrderContext } from "../../context/OrderContext/OrderContext";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+
 function ViewReceivedOrdersPage() {
-  const { fetchReceivedOrders, orders, loading } = useOrderContext();
+  const { fetchReceivedOrders, orders, searchDate, setSearchDate, loading } =
+    useOrderContext();
   const [searchQuery, setSearchQuery] = useState("");
 
   const { orderList } = orders;
@@ -23,7 +24,7 @@ function ViewReceivedOrdersPage() {
 
   useEffect(() => {
     fetchReceivedOrders();
-  }, []);
+  }, [searchDate]);
 
   return (
     <div className="w-full max-w-5xl px-6 mx-auto my-10 min-h-dvh">
@@ -33,16 +34,26 @@ function ViewReceivedOrdersPage() {
       </p>
       <div className="grid grid-cols-1 gap-10">
         <div>
-          <label className="flex items-center gap-2 input input-bordered">
-            <input
-              type="text"
-              className="grow"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <FaMagnifyingGlass />
-          </label>
+          <div className="flex flex-col gap-6 md:flex-row">
+            <label className="flex items-center md:flex-1 h-gap-2 input input-bordered">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <FaMagnifyingGlass />
+            </label>
+            <div>
+              <input
+                type="date"
+                value={searchDate}
+                className="input input-bordered"
+                onChange={(e) => setSearchDate(e.target.value)}
+              />
+            </div>
+          </div>
         </div>
         <div>
           <div className="overflow-x-auto">

@@ -1,14 +1,14 @@
-import { Link, useLocation } from "react-router-dom";
-import OrderBreakDown from "../../components/OrderCart/OrderBreakDown";
-import OrderItems from "../../components/OrderCart/OrderItems";
-import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
-import { useEffect } from "react";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import { Link, useLocation } from "react-router-dom";
+import OrderBreakDown from "../../components/OrderCart/OrderBreakDown";
+import OrderItems from "../../components/OrderCart/OrderItems";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
+import { useEffect } from "react";
 
 function OrderCartPage() {
   const { cart, addToCart, loading } = useOrderCartContext();
@@ -34,11 +34,12 @@ function OrderCartPage() {
         {cart.cartItem === null && !loading && (
           <div className="grid flex-1 w-full h-full gap-8 place-content-center">
             <h2 className="text-3xl font-semibold">Your Cart is Empty</h2>
-            <div
-              className="text-center"
-              onClick={() => alert("Redirect to Home Page")}
-            >
-              <Link to="#" role="button" className="btn btn-primary">
+            <div className="text-center">
+              <Link
+                to="/customer/home-page"
+                role="button"
+                className="btn btn-primary"
+              >
                 Let's Order Something
               </Link>
             </div>

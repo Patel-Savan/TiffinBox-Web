@@ -38,10 +38,12 @@ public class ResponseMessages {
 
     // Order Track Service Response
     public static final String GET_ALL_ACCEPTED_ORDERS = "Accepted orders retrieved.";
+    public static final String ORDER_ACCEPTED = "Order accepted successfully.";
     public static final String UPDATE_ORDER_STATUS = "Order status updated successfully.";
     public static final String UPDATE_ORDER_STATUS_ERROR = "Error updating order status.";
     public static final String OTP_SENT_VIA_EMAIL_SUCCESS = "OTP is sent successfully.";
     public static final String OTP_VERIFIED = "OTP verified successfully.";
     public static final String OTP_VERIFIED_FAILED = "OTP does not match.";
     public static final String ORDER_STATUS_RETRIEVED = "Order status retrieved successfully.";
+    public static final String SUBSCRIPTIONS_RETRIEVED = "Subscriptions retrieved successfully.";
 }

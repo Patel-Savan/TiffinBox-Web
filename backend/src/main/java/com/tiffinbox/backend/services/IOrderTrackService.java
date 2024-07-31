@@ -12,9 +12,12 @@ import com.tiffinbox.backend.dto.response.ordertrack.GetOrderStatusResponse;
 import jakarta.mail.MessagingException;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 public interface IOrderTrackService {
-    public GetAllAcceptedOrdersResponse getAllAcceptedOrders(Principal principal);
+    public GetAllAcceptedOrdersResponse getAllAcceptedOrders(LocalDateTime orderDate, Principal principal);
+
+    public BasicResponse acceptOrder(String orderId);
 
     public BasicResponse updateStatus(UpdateOrderRequest updateOrderRequest, String orderId, Principal principal) throws MessagingException;
 

@@ -13,11 +13,13 @@ import com.tiffinbox.backend.services.IOrderTrackService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping(path = "/api/ordertrack")
@@ -28,8 +30,13 @@ public class OrderTrackController {
     private final IOrderTrackService orderTrackService;
 
     @GetMapping(path = "/getAllAcceptedOrders")
-    public ResponseEntity<GetAllAcceptedOrdersResponse> getAllAcceptedOrders(Principal principal) {
-        return new ResponseEntity<>(orderTrackService.getAllAcceptedOrders(principal), HttpStatus.OK);
+    public ResponseEntity<GetAllAcceptedOrdersResponse> getAllAcceptedOrders(@RequestParam(value = "orderDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime orderDate, Principal principal) {
+        return new ResponseEntity<>(orderTrackService.getAllAcceptedOrders(orderDate, principal), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "acceptOrder/{orderId}")
+    public ResponseEntity<BasicResponse> acceptOrder(@PathVariable String orderId) {
+        return new ResponseEntity<>(orderTrackService.acceptOrder(orderId), HttpStatus.OK);
     }
 
     @PostMapping(path = "/updateStatus/{orderId}")

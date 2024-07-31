@@ -1,3 +1,9 @@
+/**
+ * Author : Kunj Hiteshkumar Pathak
+ * Dalhousie Email : kn743706@dal.ca
+ * Commit Email : kunjpathak1212@gmail.com
+ */
+
 package com.tiffinbox.backend.configurations;
 
 import com.tiffinbox.backend.utils.UserRole;
@@ -29,7 +35,7 @@ public class SecurityConfiguration {
                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                .authorizeHttpRequests(request -> request
                        .requestMatchers("/api/auth/**").permitAll()
-                       .requestMatchers("/api/admin/**").permitAll()
+                       .requestMatchers("/api/admin/**").hasAnyAuthority(UserRole.ADMIN.name())
                        .requestMatchers("/api/home/**").permitAll()
                        .requestMatchers("/api/meal/**").permitAll()
                        .requestMatchers("/api/orders/**").authenticated()
@@ -49,6 +55,8 @@ public class SecurityConfiguration {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("https://main--tiffinbox-csci5709.netlify.app");
+        config.addAllowedOrigin("https://tiffinbox-csci5709.netlify.app");
 //        config.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
 //        config.addAllowedHeader(HttpHeaders.AUTHORIZATION);
         config.addAllowedHeader("*");

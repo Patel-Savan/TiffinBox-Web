@@ -1,10 +1,36 @@
-import React, { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+/**
+ * Author: Harsh Maisuri
+ */
 
-const ViewProfile = () => {
-  const defaultImage =
-    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp";
-  const [avatar, setAvatar] = useState(defaultImage);
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useProfile } from "../../context/ProfileContext";
+
+const ViewProfileSeller = () => {
+  const { getSellerProfileInfo, profileInfo, updateProfileImage } =
+    useProfile();
+  const defaultAvatar =
+    "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png";
+  const [avatar, setAvatar] = useState(defaultAvatar);
+
+  const userId = localStorage.getItem("userId");
+  console.log("profileInfo", profileInfo, userId);
+
+  // Fetch seller profile info when component mounts
+
+  useEffect(() => {
+    getSellerProfileInfo(userId);
+  }, []);
+
+  // Update avatar state when profile info changes
+
+  useEffect(() => {
+    if (profileInfo.profileImage) {
+      setAvatar(profileInfo.profileImage);
+    }
+  }, [profileInfo]);
+
+  // Handle image change for profile picture
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -15,6 +41,7 @@ const ViewProfile = () => {
       };
       reader.readAsDataURL(file);
     }
+    updateProfileImage(e.target.files[0]);
   };
 
   const handleReset = () => {
@@ -24,7 +51,7 @@ const ViewProfile = () => {
 
   return (
     <div>
-      <div className="container px-5 py-6 rounded-lg mx-auto w-full md:w-3/4 lg:w-[65%]">
+      <div className="max-w-5xl px-5 py-6 mx-auto rounded-lg min-h-dvh">
         <h2 className="px-4 py-3 mb-6 text-xl font-bold text-center sm:text-2xl sm:text-left sm:ml-8">
           My Profile
         </h2>
@@ -33,7 +60,11 @@ const ViewProfile = () => {
             <div className="text-center md:px-10">
               <div className="avatar">
                 <div className="relative w-48 rounded-xl">
-                  <img className="w-full h-full" src={avatar} alt="Avatar" />
+                  <img
+                    className="w-full h-full"
+                    src={avatar}
+                    alt={profileInfo.firstname + " " + profileInfo.lastname}
+                  />
                 </div>
               </div>
               <div className="relative mt-4">
@@ -64,7 +95,7 @@ const ViewProfile = () => {
                       name="firstname"
                       placeholder="First Name"
                       readOnly
-                      value={"Kunj"}
+                      value={profileInfo.firstname}
                       className="w-full mt-4 text-black border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
@@ -75,7 +106,7 @@ const ViewProfile = () => {
                       name="lastname"
                       placeholder="Last Name"
                       readOnly
-                      value={"Pathak"}
+                      value={profileInfo.lastname}
                       className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
@@ -88,7 +119,7 @@ const ViewProfile = () => {
                       name="email"
                       placeholder="Email"
                       readOnly
-                      value={"kunj@gmail.com"}
+                      value={profileInfo.email}
                       className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
@@ -99,19 +130,19 @@ const ViewProfile = () => {
                       name="contact"
                       placeholder="Contact"
                       readOnly
-                      value="98465 13123"
+                      value={profileInfo.contactNumber}
                       className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col w-full mt-10">
-                  <label htmlFor="address">Address</label>
+                  <label htmlFor="address">Company Address</label>
                   <input
                     type="text"
                     name="address"
                     placeholder="Address"
                     readOnly
-                    value={"718, Ogilvie street"}
+                    value={profileInfo.companyAddress}
                     className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                   />
                 </div>
@@ -123,18 +154,29 @@ const ViewProfile = () => {
                       name="city"
                       placeholder="City"
                       readOnly
-                      value={"Haliflax"}
+                      value={profileInfo.city}
                       className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
                   <div className="flex flex-col w-full">
-                    <label htmlFor="zip code">Zip code</label>
+                    <label htmlFor="zip code"> Company zip code</label>
                     <input
                       type="text"
                       name="zip code"
                       placeholder="Zip code"
                       readOnly
-                      value={"B3H 1B9"}
+                      value={profileInfo.companyZipCode}
+                      className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full">
+                    <label htmlFor="zip code"> Cuisine</label>
+                    <input
+                      type="text"
+                      name="cuisine"
+                      placeholder="Cuisine"
+                      readOnly
+                      value={profileInfo.cuisine}
                       className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
@@ -147,7 +189,7 @@ const ViewProfile = () => {
                       name="province"
                       placeholder="Province"
                       readOnly
-                      value={"Nova Scotia"}
+                      value={profileInfo.province}
                       className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
                     />
                   </div>
@@ -166,9 +208,17 @@ const ViewProfile = () => {
                 <div className="flex mt-8 space-x-6 align-baseline">
                   <button
                     className="px-4 py-2 rounded-lg btn btn-secondary"
-                    onClick={() => navigate("/edit-profile")}
+                    onClick={() => navigate("/foodprovider/edit-profile")}
                   >
-                    Edit
+                    Edit Profile
+                  </button>
+
+                  <button
+                    type="button"
+                    className="px-4 py-2 rounded-lg btn btn-secondary"
+                    onClick={() => navigate("/foodprovider/reset-password")}
+                  >
+                    Reset Password
                   </button>
                 </div>
               </form>
@@ -180,4 +230,4 @@ const ViewProfile = () => {
   );
 };
 
-export default ViewProfile;
+export default ViewProfileSeller;

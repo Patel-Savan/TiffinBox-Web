@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useCustomerMealContext } from "../../context/CustomerMealContext/CustomerMealContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import MealCard from "../../components/FoodServiceProvider/MealCard.jsx";
+import ReviewsManagement from "../../components/ReviewsManagement.jsx";
 
 const FoodProviderPage = () => {
   const navigate = useNavigate();
@@ -46,13 +47,17 @@ const FoodProviderPage = () => {
     return <div>Loading...</div>;
   }
   return (
+    <div>
     <div className="container flex px-4 py-8 mx-auto">
       <div className="w-1/3 mx-3">
         <div className="p-4 bg-white rounded-lg shadow-md">
           <img
-            src={foodServiceProvider.profileImage}
+            src={
+              foodServiceProvider.profileImage ||
+              "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722358736/TiffinBox/Food_Provider_eesnwt.png"
+            }
             alt={foodServiceProvider.companyName}
-            className="object-cover w-full h-48 mb-4"
+            className="object-cover w-full h-48 mb-4 filter grayscale"
           />
           <h2 className="mb-2 text-2xl font-bold">
             {foodServiceProvider.firstName} {foodServiceProvider.lastName}
@@ -77,6 +82,11 @@ const FoodProviderPage = () => {
         ))}
       </div>
     </div>
+    <div className="container mx-auto px-4 py-8">
+        <ReviewsManagement foodProviderId={foodProviderId} />
+      </div>
+    </div>
+
   );
 };
 

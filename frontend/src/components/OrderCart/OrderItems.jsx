@@ -1,12 +1,12 @@
-import React from "react";
-import { FaMinus, FaPlus } from "react-icons/fa";
-import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
 
 function OrderItems() {
   const { cart, increaseQuantity, decreaseQuantity } = useOrderCartContext();
@@ -26,7 +26,7 @@ function OrderItems() {
           <h2 className="text-xl font-bold">{cartItem.companyName}</h2>
           <span className="text-slate-500">{cartItem.mealName}</span>
           <span className="font-semibold">
-            {cartItem.mealPrice}{" "}
+            ${cartItem.mealPrice}{" "}
             <div className="capitalize badge badge-info">trial</div>
           </span>
         </div>

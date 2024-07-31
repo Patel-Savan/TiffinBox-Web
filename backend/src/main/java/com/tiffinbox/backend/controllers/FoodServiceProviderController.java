@@ -1,4 +1,5 @@
 /**
+ * Author: Bhavya Dave
  * Author : Savan Patel
  */
 
@@ -8,6 +9,7 @@ import com.tiffinbox.backend.services.CloudinaryService;
 import com.tiffinbox.backend.services.IFoodProviderService;
 import com.tiffinbox.backend.dto.request.AddMealRequest;
 import com.tiffinbox.backend.dto.response.BasicResponse;
+import com.tiffinbox.backend.dto.response.ReviewResponse;
 import com.tiffinbox.backend.dto.response.mealmenumanagement.GetASingleMealResponse;
 import com.tiffinbox.backend.dto.response.mealmenumanagement.GetMealListResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.tiffinbox.backend.services.ReviewService;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +30,10 @@ import java.security.Principal;
 public class FoodServiceProviderController {
     @Autowired
     private IFoodProviderService foodProviderService;
+
+    @Autowired
+    private ReviewService reviewService;
+
     private CloudinaryService cloudinaryService;
 
     @PostMapping("/addMeal")
@@ -82,4 +90,16 @@ public class FoodServiceProviderController {
     public ResponseEntity<BasicResponse> deleteMeal(@PathVariable String mealId){
         return new ResponseEntity<>(foodProviderService.deleteMeal(mealId), HttpStatus.OK);
     }
+
+    @GetMapping("/view-all-reviews")
+    public ResponseEntity<List<ReviewResponse>> getReviewsByFoodServiceProviderId(Principal principal) {
+        List<ReviewResponse> reviews = reviewService.getReviewByFoodProvider(principal);
+        return ResponseEntity.ok(reviews);
+    }
+    
+    // @GetMapping("/view-all-reviews")
+    // public ResponseEntity<ReviewResponse> getFoodProviderId(Principal principal){
+    //     ReviewResponse response=reviewService.getFoodProviderId(principal);
+    //     return ResponseEntity.ok(response);
+    // }
 }

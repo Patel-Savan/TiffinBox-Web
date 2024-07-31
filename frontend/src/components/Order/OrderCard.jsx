@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import { Link } from "react-router-dom";
 
 function OrderCard({ order }) {
   return (
@@ -15,7 +15,7 @@ function OrderCard({ order }) {
     >
       <figure className="h-60">
         <img
-          src={order.mealImage}
+          src={order.mealImage || "https://picsum.photos/200"}
           alt="Album"
           className="w-full h-full object-fit md:w-80"
         />

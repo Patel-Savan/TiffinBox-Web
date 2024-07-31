@@ -1,10 +1,20 @@
+/**
+ * Author : Kunj Hiteshkumar Pathak
+ * Dalhousie Email : kn743706@dal.ca
+ * Commit Email : kunjpathak1212@gmail.com
+ */
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoIosArrowDown } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthenticationContext/AuthContext";
 
 const CustomerRegisterPage = () => {
   const [formData, setFormData] = useState({});
+  const { handleCustomerRegistration, userData } = useAuthContext();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,10 +25,20 @@ const CustomerRegisterPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    // Handle form submission logic here
-    toast.success("Register successfulllyyy");
+    // const isCompleted = await handleCustomerRegistration(data);
+    // console.log(isCompleted, "iscompleted")
+    // if (isCompleted) {
+    //   navigate("/login");
+    // }
+    // toast.success("Register successfully")
+
+    await handleCustomerRegistration(data);
+    if (userData.isRegistered) {
+      navigate("/login");
+      toast.success("Register successfully");
+    }
   };
 
   const handleChange = (e) => {
@@ -41,11 +61,11 @@ const CustomerRegisterPage = () => {
     let ext = "";
 
     // Handling country code
-    if (value.startsWith("1")) {
-      countryCode = "+1";
+    if (value.startsWith('1')) {
+      countryCode = '+1';
       value = value.substring(1);
-    } else if (value.startsWith("+1")) {
-      countryCode = "+1";
+    } else if (value.startsWith('+1')) {
+      countryCode = '+1';
       value = value.substring(2);
     }
 
@@ -97,13 +117,11 @@ const CustomerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("first_name")
+                    className={`${getValues("first_name")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.first_name ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
+                      } ${errors.first_name ? "border-red-400" : "border-gray-300"
+                      } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
                   />
 
                   {errors.first_name && (
@@ -125,13 +143,11 @@ const CustomerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("last_name")
+                    className={`${getValues("last_name")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.first_name ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
+                      } ${errors.first_name ? "border-red-400" : "border-gray-300"
+                      } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
                   />
                   {errors.last_name && (
                     <span className="block mt-2 text-red-400">
@@ -157,13 +173,11 @@ const CustomerRegisterPage = () => {
                         message: "Invalid email address format",
                       },
                     })}
-                    className={`${
-                      getValues("email_id")
+                    className={`${getValues("email_id")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400 ${
-                      errors.email_id ? "border-red-400" : "border-gray-300"
-                    }`}
+                      } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400 ${errors.email_id ? "border-red-400" : "border-gray-300"
+                      }`}
                   />
                   {errors.email_id && (
                     <span className="block mt-2 text-red-400">
@@ -184,18 +198,16 @@ const CustomerRegisterPage = () => {
                     {...register("contact_number", {
                       required: "* This is required",
                       onChange: handleChange,
-                      pattern: /^\d{10,}$/,
-                      message: "Invalid Phone Number",
+                      // pattern: /^\d{10,}$/,
+                      // message: "Invalid Phone Number"
                     })}
-                    className={`${
-                      getValues("contact_number")
+                    className={`${getValues("contact_number")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400 ${
-                      errors.contact_number
+                      } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400 ${errors.contact_number
                         ? "border-red-400"
                         : "border-gray-300"
-                    }`}
+                      }`}
                   />
                   {errors.contact_number && (
                     <span className="block mt-2 text-red-400">
@@ -218,15 +230,13 @@ const CustomerRegisterPage = () => {
                       required: "* This is required",
                       onChange: handleChange,
                     })}
-                    className={`${
-                      getValues("street_address")
+                    className={`${getValues("street_address")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } ${
-                      errors.street_address
+                      } ${errors.street_address
                         ? "border-red-400"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
+                      } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
                   />
 
                   {errors.street_address && (
@@ -291,13 +301,11 @@ const CustomerRegisterPage = () => {
                         required: "* This is required",
                         onChange: handleChange,
                       })}
-                      className={`${
-                        getValues("city_name")
+                      className={`${getValues("city_name")
                           ? "border-orange-300"
                           : "border-gray-300"
-                      } ${
-                        errors.first_name ? "border-red-400" : "border-gray-300"
-                      } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400`}
+                        } ${errors.first_name ? "border-red-400" : "border-gray-300"
+                        } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400`}
                     />
                   </div>
 
@@ -309,67 +317,25 @@ const CustomerRegisterPage = () => {
                 </div>
 
                 <div className="w-full">
-                  <div className="relative w-full">
-                    <label
-                      htmlFor="province"
-                      className="mb-3 text-lg text-gray-800"
-                    >
-                      Province name
-                    </label>
-                    <select
-                      className={`${
-                        getValues("province")
-                          ? "border-orange-300"
-                          : "border-gray-300"
-                      } w-full text-black  focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm`}
-                      {...register("province", {
-                        required: "* This is required",
-                        onChange: handleChange,
-                      })}
-                    >
-                      <option className="pt-4 " value="">
-                        select
-                      </option>{" "}
-                      {/* this value should be blank this is use for title add province from down*/}
-                      <option className="pt-4 " value="Ontario">
-                        Alberta
-                      </option>
-                      <option className="pt-4 " value="Province 55">
-                        British Columbia
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Manitoba
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        New Brunswick
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Newfoundland
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Northwest Territories
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Nova Scotia
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Nunavut
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Ontario
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Prince Edward Island
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Quebec
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Saskatchwan
-                      </option>
-                      <option className="pt-4 " value="Province 58">
-                        Yukon
-                      </option>
+                  <div className='relative w-full'>
+                    <label htmlFor="province" className="mb-3 text-lg text-gray-800">Province name</label>
+                    <select className={`${getValues('province') ? 'border-orange-300' : 'border-gray-300'} w-full text-black  focus:outline-orange-400 appearance-none px-3 py-2 mt-2 bg-white border border-gray-200 rounded-sm`} {...register('province', { required: '* This is required', onChange: handleChange })}>
+                      <option className='pt-4 ' value="">select</option > {/* this value should be blank this is use for title add province from down*/}
+
+                      <option className='pt-4 ' value="Alberta">Alberta</option >
+                      <option className='pt-4 ' value="British Columbia">British Columbia</option >
+                      <option className='pt-4 ' value="Manitoba">Manitoba</option >
+                      <option className='pt-4 ' value="New Brunswick">New Brunswick</option >
+                      <option className='pt-4 ' value="Newfoundland">Newfoundland</option >
+                      <option className='pt-4 ' value="Northwest Territories">Northwest Territories</option >
+                      <option className='pt-4 ' value="Nova Scotia">Nova Scotia</option >
+                      <option className='pt-4 ' value="Nunavut">Nunavut</option >
+                      <option className='pt-4 ' value="Ontario">Ontario</option >
+                      <option className='pt-4 ' value="Prince Edward Island">Prince Edward Island</option >
+                      <option className='pt-4 ' value="Quebec">Quebec</option >
+                      <option className='pt-4 ' value="Saskatchwan">Saskatchwan</option >
+                      <option className='pt-4 ' value="Yukon">Yukon</option >
+
                     </select>
                     <IoIosArrowDown className="absolute top-[62%] right-6 text-xl text-gray-500" />
                   </div>
@@ -395,16 +361,14 @@ const CustomerRegisterPage = () => {
                       onChange: handleChange,
                       pattern: {
                         value: /^[A-Za-z][0-9][A-Za-z][0-9][A-Za-z][0-9]$/,
-                        message: "Please enter valid postal code",
+                        message: 'Please enter valid postal code eg.(B2P1G9)',
                       },
                     })}
-                    className={`${
-                      getValues("postal_code")
+                    className={`${getValues("postal_code")
                         ? "border-orange-300"
                         : "border-gray-300"
-                    } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${
-                      errors.postal_code ? "border-red-400" : "border-gray-300"
-                    }
+                      } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400 ${errors.postal_code ? "border-red-400" : "border-gray-300"
+                      }
                     `}
                   />
 
@@ -439,13 +403,11 @@ const CustomerRegisterPage = () => {
                     },
                     onChange: handleChange,
                   })}
-                  className={`${
-                    getValues("password")
+                  className={`${getValues("password")
                       ? "border-orange-300"
                       : "border-gray-300"
-                  } ${
-                    errors.password ? "border-red-400" : "border-gray-300"
-                  } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
+                    } ${errors.password ? "border-red-400" : "border-gray-300"
+                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-400`}
                 />
                 {errors.password && (
                   <span className="block mt-2 text-red-500">
@@ -483,15 +445,13 @@ const CustomerRegisterPage = () => {
                     },
                     onChange: handleChange,
                   })}
-                  className={`${
-                    getValues("confirm_password")
+                  className={`${getValues("confirm_password")
                       ? "border-orange-300"
                       : "border-gray-300"
-                  } ${
-                    errors.confirm_password
+                    } ${errors.confirm_password
                       ? "border-red-400"
                       : "border-gray-300"
-                  } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-600`}
+                    } border px-3 py-2 rounded-sm text-md w-full focus:outline-orange-600`}
                 />
                 {errors.confirm_password && (
                   <span className="block mt-2 text-red-400">

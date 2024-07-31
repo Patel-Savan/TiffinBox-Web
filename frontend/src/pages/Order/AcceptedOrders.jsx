@@ -1,7 +1,12 @@
+/**
+ * Author: Keval Gandevia
+ */
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOrderTrackContext } from "../../context/OrderTrackContext/OrderTrackContext";
 import { toast } from "react-hot-toast";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 function AcceptedOrders() {
   const navigate = useNavigate();
@@ -15,6 +20,9 @@ function AcceptedOrders() {
     getAllAcceptedOrders,
     updateOrderStatus,
     verifyOtp,
+    isLoading,
+    searchDate,
+    setSearchDate,
   } = useOrderTrackContext();
 
   const handleSearchChange = (event) => {
@@ -78,37 +86,37 @@ function AcceptedOrders() {
 
   useEffect(() => {
     getAllAcceptedOrders();
-  }, []);
+  }, [searchDate]);
 
   return (
     <div className="container px-6 py-6 mx-auto min-h-dvh">
       <div className="grid grid-cols-1 gap-10">
-        <div>
-          <h1 className="text-3xl font-bold">Accepted Orders</h1>
-        </div>
+        <p className="mb-10 text-4xl font-bold">
+          <span className="text-5xl text-primary">/</span>
+          <span>Accepted Orders</span>
+        </p>
         {/* Search box starts */}
         <div>
-          <label className="flex items-center gap-2 input input-bordered">
-            <input
-              type="text"
-              className="grow"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
+          <div className="flex flex-col gap-6 md:flex-row">
+            <label className="flex items-center gap-2 md:flex-1 input input-bordered">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </svg>
-          </label>
+              <FaMagnifyingGlass />
+            </label>
+            <div>
+              <input
+                type="date"
+                value={searchDate}
+                className="input input-bordered"
+                onChange={(e) => setSearchDate(e.target.value)}
+              />
+            </div>
+          </div>
         </div>
         {/* Search box ends */}
         {/* Order list starts */}
@@ -133,6 +141,10 @@ function AcceptedOrders() {
                       <div className="flex">
                         {item.currentOrderStatus === "IN_PREPARATION" ? (
                           <span className="badge badge-secondary text-[8px] md:text-sm md:font-light font-bold">
+                            {item.currentOrderStatus}
+                          </span>
+                        ) : item.currentOrderStatus === "ACCEPTED" ? (
+                          <span className="badge badge-info text-[8px] md:text-sm md:font-light font-bold">
                             {item.currentOrderStatus}
                           </span>
                         ) : (
