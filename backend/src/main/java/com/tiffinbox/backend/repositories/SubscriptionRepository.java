@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.repositories;
 
 import com.tiffinbox.backend.models.Subscription;
@@ -8,12 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
-/**
- * Author: Raj Kamlesh Patel
- * Banner ID: B00978721
- * Email: rj227488@dal.ca
- */
 
 @Repository
 public interface SubscriptionRepository extends MongoRepository<Subscription, String> {

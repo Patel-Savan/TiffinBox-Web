@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.dto.response.subscription;
 
 import com.tiffinbox.backend.dto.SubscriptionDTO;

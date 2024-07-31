@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.controllers;
 
 import com.tiffinbox.backend.dto.request.CreateOrderRequest;
@@ -11,12 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-
-/**
- * Author: Raj Kamlesh Patel
- * Banner ID: B00978721
- * Email: rj227488@dal.ca
- */
 
 @RestController
 @RequestMapping(path = "/api/orders")

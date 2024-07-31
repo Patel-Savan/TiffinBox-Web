@@ -1,14 +1,14 @@
-package com.tiffinbox.backend.dto.request;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.Data;
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+package com.tiffinbox.backend.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
 @Data
 public class CreateSubscriptionRequest {
