@@ -5,24 +5,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { api } from "../../config/axiosConfig";
 
 function AllReviewsPage() {
   const { foodProviderId } = useParams();
   const [reviews, setReviews] = useState([]);
   const [expandedReviews, setExpandedReviews] = useState({});
   const [averageRating, setAverageRating] = useState(0);
-  const token= localStorage.getItem('authToken')
+  const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/reviews/foodServiceProvider/${foodProviderId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await api.get(
+          `/reviews/foodServiceProvider/${foodProviderId}`
         );
         console.log("Response data:", response.data);
 
@@ -59,25 +55,23 @@ function AllReviewsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-5 flex justify-center items-center">
-      <div className="max-w-4xl w-full bg-white rounded-lg shadow-xl overflow-hidden">
+    <div className="flex items-center justify-center min-h-screen p-5 bg-gray-100">
+      <div className="w-full max-w-4xl overflow-hidden bg-white rounded-lg shadow-xl">
         <div className="p-4">
-          <h2 className="text-2xl font-bold text-center mb-4">
-            All Reviews 
-          </h2>
+          <h2 className="mb-4 text-2xl font-bold text-center">All Reviews</h2>
           {reviews.length === 0 ? (
             <p className="text-center text-gray-600">No reviews available</p>
           ) : (
             reviews.map((review, index) => (
               <div
                 key={index}
-                className="border-b border-gray-300 last:border-b-0 py-4"
+                className="py-4 border-b border-gray-300 last:border-b-0"
               >
                 <div className="flex items-center space-x-4">
                   <img
                     src={review.user.image || "path_to_default_image.jpg"}
                     alt={review.user.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="object-cover w-12 h-12 rounded-full"
                   />
                   <div className="flex-grow">
                     <h3 className="text-lg font-semibold">
@@ -102,9 +96,13 @@ function AllReviewsPage() {
                         expandedReviews[index] ? "" : "truncate"
                       }`}
                     >
-                      {expandedReviews[index] ? review.text : `${review.text.split(' ').slice(0, 20).join(' ')}${review.text.split(' ').length > 20 ? '...' : ''}`}
+                      {expandedReviews[index]
+                        ? review.text
+                        : `${review.text.split(" ").slice(0, 20).join(" ")}${
+                            review.text.split(" ").length > 20 ? "..." : ""
+                          }`}
                     </p>
-                    {review.text.split(' ').length > 20 && (
+                    {review.text.split(" ").length > 20 && (
                       <button
                         className="text-indigo-600 hover:text-indigo-800"
                         onClick={() => toggleReview(index)}
