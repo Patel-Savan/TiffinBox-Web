@@ -159,8 +159,6 @@ Task-1: View/Search Meals.
 
     Test-2: On typing in Search box, the system will display the Meals that matches the text in Search box.
 
-    eg:  https://web-grp5.netlify.app/chat
-
 
 Task-2: Add A Meal.
 
@@ -170,7 +168,6 @@ The System will redirect you to AddAMeal Page when you click on Add a Meal butto
 
     Test-2: On Clicking Add button after filling all the required details, the system will display a toast "Meal Added Successfully" and redirect you to MealMenuManagement page where you can see newly added meal.  
 
-    eg:  https://web-grp5.netlify.app/chat
 
 Task-3: Update A Meal
 
