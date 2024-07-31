@@ -97,8 +97,8 @@ function AcceptedOrders() {
         </p>
         {/* Search box starts */}
         <div>
-        <div className="flex gap-6">
-            <label className="flex items-center flex-1 gap-2 input input-bordered">
+          <div className="flex flex-col gap-6 md:flex-row">
+            <label className="flex items-center gap-2 md:flex-1 input input-bordered">
               <input
                 type="text"
                 className="grow"
