@@ -2,7 +2,7 @@
  * Author: Keval Gandevia
  */
 
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import reducer from "./reducer";
 import { toast } from "react-hot-toast";
 import { api } from "../../config/axiosConfig";
@@ -29,10 +29,15 @@ const AppContext = createContext();
 
 const OrderTrackAppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [searchDate, setSearchDate] = useState(new Date());
 
   const getAllAcceptedOrders = async () => {
+    const orderDate = new Date(searchDate);
+    const params = {
+      orderDate,
+    };
     await api
-      .get(backendURLs.GET_ALL_ACCEPTED_ORDERS_URL)
+      .get(backendURLs.GET_ALL_ACCEPTED_ORDERS_URL, { params })
       .then((res) => {
         console.log(res.data);
         dispatch({ type: GET_ALL_ACCEPTED_ORDERS, payload: res.data });
@@ -101,6 +106,8 @@ const OrderTrackAppProvider = ({ children }) => {
         updateOrderStatus,
         verifyOtp,
         getOrderStatus,
+        searchDate,
+        setSearchDate,
       }}
     >
       {children}
