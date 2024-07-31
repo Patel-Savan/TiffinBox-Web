@@ -110,7 +110,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
      */
 //    @Scheduled(cron = "0 */1 * * * *")
 //    @Scheduled(cron = "*/10 * * * * *")
-    @Scheduled(cron = "55 23 * * * *")
+    @Scheduled(cron = "0 55 23 * * *")
     @Override
     public void placeOrderCron() {
         List<Subscription> subscriptionList = subscriptionRepository.findAll();
