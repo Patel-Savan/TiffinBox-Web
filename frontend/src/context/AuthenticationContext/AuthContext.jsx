@@ -1,3 +1,9 @@
+/**
+ * Author : Kunj Hiteshkumar Pathak
+ * Dalhousie Email : kn743706@dal.ca
+ * Commit Email : kunjpathak1212@gmail.com
+ */
+
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import reducer from "./reducer";
