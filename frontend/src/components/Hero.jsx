@@ -1,3 +1,6 @@
+/**
+ * Author: Harsh Maisuri
+ */
 import React from "react";
 import { BiSolidDish } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -21,11 +24,10 @@ function Hero() {
               Find the best tiffins near you
             </h2>
             <Link
-              to={`${
-                userRole === UserRoles.CUSTOMER
+              to={`${userRole === UserRoles.CUSTOMER
                   ? "/customer/home-page"
                   : "/login"
-              }`}
+                }`}
               className="px-8 text-xl text-white btn btn-secondary"
             >
               Explore <BiSolidDish className="w-6 h-6 ml-2" />

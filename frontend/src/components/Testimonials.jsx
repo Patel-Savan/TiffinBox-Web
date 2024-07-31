@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import React from "react";
 
 const testimonials = [

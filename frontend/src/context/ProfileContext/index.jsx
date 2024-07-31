@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./reducer";
 import axios from "axios";
@@ -33,7 +37,11 @@ const initialState = {
 //   }
 // );
 
+// Create Profile context
+
 const ProfileContext = createContext();
+
+// Custom hook to use Profile context
 
 export const useProfile = () => useContext(ProfileContext);
 
@@ -42,11 +50,15 @@ const ProfileAppProvider = ({ children }) => {
   const { userData } = useAuthContext();
   const navigate = useNavigate();
 
+  // Function to get customer profile information
+
   const getProfileInfo = () => {
     return api.get(`/profile/customer`).then((res) => {
       dispatch({ type: GET_CUSTOMER_PROFILE, payload: res.data });
     });
   };
+
+  // Function to edit customer profile information
 
   const editProfileInfo = (payload) => {
     return api.post(`/profile/customer/editProfile`, payload).then((res) => {
@@ -55,6 +67,8 @@ const ProfileAppProvider = ({ children }) => {
     });
   };
 
+  // Function to get seller profile information
+
   const getSellerProfileInfo = () => {
     return api.get(`/profile/seller`).then((res) => {
       console.log(res, "ress");
@@ -62,12 +76,16 @@ const ProfileAppProvider = ({ children }) => {
     });
   };
 
+  // Function to edit seller profile information
+
   const editSellerProfileInfo = (payload) => {
     return api.post(`/profile/seller/editProfile`, payload).then((res) => {
       toast.success(res.data.message);
       navigate("/foodprovider/view-profile");
     });
   };
+
+  // Function to update profile image
 
   const updateProfileImage = (file) => {
     const formData = new FormData();
