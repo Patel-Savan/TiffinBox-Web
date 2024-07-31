@@ -1,13 +1,13 @@
-import { FaArrowRight } from "react-icons/fa";
-import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
-import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { useNavigate } from "react-router-dom";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import { FaArrowRight } from "react-icons/fa";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
+import { useOrderContext } from "../../context/OrderContext/OrderContext";
+import { useNavigate } from "react-router-dom";
 
 function OrderBreakDown() {
   const { cart } = useOrderCartContext();

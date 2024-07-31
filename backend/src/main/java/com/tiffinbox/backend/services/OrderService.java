@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.services;
 
 import com.tiffinbox.backend.dto.request.CreateOrderRequest;
@@ -7,12 +13,6 @@ import com.tiffinbox.backend.models.Order;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-
-/**
- * Author: Raj Kamlesh Patel
- * Banner ID: B00978721
- * Email: rj227488@dal.ca
- */
 
 public interface OrderService {
     Order createOrder(CreateOrderRequest request, Principal principal);

@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { api } from "../../config/axiosConfig";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { api } from "../../config/axiosConfig";
 
 const data = {
   mealId: "1",

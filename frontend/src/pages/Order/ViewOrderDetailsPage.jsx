@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { useNavigate, useParams } from "react-router-dom";
-import toast from "react-hot-toast";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import { useEffect } from "react";
+import { useOrderContext } from "../../context/OrderContext/OrderContext";
+import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function ViewOrderDetailsPage() {
   const { orders, fetchOrderDetails, loading, acceptOrder } = useOrderContext();

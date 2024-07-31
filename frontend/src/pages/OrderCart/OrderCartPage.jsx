@@ -1,14 +1,14 @@
-import { Link, useLocation } from "react-router-dom";
-import OrderBreakDown from "../../components/OrderCart/OrderBreakDown";
-import OrderItems from "../../components/OrderCart/OrderItems";
-import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
-import { useEffect } from "react";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import { Link, useLocation } from "react-router-dom";
+import OrderBreakDown from "../../components/OrderCart/OrderBreakDown";
+import OrderItems from "../../components/OrderCart/OrderItems";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
+import { useEffect } from "react";
 
 function OrderCartPage() {
   const { cart, addToCart, loading } = useOrderCartContext();

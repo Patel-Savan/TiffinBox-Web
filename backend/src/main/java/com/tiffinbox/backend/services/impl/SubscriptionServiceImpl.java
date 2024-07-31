@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.services.impl;
 
 import com.tiffinbox.backend.dto.SubscriptionDTO;
@@ -24,12 +30,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-/**
- * Author: Raj Kamlesh Patel
- * Banner ID: B00978721
- * Email: rj227488@dal.ca
- */
 
 @Service
 @Transactional

@@ -1,14 +1,12 @@
-import axios from "axios";
-import React, { useContext, useState } from "react";
-import { api } from "../../config/axiosConfig";
-import toast from "react-hot-toast";
-import { useOrderCartContext } from "../OrderCartContext/OrderCartContext";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React, { useContext, useState } from "react";
+import { api } from "../../config/axiosConfig";
+import toast from "react-hot-toast";
 
 const OrderContext = React.createContext();
 
