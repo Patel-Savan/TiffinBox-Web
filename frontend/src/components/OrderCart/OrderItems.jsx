@@ -1,12 +1,12 @@
-import React from "react";
-import { FaMinus, FaPlus } from "react-icons/fa";
-import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import { useOrderCartContext } from "../../context/OrderCartContext/OrderCartContext";
 
 function OrderItems() {
   const { cart, increaseQuantity, decreaseQuantity } = useOrderCartContext();

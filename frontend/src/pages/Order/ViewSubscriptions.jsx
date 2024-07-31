@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 import React, { useEffect } from "react";
 import { useOrderContext } from "../../context/OrderContext/OrderContext";
 import SubscriptionCard from "../../components/Subscription/SubscriptionCard";

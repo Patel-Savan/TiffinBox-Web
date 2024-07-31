@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useOrderContext } from "../../context/OrderContext/OrderContext";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 function ViewReceivedOrdersPage() {
   const { fetchReceivedOrders, orders, searchDate, setSearchDate, loading } =

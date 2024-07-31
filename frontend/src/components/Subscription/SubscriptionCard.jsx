@@ -1,3 +1,9 @@
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 import React from "react";
 
 function SubscriptionCard({ subscription }) {

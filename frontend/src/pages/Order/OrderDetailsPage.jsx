@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { useParams } from "react-router-dom";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
+
+import React, { useEffect } from "react";
+import { useOrderContext } from "../../context/OrderContext/OrderContext";
+import { useParams } from "react-router-dom";
 
 function OrderDetailsPage() {
   const { orderId } = useParams();

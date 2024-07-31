@@ -1,16 +1,17 @@
-import { Link } from "react-router-dom";
-
 /**
  * Author: Raj Kamlesh Patel
  * Banner ID: B00978721
  * Email: rj227488@dal.ca
  */
 
+import { Link } from "react-router-dom";
+
 function OrderCard({ order }) {
   return (
     <section
-      className={`shadow card md:card-side bg-base-100 ${order.orderStatus === "DELIVERED" && "bg-slate-300"
-        }`}
+      className={`shadow card md:card-side bg-base-100 ${
+        order.orderStatus === "DELIVERED" && "bg-slate-300"
+      }`}
     >
       <figure className="h-60">
         <img
