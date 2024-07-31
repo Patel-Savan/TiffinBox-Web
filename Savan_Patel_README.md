@@ -76,15 +76,11 @@
 
 *User role: Food Service Provider*
 
-To redirect to mealmenumanagement page, use the following link. The rest of the tasks can be accessed from this page. Requires the User to be logged in.
-
-https://main--tiffinbox-csci5709.netlify.app/foodprovider/mealmenumanagement
+To redirect to mealmenumanagement page, Click on Meals button in Admin Sidebar. Requires the User to be Logged in.
 
 *User role: Customer*
 
 User will be redirected to CustomerHomePage on successful Login, the rest of the tasks can be accessed from this page. Requires the User to be logged in.
-
-https://main--tiffinbox-csci5709.netlify.app/customer/home-page
 
 
 To integrate this feature in the fronted, just copy the following folders in your src directory.
