@@ -71,13 +71,9 @@ function OrderDetailsPage() {
               <div className="card-body">
                 <h2 className="font-bold card-title">Order Details:</h2>
                 <p>Order Id: {orderDetails.orderId}</p>
-                {/* {order.meals.map((meal) => {
-                  return ( */}
                 <p>
                   {orderDetails.mealName} X {orderDetails.quantity}
                 </p>
-                {/* );
-                })} */}
                 <p>Order Date: {orderDetails.orderDate}</p>
               </div>
             </div>

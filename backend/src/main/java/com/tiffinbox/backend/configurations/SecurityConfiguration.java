@@ -49,6 +49,7 @@ public class SecurityConfiguration {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("https://main--tiffinbox-csci5709.netlify.app/");
 //        config.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
 //        config.addAllowedHeader(HttpHeaders.AUTHORIZATION);
         config.addAllowedHeader("*");
