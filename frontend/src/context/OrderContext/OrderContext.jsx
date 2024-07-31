@@ -10,8 +10,6 @@ import { useOrderCartContext } from "../OrderCartContext/OrderCartContext";
  * Email: rj227488@dal.ca
  */
 
-const BASE_URL = "http://localhost:8080/api";
-
 const OrderContext = React.createContext();
 
 const initialStates = {
@@ -28,7 +26,7 @@ const OrderProvider = ({ children }) => {
   const fetchAllOrders = async () => {
     setLoading(true);
     await api
-      .get(`${BASE_URL}/orders`)
+      .get(`/orders`)
       .then((res) => {
         const { orderDetails } = res.data;
         console.log(orderDetails);
@@ -41,7 +39,7 @@ const OrderProvider = ({ children }) => {
   const fetchOrderDetails = async (orderId) => {
     setLoading(true);
     await api
-      .get(`${BASE_URL}/orders/${orderId}`)
+      .get(`/orders/${orderId}`)
       .then((res) => {
         const { orderDetails } = res.data;
         console.log(orderDetails);
@@ -59,7 +57,7 @@ const OrderProvider = ({ children }) => {
     setLoading(true);
     setOrders({ ...orders, orderList: [] });
     await api
-      .get(`${BASE_URL}/orders/received`, { params })
+      .get(`/orders/received`, { params })
       .then((res) => {
         const { orderDetails } = res.data;
         setOrders({ ...orders, orderList: orderDetails, orderDetails: null });
@@ -117,7 +115,7 @@ const OrderProvider = ({ children }) => {
   const acceptOrder = async (orderId) => {
     setLoading(true);
     const response = await api
-      .post(`${BASE_URL}/ordertrack/acceptOrder/${orderId}`, {})
+      .post(`/ordertrack/acceptOrder/${orderId}`, {})
       .then((res) => {
         return res.data;
       })

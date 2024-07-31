@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import OrderCard from "../../components/Order/OrderCard";
 import { useOrderContext } from "../../context/OrderContext/OrderContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * Author: Raj Kamlesh Patel
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 
 function OrderHistoryPage() {
   const { orders, fetchAllOrders, loading } = useOrderContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAllOrders();
@@ -41,7 +42,7 @@ function OrderHistoryPage() {
             </h2>
             <div
               className="text-center"
-              onClick={() => alert("Redirect to Home Page")}
+              onClick={() => navigate("/customer/home-page")}
             >
               <Link to="#" role="button" className="btn btn-primary">
                 Let's Order Something
