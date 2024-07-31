@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../../context/ProfileContext";
@@ -11,15 +15,22 @@ const ViewProfileSeller = () => {
 
   const userId = localStorage.getItem("userId");
   console.log("profileInfo", profileInfo, userId);
+
+  // Fetch seller profile info when component mounts
+
   useEffect(() => {
     getSellerProfileInfo(userId);
   }, []);
+
+  // Update avatar state when profile info changes
 
   useEffect(() => {
     if (profileInfo.profileImage) {
       setAvatar(profileInfo.profileImage);
     }
   }, [profileInfo]);
+
+  // Handle image change for profile picture
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];

@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +27,8 @@ const ResetPassword = () => {
     const onSubmit = (data) => {
 
     };
+
+    // Handle input changes
 
     const handleChange = (e) => {
         const { name, value } = e.target;

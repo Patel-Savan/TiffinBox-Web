@@ -1,3 +1,6 @@
+/**
+ * Author: Harsh Maisuri
+ */
 import React from "react";
 import { FaCoins, FaCar } from "react-icons/fa";
 import { CiCreditCard1 } from "react-icons/ci";
