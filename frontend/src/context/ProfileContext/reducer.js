@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import { GET_CUSTOMER_PROFILE, GET_SELLER_PROFILE } from "./actions";
 
 export const reducer = (state, action) => {

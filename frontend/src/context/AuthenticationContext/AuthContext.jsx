@@ -1,3 +1,9 @@
+/**
+ * Author : Kunj Hiteshkumar Pathak
+ * Dalhousie Email : kn743706@dal.ca
+ * Commit Email : kunjpathak1212@gmail.com
+ */
+
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import reducer from "./reducer";
@@ -13,9 +19,8 @@ const backendURLs = {
   CUSTOMER_SIGNUP_URL: `/auth/customer/signUp`,
   SELLER_SIGNUP_URL: `/auth/seller/signUp`,
   RESET_PASSWORD_URL: `/profile/resetPassword`,
-  //   UPDATE_ORDER_STATUS_URL: `/ordertrack/updateStatus`,
-  //   VERIFY_ORDER_STATUS_URL: `/ordertrack/verifyOTP`,
-  //   GET_ORDER_STATUS_URL: `/ordertrack/getOrderStatus`,
+  FORGOT_PASSWORD_URL:`/auth/forgotPassword`
+  
 };
 
 const initialState = {
@@ -170,6 +175,28 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("refreshToken");
   };
 
+  const handleForgotSubmit = async (data) => {
+    const requestBody = {
+      email: data.email_id,
+    };
+
+    try {
+      const result = await api.post(backendURLs.FORGOT_PASSWORD_URL, requestBody);
+
+      if (result.status === 200 || result.status === 201) {
+        toast.success(result.data.message);
+        navigate('/auth/logIn');
+        return true;
+      }
+      
+    } 
+    catch (error) {
+      
+      console.log(error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     if (
       localStorage.getItem("user") &&
@@ -197,6 +224,7 @@ const AuthProvider = ({ children }) => {
         handleCustomerRegistration,
         handleLoginSubmit,
         handleResetPassword,
+        handleForgotSubmit,
         logout,
       }}
     >

@@ -24,10 +24,12 @@ import com.tiffinbox.backend.utils.OrderStatus;
 import com.tiffinbox.backend.utils.ResponseMessages;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -49,10 +51,21 @@ public class OrderTrackServiceImpl implements IOrderTrackService {
      * @return a response containing a list of accepted orders
      */
     @Override
-    public GetAllAcceptedOrdersResponse getAllAcceptedOrders(Principal principal) {
+    public GetAllAcceptedOrdersResponse getAllAcceptedOrders(LocalDateTime orderDate, Principal principal) {
         User user = userRepository.findByEmail(principal.getName());
+        if(orderDate == null){
+            orderDate = LocalDateTime.now();
+        }
+
+        LocalDateTime startOfDay = orderDate.with(LocalTime.MIN);
+        LocalDateTime endOfDay = orderDate.with(LocalTime.MAX);
+        Sort sort = Sort.by(Sort.Direction.DESC, "orderDate");
+
         List<OrderStatus> orderStatuses = Arrays.asList(OrderStatus.ACCEPTED, OrderStatus.IN_PREPARATION, OrderStatus.DELIVERED);
-        List<Order> orderList = orderRepository.findAllByFoodServiceProviderAndOrderStatusIn(user, orderStatuses);
+
+        List<Order> orderList = orderRepository.findAllByUserIdAndOrderStatusInAndOrderDateBetween(user.getUserId(), orderStatuses, startOfDay, endOfDay, sort);
+
+//        List<Order> orderList = orderRepository.findAllByFoodServiceProviderAndOrderStatusIn(user, orderStatuses);
         List<AcceptedOrderListDTO> acceptedOrderList = AcceptedOrderMapper.convertToAcceptedOrderListDTO(orderList);
 
         return GetAllAcceptedOrdersResponse.builder()

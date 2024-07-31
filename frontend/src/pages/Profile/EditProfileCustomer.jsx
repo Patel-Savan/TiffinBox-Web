@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
@@ -18,12 +22,14 @@ const EditProfileCustomer = () => {
   });
 
   const userId = localStorage.getItem('userId');
-  console.log("profileInfo", profileInfo, userId);
+
+  // Fetch profile info when component mounts
+
   useEffect(() => {
     getProfileInfo(userId);
   }, []);
 
-  console.log("profileInfo", profileInfo, formData);
+  // Update formData state when profileInfo changes
 
   useEffect(() => {
     if (profileInfo) {
@@ -40,6 +46,8 @@ const EditProfileCustomer = () => {
     }
   }, [profileInfo]);
 
+  // Handle form field changes
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -48,11 +56,10 @@ const EditProfileCustomer = () => {
     }));
   };
 
+  // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Replace with the actual API call to update the profile
-    // Example: updateProfileInfo(formData);
-    console.log("Updated profile data:", formData);
     editProfileInfo(formData);
   };
 
