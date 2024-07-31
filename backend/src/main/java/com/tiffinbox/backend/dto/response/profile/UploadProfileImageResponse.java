@@ -1,3 +1,6 @@
+/**
+ * Author: Harsh Maisuri
+ */
 package com.tiffinbox.backend.dto.response.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

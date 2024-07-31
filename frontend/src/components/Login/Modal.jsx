@@ -1,3 +1,7 @@
+/**
+ * Author: Harsh Maisuri
+ */
+
 import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom';
 
@@ -31,7 +35,7 @@ const Modal = ({ isOpen, onClose, children }) => {
   return createPortal(
     isOpen ? (
       <div className="fixed top-0 left-0 w-full z-[9999999999999] h-full flex items-center justify-center bg-black bg-opacity-40"
-      onClick={(e) => handleClose(e)}>
+        onClick={(e) => handleClose(e)}>
         <div ref={modalRef} className="bg-white sm:w-[400px] md:w-[500px] w-full mx-10 p-5 md:p-8 rounded-[10px]">
           {children}
         </div>
