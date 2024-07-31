@@ -1,3 +1,9 @@
+/**
+ * Author : Kunj Hiteshkumar Pathak
+ * Dalhousie Email : kn743706@dal.ca
+ * Commit Email : kunjpathak1212@gmail.com
+ */
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
