@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { api } from "../../config/axiosConfig";
 
 function ReviewAnalytics() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function ReviewAnalytics() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(
+        const response = await api.get(
           "/foodserviceprovider/view-all-reviews"
         );
         const fetchedReviews = response.data.map((review) => ({
