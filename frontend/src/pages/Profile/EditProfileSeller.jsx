@@ -20,7 +20,8 @@ const EditProfileSeller = () => {
     companyPostalCode: "",
     provinceName: "",
     companyAddress: "",
-    cuisineType: ""
+    cuisineType: "",
+    companyName: ""
   });
 
   console.log("profileInfo", profileInfo);
@@ -47,7 +48,8 @@ const EditProfileSeller = () => {
         companyPostalCode: profileInfo.companyZipCode || "",
         province: profileInfo.province || "",
         companyAddress: profileInfo.companyAddress,
-        cuisineType: profileInfo.cuisine || ""
+        cuisineType: profileInfo.cuisine || "",
+        companyName: profileInfo.companyName || ""
       });
     }
   }, [profileInfo]);
@@ -129,16 +131,30 @@ const EditProfileSeller = () => {
               </div>
             </div>
 
-            <div className="w-full flex flex-col mt-10">
-              <label htmlFor="address">Company Address</label>
-              <input
-                type="text"
-                name="companyAddress"
-                placeholder="Company Address"
-                className="input input-bordered w-full mt-4"
-                value={formData.companyAddress}
-                onChange={handleChange}
-              />
+            <div className="flex flex-col space-x-0 md:flex-row space-y-4 md:space-y-0 md:space-x-6  mt-4">
+              <div className="w-full flex flex-col">
+                <label htmlFor="address">Company Address</label>
+                <input
+                  type="text"
+                  name="companyAddress"
+                  placeholder="Company Address"
+                  className="input input-bordered w-full mt-4"
+                  value={formData.companyAddress}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="w-full flex flex-col">
+                <label htmlFor="address">Company Name</label>
+                <input
+                  type="text"
+                  name="companyAddress"
+                  placeholder="Company Name"
+                  className="input input-bordered w-full mt-4"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  readOnly
+                />
+              </div>
             </div>
 
             <div className="flex flex-col space-x-0 md:flex-row space-y-4 md:space-y-0 md:space-x-6 mt-10">

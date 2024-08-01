@@ -111,6 +111,7 @@ const ViewProfileSeller = () => {
                     />
                   </div>
                 </div>
+
                 <div className="flex flex-col mt-4 space-x-0 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
                   <div className="flex flex-col w-full">
                     <label htmlFor="email">Email</label>
@@ -135,17 +136,33 @@ const ViewProfileSeller = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col w-full mt-10">
-                  <label htmlFor="address">Company Address</label>
-                  <input
-                    type="text"
-                    name="address"
-                    placeholder="Address"
-                    readOnly
-                    value={profileInfo.companyAddress}
-                    className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
-                  />
+
+                <div className="flex flex-col mt-4 space-x-0 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+                  <div className="flex flex-col w-full">
+                    <label htmlFor="address">Company Address</label>
+                    <input
+                      type="text"
+                      name="address"
+                      placeholder="Address"
+                      readOnly
+                      value={profileInfo.companyAddress}
+                      className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
+                    />
+                  </div>
+
+                  <div className="flex flex-col w-full">
+                    <label htmlFor="companyName">Company Name</label>
+                    <input
+                      type="text"
+                      name="companyName"
+                      placeholder="Company Name"
+                      readOnly
+                      value={profileInfo.companyName}
+                      className="w-full mt-4 border-0 bg-zinc-300 focus:outline-none input input-bordered"
+                    />
+                  </div>
                 </div>
+
                 <div className="flex flex-col mt-10 space-x-0 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
                   <div className="flex flex-col w-full">
                     <label htmlFor="city">City</label>
