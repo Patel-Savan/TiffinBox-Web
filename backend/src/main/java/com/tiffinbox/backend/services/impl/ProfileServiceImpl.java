@@ -78,6 +78,7 @@ public class ProfileServiceImpl implements IProfileService {
         viewProfileResponseSeller.setLastname(seller.getLastName());
         viewProfileResponseSeller.setEmail(principal.getName());
         viewProfileResponseSeller.setCity(seller.getCity());
+        viewProfileResponseSeller.setCompanyName(seller.getCompanyName());
         viewProfileResponseSeller.setProvince(seller.getProvince());
         viewProfileResponseSeller.setCompanyAddress(seller.getCompanyAddress());
         viewProfileResponseSeller.setCompanyZipCode(seller.getCompanyPostalCode());
@@ -127,7 +128,7 @@ public class ProfileServiceImpl implements IProfileService {
         seller.setLastName(signUpRequestSeller.getLastname());
         seller.setContact(signUpRequestSeller.getContact());
         seller.setCompanyAddress(signUpRequestSeller.getCompanyAddress());
-        seller.setCompanyName(signUpRequestSeller.getCompanyName());
+        seller.setCompanyName(seller.getCompanyName());
         seller.setCity(signUpRequestSeller.getCity());
         seller.setProvince(signUpRequestSeller.getProvince());
         seller.setCompanyPostalCode(signUpRequestSeller.getCompanyPostalCode());

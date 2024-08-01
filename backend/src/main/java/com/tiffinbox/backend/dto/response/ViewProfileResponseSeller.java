@@ -24,5 +24,6 @@ public class ViewProfileResponseSeller extends BasicResponse {
     private String cuisine;
     private String province;
     private String country;
+    private String companyName;
 
 }
