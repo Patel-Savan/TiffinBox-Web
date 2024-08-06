@@ -37,9 +37,6 @@ function OrderBreakDown() {
       </div>
       <button
         className="w-full btn btn-primary"
-        // onClick={() => {
-        //   placeOrder(cart);
-        // }}
         onClick={() =>
           document.getElementById("confirm_order_modal").showModal()
         }
@@ -58,7 +55,7 @@ function OrderBreakDown() {
           </form>
           <h3 className="text-lg font-bold">Confirm Order</h3>
           <p className="py-4">Press Confirm to place order.</p>
-          <div className="flex justify-center gap-6">
+          <div className="flex justify-end gap-6">
             <form method="dialog">
               <button className="btn btn-error">Cancel</button>
             </form>

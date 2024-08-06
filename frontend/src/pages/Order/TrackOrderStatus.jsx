@@ -23,17 +23,17 @@ const TrackOrderStatus = () => {
   };
   const currentStatusIndex = statusMap[orderStatus];
 
-  const stepClasses = steps.map((_, index) => 
-    `step ${index <= currentStatusIndex ? "step-primary" : ""}`
+  const stepClasses = steps.map(
+    (_, index) => `step ${index <= currentStatusIndex ? "step-primary" : ""}`
   );
 
   return (
-    <div className="container mx-auto px-6 py-6">
+    <div className="container px-6 py-6 mx-auto min-h-dvh">
       <p className="mb-10 text-4xl font-bold">
-          <span className="text-5xl text-primary">/</span>
-          <span>Track Order Status</span>
-        </p>
-      <div className="mt-10 w-full flex justify-center">
+        <span className="text-5xl text-primary">/</span>
+        <span>Track Order Status</span>
+      </p>
+      <div className="flex justify-center w-full mt-10">
         <ul className="steps steps-horizontal">
           {steps.map((step, index) => (
             <li key={index} className={stepClasses[index]}>
@@ -42,8 +42,11 @@ const TrackOrderStatus = () => {
           ))}
         </ul>
       </div>
-      <div className="mt-4 w-full flex justify-center">
-        <button onClick={() => getOrderStatus(orderId)} className="btn btn-primary">
+      <div className="flex justify-center w-full mt-4">
+        <button
+          onClick={() => getOrderStatus(orderId)}
+          className="btn btn-primary"
+        >
           Refresh
         </button>
       </div>

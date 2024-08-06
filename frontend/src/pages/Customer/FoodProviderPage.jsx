@@ -44,49 +44,55 @@ const FoodProviderPage = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="grid max-w-5xl mx-auto min-h-dvh place-content-center">
+        <span className="loading loading-dots loading-lg text-primary"></span>
+      </div>
+    );
   }
   return (
     <div>
-    <div className="container flex px-4 py-8 mx-auto">
-      <div className="w-1/3 mx-3">
-        <div className="p-4 bg-white rounded-lg shadow-md">
-          <img
-            src={
-              foodServiceProvider.profileImage ||
-              "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722358736/TiffinBox/Food_Provider_eesnwt.png"
-            }
-            alt={foodServiceProvider.companyName}
-            className="object-cover w-full h-48 mb-4 filter grayscale"
-          />
-          <h2 className="mb-2 text-2xl font-bold">
-            {foodServiceProvider.firstName} {foodServiceProvider.lastName}
-          </h2>
-          <p className="mb-2 text-gray-700">
-            {foodServiceProvider.companyAddress}, {foodServiceProvider.city}
-          </p>
-          <p className="mb-2 text-gray-700">{foodServiceProvider.province}</p>
-          <p className="text-gray-700">{foodServiceProvider.contact}</p>
+      <div className="grid max-w-5xl grid-cols-1 gap-4 px-4 py-8 mx-auto min-h-dvh md:grid-cols-5">
+        <div className="col-span-2 mx-3">
+          <div className="p-4 bg-white rounded-lg shadow-md">
+            <img
+              src={
+                foodServiceProvider.profileImage ||
+                "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722358736/TiffinBox/Food_Provider_eesnwt.png"
+              }
+              alt={foodServiceProvider.companyName}
+              className="object-cover w-full h-48 mb-4"
+            />
+            <h2 className="mb-2 text-2xl font-bold">
+              {foodServiceProvider.companyName}
+            </h2>
+            <p className="mb-2 text-gray-700">
+              {foodServiceProvider.firstName} {foodServiceProvider.lastName}
+            </p>
+            <p className="mb-2 text-gray-700">
+              {foodServiceProvider.companyAddress}, {foodServiceProvider.city}
+            </p>
+            <p className="mb-2 text-gray-700">{foodServiceProvider.province}</p>
+            <p className="text-gray-700">{foodServiceProvider.contact}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 col-span-3 gap-6 mx-3 h-fit md:grid-cols-2 lg:grid-cols-3">
+          {mealsProvided.map((meal, index) => (
+            <MealCard
+              key={index}
+              mealId={meal.mealId}
+              image={meal.mealImage}
+              name={meal.mealName}
+              price={meal.mealPrice}
+              handleCardClick={handleCardClick}
+            />
+          ))}
         </div>
       </div>
-      <div className="w-2/3 h-[50%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-3">
-        {mealsProvided.map((meal, index) => (
-          <MealCard
-            key={index}
-            mealId={meal.mealId}
-            image={meal.mealImage}
-            name={meal.mealName}
-            price={meal.mealPrice}
-            handleCardClick={handleCardClick}
-          />
-        ))}
-      </div>
-    </div>
-    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-5xl px-4 py-8 mx-auto">
         <ReviewsManagement foodProviderId={foodProviderId} />
       </div>
     </div>
-
   );
 };
 
