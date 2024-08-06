@@ -36,7 +36,7 @@ const LoginPage = () => {
       if (userData.userRole === UserRoles.CUSTOMER) {
         navigate("/customer/home-page");
       } else if (userData.userRole === UserRoles.FOOD_SERVICE_PROVIDER) {
-        navigate("/foodprovider/mealmenumanagement");
+        navigate("/foodprovider/dashboard");
       } else if (userData.userRole === UserRoles.ADMIN) {
         navigate("/admin/dashboard");
       }
@@ -70,11 +70,13 @@ const LoginPage = () => {
                       message: "Invalid email address format",
                     },
                   })}
-                  className={`${getValues("email_id")
+                  className={`${
+                    getValues("email_id")
                       ? "border-orange-300"
                       : "border-gray-300"
-                    } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400 ${errors.email_id ? "border-red-400" : "border-gray-300"
-                    }`}
+                  } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400 ${
+                    errors.email_id ? "border-red-400" : "border-gray-300"
+                  }`}
                 />
                 {errors.email_id && (
                   <span className="block mt-2 text-red-400">
@@ -104,11 +106,13 @@ const LoginPage = () => {
                     // },
                     onChange: handleChange,
                   })}
-                  className={`${getValues("password")
+                  className={`${
+                    getValues("password")
                       ? "border-orange-300"
                       : "border-gray-300"
-                    } ${errors.password ? "border-red-400" : "border-gray-300"
-                    } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400`}
+                  } ${
+                    errors.password ? "border-red-400" : "border-gray-300"
+                  } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400`}
                 />
                 {errors.password && (
                   <span className="block mt-2 text-red-400">
