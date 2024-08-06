@@ -28,4 +28,7 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     @Query("{ 'foodServiceProvider.userId' : ?0, 'orderStatus' : { $in: ?1 }, 'orderDate' : { $gte: ?2, $lt: ?3 }}")
     List<Order> findAllByUserIdAndOrderStatusInAndOrderDateBetween(String userId, List<OrderStatus> orderStatuses, LocalDateTime startOfDay, LocalDateTime endOfDay, Sort sort);
+    @Query("{ 'foodServiceProvider.userId' : ?0, 'orderDate' : { $gte: ?1, $lt: ?2 }}")
+    List<Order> findAllByUserIdAndOrderDateBetween(String userId, LocalDateTime startDate, LocalDateTime endDate);
+    List<Order> findAllByFoodServiceProvider(User foodServiceProvider);
 }

@@ -73,6 +73,7 @@ public class ReviewServiceImpl implements ReviewService{
             response.setReviewStars(review.getReviewStars());
             response.setFirstName(review.getCustomer().getFirstName());
             response.setLastName(review.getCustomer().getLastName());
+            response.setImage(review.getCustomer().getProfileImage());
             return response;
         }).collect(Collectors.toList());
     }
