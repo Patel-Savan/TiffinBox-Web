@@ -13,7 +13,7 @@ const AddAMeal = () => {
     mealDescription: "",
     mealType: "",
     cuisineType: "",
-    mealPrice: ""
+    mealPrice: "",
   });
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(false);
@@ -59,12 +59,12 @@ const AddAMeal = () => {
   };
 
   return (
-    <div className="container mx-auto px-6 py-6 min-h-screen">
-      <h1 className="font-bold text-3xl text-gray-950">Add a New Meal</h1>
+    <div className="container min-h-screen px-6 py-6 mx-auto">
+      <h1 className="text-3xl font-bold text-gray-950">Add a New Meal</h1>
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <div className="form-control">
           <label className="label">
-            <span className="label-text font-bold">
+            <span className="font-bold label-text">
               Upload the Image of the Meal
             </span>
           </label>
@@ -73,23 +73,23 @@ const AddAMeal = () => {
             id="mealImage"
             onChange={handleImageChange}
             required
-            className="input input-bordered w-full py-2"
+            className="w-full file-input file-input-bordered"
           />
           {preview && (
             <div className="mt-4">
-              <p className="text-md font-bold text-gray-600">Image Preview:</p>
+              <p className="font-bold text-gray-600 text-md">Image Preview:</p>
               <img
                 src={preview}
                 alt="Preview"
-                className="max-w-full h-auto border border-gray-300 rounded-lg"
+                className="border border-gray-300 rounded-lg w-96"
               />
             </div>
           )}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-bold">Meal Name</span>
+              <span className="font-bold label-text">Meal Name</span>
             </label>
             <input
               type="text"
@@ -99,12 +99,12 @@ const AddAMeal = () => {
               value={mealData.mealName}
               required
               onChange={handleChange}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-bold">Meal Description</span>
+              <span className="font-bold label-text">Meal Description</span>
             </label>
             <textarea
               id="mealDescription"
@@ -113,12 +113,12 @@ const AddAMeal = () => {
               value={mealData.mealDescription}
               required
               onChange={handleChange}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             ></textarea>
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-bold">Meal Type</span>
+              <span className="font-bold label-text">Meal Type</span>
             </label>
             <select
               id="mealType"
@@ -126,7 +126,7 @@ const AddAMeal = () => {
               value={mealData.mealType}
               required
               onChange={handleChange}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             >
               <option value="">Select Meal Type</option>
               <option value="Vegetarian">Vegetarian</option>
@@ -136,7 +136,7 @@ const AddAMeal = () => {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-bold">Cuisine Type</span>
+              <span className="font-bold label-text">Cuisine Type</span>
             </label>
             <select
               id="cuisineType"
@@ -144,7 +144,7 @@ const AddAMeal = () => {
               value={mealData.cuisineType}
               required
               onChange={handleChange}
-              className="input input-bordered w-full"
+              className="w-full input input-bordered"
             >
               <option value="">Select Cuisine Type</option>
               <option value="Indian">Indian</option>
@@ -154,10 +154,10 @@ const AddAMeal = () => {
           </div>
           <div className="form-control col-span-full">
             <label className="label">
-              <span className="label-text font-bold">Meal Price</span>
+              <span className="font-bold label-text">Meal Price</span>
             </label>
             <div className="flex">
-              <span className="flex items-center bg-gray-200 border border-r-0 rounded-l px-3 text-black">
+              <span className="flex items-center px-3 text-black bg-gray-200 border border-r-0 rounded-l">
                 $(CAD)
               </span>
               <input
@@ -168,7 +168,7 @@ const AddAMeal = () => {
                 value={mealData.mealPrice}
                 required
                 onChange={handleChange}
-                className="input input-bordered w-full"
+                className="w-full input input-bordered"
               />
             </div>
             <span className={`${error ? "block" : "hidden"} text-red-500`}>
@@ -176,8 +176,8 @@ const AddAMeal = () => {
             </span>
           </div>
         </div>
-        <div className="flex space-x-4 mt-4">
-          <button type="submit" className="btn btn-success w-[15%] sm:w-[5%]">
+        <div className="flex mt-4 space-x-4">
+          <button type="submit" className="btn btn-success">
             Add
           </button>
           <button

@@ -46,4 +46,5 @@ public class ResponseMessages {
     public static final String OTP_VERIFIED_FAILED = "OTP does not match.";
     public static final String ORDER_STATUS_RETRIEVED = "Order status retrieved successfully.";
     public static final String SUBSCRIPTIONS_RETRIEVED = "Subscriptions retrieved successfully.";
+    public static final String DASHBOARD_ANALYTICS_FETCHED = "Dashboard Analytics fetched.";
 }

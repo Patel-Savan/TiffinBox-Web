@@ -10,22 +10,18 @@ const MealPage = () => {
   const [toggleDialog, setToggleDialog] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const {
-    meal,
-    getMealFromId,
-    deleteAMeal
-  } = useFoodProviderMealContext();
+  const { meal, getMealFromId, deleteAMeal } = useFoodProviderMealContext();
 
   const { mealId } = useParams();
   useEffect(() => {
-    console.log("Hello from comp")
-    async function getMeal(){
-      await getMealFromId(mealId)
-      setLoading(false)
-      console.log(meal)
+    console.log("Hello from comp");
+    async function getMeal() {
+      await getMealFromId(mealId);
+      setLoading(false);
+      console.log(meal);
     }
     getMeal();
-  },[mealId])
+  }, [mealId]);
 
   /*const meal = {
     mealName: "Ras puri",
@@ -52,44 +48,48 @@ const MealPage = () => {
     setToggleDialog(!toggleDialog);
   };
 
-  if(loading){
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="grid max-w-5xl mx-auto min-h-dvh place-content-center">
+        <span className="loading loading-dots loading-lg text-primary"></span>
+      </div>
+    );
   }
 
-  console.log(meal)
+  console.log(meal);
   return (
-    <div className="container mx-auto px-6 py-6 min-h-screen">
-      <h1 className="font-bold text-3xl text-gray-950 mb-6">Meal Details</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="flex justify-center items-center">
+    <div className="container min-h-screen px-6 py-6 mx-auto">
+      <h1 className="mb-6 text-3xl font-bold text-gray-950">Meal Details</h1>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="flex items-center justify-center">
           <img
             src={meal.mealImage}
             alt={meal.mealName}
-            className="w-full rounded-lg shadow-md"
+            className="rounded-lg shadow-md w-96"
           />
         </div>
         <div className="flex flex-col space-y-6">
           <div>
-            <p className="font-bold text-xl text-gray-800">Meal Name</p>
+            <p className="text-xl font-bold text-gray-800">Meal Name</p>
             <p className="text-gray-700">{meal.mealName}</p>
           </div>
           <div>
-            <p className="font-bold text-xl text-gray-800">Meal Description</p>
+            <p className="text-xl font-bold text-gray-800">Meal Description</p>
             <p className="text-gray-700">{meal.mealDescription}</p>
           </div>
           <div>
-            <p className="font-bold text-xl text-gray-800">Meal Type</p>
+            <p className="text-xl font-bold text-gray-800">Meal Type</p>
             <p className="text-gray-700">{meal.mealType}</p>
           </div>
           <div>
-            <p className="font-bold text-xl text-gray-800">Cuisine Type</p>
+            <p className="text-xl font-bold text-gray-800">Cuisine Type</p>
             <p className="text-gray-700">{meal.cuisineType}</p>
           </div>
           <div>
-            <p className="font-bold text-xl text-gray-800">Meal Price</p>
+            <p className="text-xl font-bold text-gray-800">Meal Price</p>
             <p className="text-gray-700">$(CAD) {meal.mealPrice}</p>
           </div>
-          <div className="flex space-x-4 mt-6">
+          <div className="flex mt-6 space-x-4">
             <button
               className="btn btn-success"
               onClick={(e) => handleUpdateClick(e)}
@@ -107,15 +107,15 @@ const MealPage = () => {
       </div>
 
       {toggleDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="p-8 text-center bg-white rounded-lg shadow-md">
+            <h2 className="mb-4 text-xl font-bold">Confirm Deletion</h2>
             <p className="mb-6">Are you sure you want to delete this item?</p>
             <div className="flex space-x-4">
               <div className="flex justify-center w-[50%]">
                 <button
                   onClick={handleDeletion}
-                  className="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-600"
+                  className="px-4 py-2 mr-2 text-white bg-red-500 rounded hover:bg-red-600"
                 >
                   Confirm
                 </button>
@@ -123,7 +123,7 @@ const MealPage = () => {
               <div className="flex justify-center w-[50%]">
                 <button
                   onClick={handleToggling}
-                  className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                  className="px-4 py-2 text-black bg-gray-300 rounded hover:bg-gray-400"
                 >
                   Cancel
                 </button>

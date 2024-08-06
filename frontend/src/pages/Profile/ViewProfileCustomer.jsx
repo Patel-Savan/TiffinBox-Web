@@ -9,7 +9,7 @@ import { useProfile } from "../../context/ProfileContext";
 const ViewProfileCustomer = () => {
   const { getProfileInfo, profileInfo, updateProfileImage } = useProfile();
   const defaultImage =
-    "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png ";
+    "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png";
   const [avatar, setAvatar] = useState(defaultImage);
 
   // console.log("profileInfo", profileInfo);

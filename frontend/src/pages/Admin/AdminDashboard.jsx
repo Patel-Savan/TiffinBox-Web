@@ -22,6 +22,10 @@ const AdminDashboard = () => {
 
   return (
     <div className="container px-6 py-6 mx-auto min-h-dvh">
+      <p className="mb-10 text-4xl font-bold">
+        <span className="text-5xl text-primary">/</span>
+        <span>Dashboard</span>
+      </p>
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 md:grid-cols-2 justify-stretch">
         <div className="shadow-md card bg-base-100">
           <div className="card-body">

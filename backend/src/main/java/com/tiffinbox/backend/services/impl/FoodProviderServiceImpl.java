@@ -2,17 +2,31 @@
  * Author: Savan Patel
  */
 
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.services.impl;
 
 import com.tiffinbox.backend.dto.MealResponseDTO;
+import com.tiffinbox.backend.dto.OrdersDTO;
+import com.tiffinbox.backend.dto.RevenueDTO;
+import com.tiffinbox.backend.dto.mappers.FoodServiceProviderDashboardMapper;
 import com.tiffinbox.backend.dto.request.AddMealRequest;
 import com.tiffinbox.backend.dto.response.BasicResponse;
+import com.tiffinbox.backend.dto.response.foodserviceprovider.DashboardResponse;
 import com.tiffinbox.backend.dto.response.mealmenumanagement.GetASingleMealResponse;
 import com.tiffinbox.backend.dto.response.mealmenumanagement.GetMealListResponse;
 import com.tiffinbox.backend.exceptions.NotFoundException;
 import com.tiffinbox.backend.models.Meal;
+import com.tiffinbox.backend.models.Order;
+import com.tiffinbox.backend.models.Review;
 import com.tiffinbox.backend.models.User;
 import com.tiffinbox.backend.repositories.MealRepository;
+import com.tiffinbox.backend.repositories.OrderRepository;
+import com.tiffinbox.backend.repositories.ReviewRepository;
 import com.tiffinbox.backend.repositories.UserRepository;
 import com.tiffinbox.backend.services.CloudinaryService;
 import com.tiffinbox.backend.services.IFoodProviderService;
@@ -24,13 +38,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class FoodProviderServiceImpl implements IFoodProviderService {
     private final UserRepository userRepository;
     private final MealRepository mealRepository;
+    private final OrderRepository orderRepository;
+    private final ReviewRepository reviewRepository;
     private final CloudinaryService cloudinaryService;
 
     @Override
@@ -157,5 +173,62 @@ public class FoodProviderServiceImpl implements IFoodProviderService {
             response.setFoodProviderEmail(meal.getUser().getEmail());
         }
         return response;
+    }
+
+    @Override
+    public DashboardResponse dashboardAnalytics(Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+
+        if(user == null){
+            throw new NotFoundException(ResponseMessages.USER_NOT_FOUND);
+        }
+
+        List<Review> reviews = reviewRepository.findAllByFoodServiceProvider(user.getFoodServiceProvider());
+
+        OptionalDouble averageRating = reviews.stream()
+                .mapToDouble(Review::getReviewStars)
+                .average();
+
+        if(averageRating.isEmpty()){
+            averageRating = OptionalDouble.of(0D);
+        }
+
+        List<Order> orders = orderRepository.findAllByFoodServiceProvider(user);
+        Map<String, Integer> mealCountMap = new HashMap<>();
+
+        for (Order order : orders) {
+            if (order.getMeal() != null && order.getMeal().getMealId() != null) {
+                String mealId = order.getMeal().getMealId();
+                mealCountMap.put(mealId, mealCountMap.getOrDefault(mealId, 0) + 1);
+            }
+        }
+
+        String mostOrderedMealId = mealCountMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+
+        Optional<Meal> mostOrderedMeal =  mealRepository.findById(mostOrderedMealId);
+
+        String mealName = "";
+        if(mostOrderedMeal.isEmpty()){
+            mealName = "None";
+        }else{
+            mealName = mostOrderedMeal.get().getMealName();
+        }
+
+        List<OrdersDTO> ordersDTOList = FoodServiceProviderDashboardMapper.convertToOrdersDTO(orders);
+        List<RevenueDTO> revenueDTOList = FoodServiceProviderDashboardMapper.convertToRevenueDTO(orders);
+
+
+        return DashboardResponse.builder()
+                .success(true)
+                .message(ResponseMessages.DASHBOARD_ANALYTICS_FETCHED)
+                .ordersAnalysis(ordersDTOList)
+                .revenueAnalysis(revenueDTOList)
+                .mostOrderedMeal(mealName)
+                .averageRating(averageRating.getAsDouble())
+                .timeStamp(LocalDateTime.now())
+                .build();
     }
 }

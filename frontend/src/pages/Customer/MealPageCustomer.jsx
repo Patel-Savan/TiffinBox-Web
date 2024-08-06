@@ -41,14 +41,18 @@ const MealPageCustomer = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="grid max-w-5xl mx-auto min-h-dvh place-content-center">
+        <span className="loading loading-dots loading-lg text-primary"></span>
+      </div>
+    );
   }
 
   console.log(meal);
   return (
-    <div className="container min-h-screen px-6 py-6 mx-auto">
+    <div className="max-w-5xl min-h-screen px-6 py-6 mx-auto">
       <h1 className="mb-6 text-3xl font-bold text-gray-950">Meal Details</h1>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div className="flex items-center justify-center">
           <img
             src={meal.mealImage}
@@ -109,10 +113,11 @@ const MealPageCustomer = () => {
               <label
                 htmlFor="weekly"
                 role="button"
-                className={`btn ${subscriptionType === SubscriptionType.WEEKLY
+                className={`btn ${
+                  subscriptionType === SubscriptionType.WEEKLY
                     ? "btn-primary"
                     : "btn-outline btn-primary"
-                  }`}
+                }`}
               >
                 Weekly
                 <input
@@ -127,10 +132,11 @@ const MealPageCustomer = () => {
               <label
                 htmlFor="monthly"
                 role="button"
-                className={`btn ${subscriptionType === SubscriptionType.MONTHLY
+                className={`btn ${
+                  subscriptionType === SubscriptionType.MONTHLY
                     ? "btn-primary"
                     : "btn-outline btn-primary"
-                  }`}
+                }`}
               >
                 Monthly
                 <input
@@ -144,9 +150,14 @@ const MealPageCustomer = () => {
               </label>
             </li>
             <li>
+              <p className="text-sm text-warning">
+                *All subscriptions start from next day.
+              </p>
+            </li>
+            <li>
               <form method="dialog">
                 <button
-                  className="mt-6 btn btn-neutral"
+                  className="mt-4 btn btn-neutral"
                   onClick={() => {
                     handleSubscribe();
                   }}

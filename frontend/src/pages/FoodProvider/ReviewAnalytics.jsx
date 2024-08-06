@@ -20,14 +20,14 @@ function ReviewAnalytics() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await api.get(
-          "/foodserviceprovider/view-all-reviews"
-        );
+        const response = await api.get("/foodserviceprovider/view-all-reviews");
         const fetchedReviews = response.data.map((review) => ({
           ...review,
           user: {
             name: `${review.firstName} ${review.lastName}`,
-            image: review.image || "path_to_default_image.jpg",
+            image:
+              review.image ||
+              "https://res.cloudinary.com/dk1fim9hl/image/upload/v1722352694/TiffinBox/generic-profile-photo_ym4olv.png",
           },
           text: review.reviewDescription,
           rating: review.reviewStars,
@@ -71,7 +71,7 @@ function ReviewAnalytics() {
   });
 
   return (
-    <div className="w-full min-h-screen p-5 bg-gray-200">
+    <div className="w-full min-h-screen p-5">
       <div className="grid grid-cols-1 gap-4 mx-auto mt-10 max-w-7xl md:grid-cols-3">
         <div className="col-span-1 p-6 bg-white rounded-lg shadow-lg h-96">
           <h2 className="text-2xl font-bold text-center">Ratings Overview</h2>
