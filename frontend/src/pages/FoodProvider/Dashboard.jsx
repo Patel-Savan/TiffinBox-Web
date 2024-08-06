@@ -8,17 +8,6 @@ import { FaStar } from "react-icons/fa";
 import DashboardBarGraph from "../../components/FoodServiceProvider/DashboardBarGraph";
 import { useFoodProviderDashboard } from "../../context/DashboardContext/FoodProviderContext";
 import { useEffect } from "react";
-// const ordersData = [
-//   { name: "July", orders: 5 },
-//   { name: "August", orders: 3 },
-//   { name: "Total", orders: 8 },
-// ];
-
-// const revenueData = [
-//   { name: "July", revenue: 500 },
-//   { name: "August", revenue: 200 },
-//   { name: "Total", revenue: 700 },
-// ];
 
 function Dashboard() {
   const { dashboardAnalytics, fetchAnalytics, loading } =
