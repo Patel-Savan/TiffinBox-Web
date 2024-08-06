@@ -3,6 +3,12 @@
  * Author : Savan Patel
  */
 
+/**
+ * Author: Raj Kamlesh Patel
+ * Banner ID: B00978721
+ * Email: rj227488@dal.ca
+ */
+
 package com.tiffinbox.backend.controllers;
 
 import com.tiffinbox.backend.services.CloudinaryService;
@@ -102,4 +108,9 @@ public class FoodServiceProviderController {
     //     ReviewResponse response=reviewService.getFoodProviderId(principal);
     //     return ResponseEntity.ok(response);
     // }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<?> dashboardAnalytics(Principal principal){
+        return new ResponseEntity<>(foodProviderService.dashboardAnalytics(principal), HttpStatus.OK);
+    }
 }

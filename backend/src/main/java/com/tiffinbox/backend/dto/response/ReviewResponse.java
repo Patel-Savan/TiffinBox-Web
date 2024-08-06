@@ -20,5 +20,6 @@ public class ReviewResponse extends BasicResponse{
     private Double reviewStars;
     private String FirstName;
     private String LastName;
+    private String image;
     private String foodProviderId;
 }
