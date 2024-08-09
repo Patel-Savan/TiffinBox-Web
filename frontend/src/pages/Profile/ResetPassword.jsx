@@ -24,10 +24,21 @@ const ResetPassword = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {};
-
-  // Handle input changes
-
+  const onSubmit = async (data) => {
+    try {
+      const response = await handleResetPassword(data);
+      console.log('Password reset response:', response);
+      if (response && response.success) {
+        if (userRole === UserRoles.CUSTOMER) {
+          navigate("/customer/view-profile");
+        } else if (userRole === UserRoles.FOOD_SERVICE_PROVIDER) {
+          navigate("/foodprovider/view-profile");
+        }
+      }
+    } catch (error) {
+      console.error('Error resetting password:', error);
+    }
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -41,7 +52,7 @@ const ResetPassword = () => {
       >
         Reset Password
       </h4>
-      <form onSubmit={handleSubmit(handleResetPassword)} className="mt-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
         <div className="flex flex-col w-full gap-4 ">
           <div className="w-full">
             <label
@@ -52,17 +63,17 @@ const ResetPassword = () => {
             </label>
             <input
               type="password"
+              name="old_password"
               {...register("old_password", {
                 required: "* This is required",
                 onChange: handleChange,
               })}
-              className={`${
-                getValues("old_password")
-                  ? "border-orange-300"
-                  : "border-gray-300"
-              } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400 ${
-                errors.old_password ? "border-red-400" : "border-gray-300"
-              }`}
+              className={`${getValues("old_password")
+                ? "border-orange-300"
+                : "border-gray-300"
+                } border px-3 py-2 mt-2 rounded-sm text-md w-full focus:outline-orange-400 ${errors.old_password ? "border-red-400" : "border-gray-300"
+                }`}
+              value={formData.old_password || ""}
             />
             {errors.old_password && (
               <span className="block mt-2 text-red-400">
@@ -80,6 +91,7 @@ const ResetPassword = () => {
             </label>
             <input
               type="password"
+              name="new_password"
               {...register("new_password", {
                 required: "* This is required",
                 minLength: {
@@ -94,13 +106,12 @@ const ResetPassword = () => {
                 },
                 onChange: handleChange,
               })}
-              className={`${
-                getValues("new_password")
-                  ? "border-orange-300"
-                  : "border-gray-300"
-              } ${
-                errors.password ? "border-red-400" : "border-gray-300"
-              } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+              className={`${getValues("new_password")
+                ? "border-orange-300"
+                : "border-gray-300"
+                } ${errors.new_password ? "border-red-400" : "border-gray-300"
+                } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+              value={formData.new_password || ""}
             />
             {errors.new_password && (
               <span className="block mt-2 text-red-400">
@@ -118,6 +129,7 @@ const ResetPassword = () => {
             </label>
             <input
               type="password"
+              name="confirm_password"
               {...register("confirm_password", {
                 required: "* This is required",
                 validate: {
@@ -138,13 +150,12 @@ const ResetPassword = () => {
                 },
                 onChange: handleChange,
               })}
-              className={`${
-                getValues("confirm_password")
-                  ? "border-orange-300"
-                  : "border-gray-300"
-              } ${
-                errors.confirm_password ? "border-red-400" : "border-gray-300"
-              } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+              className={`${getValues("confirm_password")
+                ? "border-orange-300"
+                : "border-gray-300"
+                } ${errors.confirm_password ? "border-red-400" : "border-gray-300"
+                } border px-3 py-2 rounded-sm text-md mt-2 w-full focus:outline-orange-400`}
+              value={formData.confirm_password || ""}
             />
             {errors.confirm_password && (
               <span className="block mt-2 text-red-400">
@@ -165,13 +176,6 @@ const ResetPassword = () => {
             <button
               type="submit"
               className="px-4 py-2 rounded-lg btn btn-secondary"
-              onClick={() => {
-                if (userRole === UserRoles.CUSTOMER) {
-                  navigate("/customer/view-profile");
-                } else if (userRole === UserRoles.FOOD_SERVICE_PROVIDER) {
-                  navigate("/foodprovider/view-profile");
-                }
-              }}
             >
               Reset Password
             </button>

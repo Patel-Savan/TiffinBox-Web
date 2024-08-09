@@ -19,8 +19,8 @@ const backendURLs = {
   CUSTOMER_SIGNUP_URL: `/auth/customer/signUp`,
   SELLER_SIGNUP_URL: `/auth/seller/signUp`,
   RESET_PASSWORD_URL: `/profile/resetPassword`,
-  FORGOT_PASSWORD_URL:`/auth/forgotPassword`
-  
+  FORGOT_PASSWORD_URL: `/auth/forgotPassword`
+
 };
 
 const initialState = {
@@ -113,23 +113,19 @@ const AuthProvider = ({ children }) => {
       oldPassword: data.old_password,
       newPassword: data.new_password,
     };
-    await api
-      .post(backendURLs.RESET_PASSWORD_URL, requestBody)
-      .then((res) => {
-        console.log(res?.data);
-        if (res?.status === 200 || res?.status === 201) {
-          toast.success(res?.data.message);
-          return true;
-        }
-        return false;
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error(error.res?.data.message);
-        return false;
-      });
+    try {
+      const res = await api.post(backendURLs.RESET_PASSWORD_URL, requestBody);
+      console.log(res?.data);
+      if (res?.status === 200 || res?.status === 201) {
+        toast.success(res?.data.message);
+        return { success: true, message: res?.data.message };
+      }
+      return { success: false, message: res?.data.message };
+    } catch (error) {
+      console.log(error);
+      return { success: false, message: error.response?.data.message };
+    }
   };
-
   const handleLoginSubmit = async (data) => {
     console.log(data);
     const requestBody = {
@@ -188,10 +184,10 @@ const AuthProvider = ({ children }) => {
         navigate('/auth/logIn');
         return true;
       }
-      
-    } 
+
+    }
     catch (error) {
-      
+
       console.log(error);
       return false;
     }
