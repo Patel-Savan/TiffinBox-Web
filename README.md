@@ -3,8 +3,8 @@
 Our project’s purpose is to provide a platform through which the food ordering and delivery process becomes easy for both the customers and food service providers. It also has an administrator role to manage the customers and food service providers of the application. Our goal is to enhance the overall food experience by providing a platform for effective order tracking and meal management. With features like tracking deliveries in real-time, earning reward points, and easy-to-use dashboards, we aim to make the experience smooth for everyone.
 
 - _Date Created_: 30 May 2024
-- _Last Modification Date_: 24 Jun 2024
-- _Project URL_: <https://tiffinbox-csci5709.netlify.app/>
+- _Last Modification Date_: August 09, 2024
+- _Deployment URL_: <https://tiffinbox-csci5709.netlify.app/>
 - _Git URL_: <https://git.cs.dal.ca/rkp/csci-5709-grp-04>
 
 ## Authors
@@ -20,53 +20,59 @@ Our project’s purpose is to provide a platform through which the food ordering
 
 ### Prerequisites
 
-To have a local copy of this Project up and running on your local machine, you will first need to install the following libraries
+To have a local copy of this project up and running on your local machine, you will first need to install the following:
+
 
 - [NodeJS](https://nodejs.org/en) `v20.x`
-- [npm](https://www.npmjs.com/) `v6.x`
+- [npm](https://www.npmjs.com/) `v10.x`
+- [JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) `Java 17`
+- [Maven](https://maven.apache.org/)
+- [MongoDB](https://www.mongodb.com/products/platform/atlas-database)
+
 
 ### Installing
 
 Clone the Repository
 
+Clone with HTTPS
 ```bash
-git clone https://git.cs.dal.ca/rkp/csci-5709-grp-04.git
-```
-
+ git clone https://git.cs.dal.ca/rkp/csci-5709-grp-04.git
+ ```
 OR
 
-```bash
-git clone git@git.cs.dal.ca:rkp/csci-5709-grp-04.git
+Clone with SSH
+ ```bash
+ git clone git@git.cs.dal.ca:rkp/csci-5709-grp-04.git
 ```
 
-Navigate to the frontend directory
+### Local Setup - Frontend
 
 ```
-cd csci-5709-grp-04
-cd frontend
-```
-
-### Install dependencies
-
-- Run the following command to install frontend dependencies:
-
-```bash
+cd csci-5709-grp-04/frontend
 npm install
-```
-
-start React APP
-
-- After installing dependencies, start the React.js development server by running:
-
-```bash
 npm run dev
 ```
 
-- Open your web browser and go to [http://localhost:5173](http://localhost:5173) to access the website.
+Frontend should be running on http://localhost:5173/
+
+### Local Setup - Backend
+
+
+```
+cd csci-5709-grp-08/backend/
+mvn spring-boot:run
+```
+The backend should be running on http://localhost:8080/
+
 
 ## Deployment
 
-- Deployment to Netlify
+This app has been deployed on Netlify (Frontend) and Render (Backend).
+
+- Frontend Deployed App URL: https://tiffinbox-csci5709.netlify.app/
+- Backend Deployed App URL: https://tiffin-box.onrender.com
+
+Deployment to Netlify
 
 #### 1. Login to Netlify: Sign up or log in at Netlify.
 
@@ -88,16 +94,13 @@ npm run dev
 - [Vite](https://vitejs.dev/) - The build tool used for faster and leaner development.
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework for rapidly building modern websites.
 - [Daisy UI](https://daisyui.com/) - Tailwind CSS component library.
+- [npm](https://docs.npmjs.com//) - Dependency Management.
+- [Spring Boot](https://spring.io/projects/spring-boot) - The backend framework used
+- [Java](https://www.java.com/) - The programming language used
+- [Maven](https://maven.apache.org/) - Used as a build tool and for dependency management. 
+- [Docker](https://www.docker.com/) - Used for containerization.
+- [MongoDB](https://www.mongodb.com/atlas/database) - Database used.
 
-### Folder Structure
-
-- Command for react boilerplate
-
-```
-npm create vite@latest frontend --template react
-```
-
-- The command [Create new Vite App](https://vitejs.dev/guide/) is used from official documentation for initializing React app and Vite.
 
 ## Sources Used
 
@@ -390,9 +393,641 @@ The code above was created by adapting the code in [Hero - Daisy UI](https://dai
 </div>
 ```
 
-## Acknowledgments
+### SecurityConfiguration.java
 
-- React
+* Lines 34 - 49
+
+```
+http.csrf(AbstractHttpConfigurer::disable)
+               .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+               .authorizeHttpRequests(request -> request
+                       .requestMatchers("/api/auth/**").permitAll()
+                       .requestMatchers("/api/admin/**").hasAnyAuthority(UserRole.ADMIN.name())
+                       .requestMatchers("/api/home/**").permitAll()
+                       .requestMatchers("/api/meal/**").permitAll()
+                       .requestMatchers("/api/orders/**").authenticated()
+                       .requestMatchers("/api/foodserviceprovider/**").authenticated()
+                       .requestMatchers("/api/ordertrack/**").authenticated()
+                       .requestMatchers("/api/subscription/**").authenticated()
+                       .anyRequest().authenticated()
+               ).sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+               .authenticationProvider(authenticationProvider)
+               .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+
+```
+
+The code above was created by adapting the code in [Ali Bouli Github](https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java) as shown below:
+
+```
+http
+  .csrf(AbstractHttpConfigurer::disable)
+  .authorizeHttpRequests(req ->
+          req.requestMatchers(WHITE_LIST_URL)
+                  .permitAll()
+                  .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+                  .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
+                  .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
+                  .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
+                  .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
+                  .anyRequest()
+                  .authenticated()
+  )
+  .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+  .authenticationProvider(authenticationProvider)
+  .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+  .logout(logout ->
+          logout.logoutUrl("/api/v1/auth/logout")
+                  .addLogoutHandler(logoutHandler)
+                  .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+  )
+;
+
+return http.build();
+```
+
+- The code in [Ali Bouli Github](https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java) was taken as a reference from github repository.
+- [Ali Bouli Github](https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java) This code was used to implement security configuration file.
+- [Ali Bouli Github](https://github.com/ali-bouali/spring-boot-3-jwt-security/blob/main/src/main/java/com/alibou/security/config/SecurityConfiguration.java) This code was modified by removing the logout feature and modified accoording to our feature.
+
+
+### AdminDashboard.jsx
+
+* Lines 16 - 39
+
+```
+<div className="card bg-base-100 shadow-md">
+  <div className="card-body">
+    <h1 className="card-title text-3xl">
+      <p className="text-center">Total Users</p>
+    </h1>
+    <p className="font-semibold text-center">{analysisDetails?.totalUsers || 0}</p>
+  </div>
+</div>
+<div className="card w-50 bg-base-100 shadow-md">
+  <div className="card-body">
+    <h1 className="card-title text-3xl">
+      <p className="text-center">Total Orders</p>
+    </h1>
+    <p className="font-semibold text-center">{analysisDetails?.totalOrders || 0}</p>
+  </div>
+</div>
+<div className="card w-50 bg-base-100 shadow-md">
+  <div className="card-body">
+    <h1 className="card-title text-3xl">
+      <p className="text-center">Total Earnings</p>
+    </h1>
+    <p className="font-semibold text-center">${analysisDetails?.totalEarnings || 0}</p>
+  </div>
+</div>
+```
+
+The code above was created by adapting the code in [daisyUI](https://daisyui.com/components/card/) as shown below:
+
+```
+<div className="card bg-base-100 w-96 shadow-xl">
+  <div className="card-body">
+    <h2 className="card-title">Card title!</h2>
+    <p>If a dog chews shoes whose shoes does he choose?</p>
+    <div className="card-actions justify-end">
+      <button className="btn btn-primary">Buy Now</button>
+    </div>
+  </div>
+</div>
+```
+
+- The code in [daisyUI](https://daisyui.com/components/card/) was taken as a reference from the official documentation.
+- [daisyUI](https://daisyui.com/components/card/) This code was used to implement responsive card components with grids defined by me.
+- [daisyUI](https://daisyui.com/components/card/) This code was modified by changing internal elements such as I have removed the actions, changing the title, and so on.
+
+
+### PendingRequest.jsx
+
+* Lines 64 - 101
+
+```
+<div className="overflow-x-auto">
+  <table className="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Company</th>
+        <th>Email</th>
+        <th>Contact Number</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tbody>
+      {filteredRows.map((item) => (
+        <tr key={item.userId}>
+          <td>{item.name}</td>
+          <td>{item.companyName}</td>
+          <td>{item.email}</td>
+          <td>{item.contact}</td>
+          <td>
+            <button
+              className="btn btn-primary"
+              onClick={() => handleViewClick(item)}
+            >
+              View
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {filteredRows.length === 0 ? (
+    <h1 className="text-xl text-center font-bold my-2">
+      No Pending Requests!
+    </h1>
+    ) : (
+      <></>
+  )}
+</div>
+```
+
+The code above was created by adapting the code in [daisyUI](https://daisyui.com/components/table/) as shown below:
+
+```
+<div className="overflow-x-auto">
+  <table className="table">
+    {/* head */}
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      {/* row 1 */}
+      <tr>
+        <th>1</th>
+        <td>Cy Ganderton</td>
+        <td>Quality Control Specialist</td>
+        <td>Blue</td>
+      </tr>
+      {/* row 2 */}
+      <tr>
+        <th>2</th>
+        <td>Hart Hagerty</td>
+        <td>Desktop Support Technician</td>
+        <td>Purple</td>
+      </tr>
+      {/* row 3 */}
+      <tr>
+        <th>3</th>
+        <td>Brice Swyre</td>
+        <td>Tax Accountant</td>
+        <td>Red</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+- The code in [daisyUI](https://daisyui.com/components/table/) was taken as a reference from the official documentation.
+- [daisyUI](https://daisyui.com/components/table/) This code was used to implement table as per needed attributes.
+- [daisyUI](https://daisyui.com/components/table/) This code was modified by changing the dummy rows. I have used the map function of JavaScript to display rows. And conditional logic is added to display rows.
+
+
+### ViewReceivedOrdersPage.jsx
+
+- Lines 64 - 101
+
+```
+<table className="table">
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Customer Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {filteredRows.length !== 0 &&
+      filteredRows.map((order) => (
+        <tr key={order.orderId}>
+          <td>{order.orderId}</td>
+          <td>{order.customerName}</td>
+          <td>
+            <Link
+              to={`/foodprovider/received-orders/${order.orderId}`}
+              className="btn btn-neutral"
+            >
+              View
+            </Link>
+          </td>
+        </tr>
+      ))}
+  </tbody>
+</table>
+```
+
+The code above was created by adapting the code in [daisyUI](https://daisyui.com/components/table/) as shown below:
+
+```
+<table className="table">
+  {/* head */}
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Job</th>
+      <th>Favorite Color</th>
+    </tr>
+  </thead>
+  <tbody>
+    {/* row 1 */}
+    <tr>
+      <th>1</th>
+      <td>Cy Ganderton</td>
+      <td>Quality Control Specialist</td>
+      <td>Blue</td>
+    </tr>
+    {/* row 2 */}
+    <tr>
+      <th>2</th>
+      <td>Hart Hagerty</td>
+      <td>Desktop Support Technician</td>
+      <td>Purple</td>
+    </tr>
+    {/* row 3 */}
+    <tr>
+      <th>3</th>
+      <td>Brice Swyre</td>
+      <td>Tax Accountant</td>
+      <td>Red</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+- The code in [daisyUI](https://daisyui.com/components/table/) was taken as a reference from the official documentation.
+- [daisyUI](https://daisyui.com/components/table/) This code was used to implement table as per needed attributes.
+- [daisyUI](https://daisyui.com/components/table/) This code was modified by changing the dummy rows. I have used the map function of JavaScript to display rows. And conditional logic is added to display rows.
+
+
+### ReviewController.java
+
+*Line 35 - 40*
+```
+
+ @PostMapping("/addReview")
+    public ResponseEntity<BasicResponse> addReview(@Valid @RequestBody ReviewRequest reviewRequest, Principal principal) {
+        BasicResponse savedReview = reviewService.addReview(reviewRequest,principal);
+        return ResponseEntity.status(HttpStatus.OK).body(savedReview);
+    }
+
+```
+
+The code above was created by adapting the code from [How does Spring Security inject principal into Controller?](https://stackoverflow.com/questions/60751605/how-does-spring-security-inject-principal-into-controller) as shown below:
+
+```
+@Nullable
+private Object resolveArgument(Class<?> paramType, HttpServletRequest request) throws IOException {
+    //omitted......
+    else if (Principal.class.isAssignableFrom(paramType)) {
+        Principal userPrincipal = request.getUserPrincipal();
+        if (userPrincipal != null && !paramType.isInstance(userPrincipal)) {
+            throw new IllegalStateException(
+                    "Current user principal is not of type [" + paramType.getName() + "]: " + userPrincipal);
+        }
+        return userPrincipal;
+    }
+    //omitted......
+}
+```
+
+-  The code in [How does Spring Security inject principal into Controller?](https://stackoverflow.com/questions/60751605/how-does-spring-security-inject-principal-into-controller) provided by [Holinc](https://stackoverflow.com/users/7334180/holinc) was implemented by propely understanding the working of java functions such as streams(), map() and filter(). After Understanding, I have modified the code as per my requirement.
+
+- The code example discussed in [How does Spring Security inject principal into Controller?](https://stackoverflow.com/questions/60751605/how-does-spring-security-inject-principal-into-controller) provided by [Holinc](https://stackoverflow.com/users/7334180/holinc) was instrumental in illustrating how Spring Security injects the Principal into a controller. By thoroughly understanding how Java functions such as streams(), map(), and filter() work, I was able to adapt the example to fit my specific needs.
+
+-  [How does Spring Security inject principal into Controller?](https://stackoverflow.com/questions/60751605/how-does-spring-security-inject-principal-into-controller)'s Code provided by [Holinc](https://stackoverflow.com/users/7334180/holinc) was used because it gave me the idea on how to filter out FoodProviders based on provided search filter.
+
+-  [How does Spring Security inject principal into Controller?](https://stackoverflow.com/questions/60751605/how-does-spring-security-inject-principal-into-controller)'s Code provided by [Holinc](https://stackoverflow.com/users/7334180/holinc) was modified by using the Principal as the parameter in the Controller.
+
+
+### ReviewServiceImpl.java
+
+*Line 69-78*
+```
+List<Review> reviews = reviewRepository.findAllByFoodServiceProvider(foodServiceProvider.get());
+return reviews.stream().map(review -> {
+    ReviewResponse response = new ReviewResponse();
+    response.setReviewDescription(review.getReviewDescription());
+    response.setReviewStars(review.getReviewStars());
+    response.setFirstName(review.getCustomer().getFirstName());
+    response.setLastName(review.getCustomer().getLastName());
+    return response;
+}).collect(Collectors.toList());
+    
+```
+The code above was created by adapting the code in [Mapping stream in DTO or passing mapped value to DTO separately?](https://stackoverflow.com/questions/75503819/mapping-stream-in-dto-or-passing-mapped-value-to-dto-separately) as shown below:
+
+```
+public RecipeResponse findById(Long id) {
+
+    return recipeRepository.findById(id).map(recipe -> {
+
+        RecipeResponse recipeResponse = new RecipeResponse();
+        recipeResponse.setId(id);
+        recipeResponse.setTitle(recipe.getTitle());
+
+        recipeResponse.setIngredients(
+                recipe.getRecipeIngredients().stream().map((recipeIngredient) -> {
+                    RecipeIngredientResponse recipeIngredientResponse = new RecipeIngredientResponse();
+                    // set the RecipeIngredientResponse properties here
+                    return recipeIngredientResponse;
+                }).collect(Collectors.toList()));
+
+        return new RecipeResponse();
+    }).orElseThrow(() -> new NoSuchElementFoundException("Not found"));
+}
+```
+
+-  [Mapping stream in DTO or passing mapped value to DTO separately?](https://stackoverflow.com/questions/75503819/mapping-stream-in-dto-or-passing-mapped-value-to-dto-separately) was implemented by properly reading the original source and understanding how mapping is used to return the response dto.
+
+-  [Mapping stream in DTO or passing mapped value to DTO separately?](https://stackoverflow.com/questions/75503819/mapping-stream-in-dto-or-passing-mapped-value-to-dto-separately)'s code was used because it helped me return the response using the .stream().map().
+
+-  [Mapping stream in DTO or passing mapped value to DTO separately?](https://stackoverflow.com/questions/75503819/mapping-stream-in-dto-or-passing-mapped-value-to-dto-separate)'s Code was modified by adding other variables for the response object.
+
+
+### SubmitReview.jsx
+
+*Line 54 - 58*
+```
+try {
+    const abc= await api.post('http://localhost:8080/api/reviews/addReview', reviewData);
+    console.log(abc)
+    toast.success('Your review has been successfully submitted.', {
+    position: "top-center",
+    duration: 2000
+    });
+}
+```
+The code above was created by adapting the code in [How to Make POST Requests with Axios](https://apidog.com/articles/axios-send-post-request/) as shown below:
+
+```
+  axios.post('https://api.example.com/post-endpoint', {key1: 'value1',key2: 'value2',
+}, {headers: {'Content-Type': 'application/json','Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+  },
+})
+  .then(response => {console.log('Response:', response.data);
+  })
+  .catch(error => {console.error('Error:', error);
+  });
+
+```
+
+-  [How to Make POST Requests with Axios](https://apidog.com/articles/axios-send-post-request/) was implemented by properly reading the original source and understanding how to make the post requests using the axios.
+
+-  [How to Make POST Requests with Axios](https://apidog.com/articles/axios-send-post-request/)'s Code was used because because it helped to make the axios post requiest which was used to fetch the data from the back end.
+
+-  [How to Make POST Requests with Axios](https://apidog.com/articles/axios-send-post-request/)'s Code was modified by adding the authorization bearer token. 
+
+
+### ViewProfileSeller.jsx
+
+*Lines 35 - 45*
+
+```
+const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    updateProfileImage(e.target.files[0]);
+  };
+
+```
+- The code above was created by adapting code generated by chat gpt [Chatgpt](https://chatgpt.com/)
+- ChatGPT Prompt: Write a React function to handle and preview an uploaded image.
+
+### EditProfileSeller.jsx
+
+*Lines 107 - 132*
+
+```
+<div className="flex flex-col space-x-0 md:flex-row space-y-4 md:space-y-0 md:space-x-6 mt-4">
+    <div className="w-full flex flex-col">
+    <label htmlFor="email">Email</label>
+    <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        readOnly
+        className="input input-bordered w-full mt-4"
+        value={"email"}
+        onChange={handleChange}
+    />
+    </div>
+
+    <div className="w-full flex flex-col">
+    <label htmlFor="contact">Contact</label>
+    <input
+        type="tel"
+        name="contact"
+        placeholder="Contact"
+        className="input input-bordered w-full mt-4"
+        value={"123456789"}
+        onChange={handleChange}
+    />
+    </div>
+</div>
+```
+
+- The code above was created by adapting code generated by chat gpt [Chatgpt](https://chatgpt.com/)
+- ChatGPT Prompt: Create a responsive React form with email and contact fields, supporting both mobile and desktop layouts using Tailwind CSS. 
+
+### CustomerServiceImpl.java
+
+*Line 46 - 48*
+```
+
+foodProviderResponseDTOList = sellerRepository.findByCity(city).stream()
+                    .map(this::convertToFoodProviderDTO)
+                    .filter(foodProviderResponseDTO -> 
+                        foodProviderResponseDTO.getCuisineType()
+                       .contains(searchFoodProviderRequest.getCuisineType()))
+                    .toList();
+```
+
+The code above was created by adapting the code from [Stack Overflow's chat threaad](https://stackoverflow.com/questions/75896970/how-can-i-be-able-to-perform-a-filter-on-a-nested-list-within-another-java-list) as shown below:
+
+```
+List<YearBrandDTO> years = yearRepository.findAll().stream()
+    .map(year -> {
+        List<Brand> filteredBrands = year.getBrands().stream()
+            .filter(brand -> brand.getName().equals("Toyota"))
+            .collect(Collectors.toList());
+```
+
+-  The code in [Stack Overflow's chat thread](https://stackoverflow.com/questions/75896970/how-can-i-be-able-to-perform-a-filter-on-a-nested-list-within-another-java-list) provided by [devblack-exe User](https://stackoverflow.com/users/14738350/devblack-exe) was implemented by propely understanding the working of java functions such as streams(), map() and filter(). After Understanding, I have modified the code as per my requirement.
+
+
+-  [Stack Overflow's chat thread](https://stackoverflow.com/questions/75896970/how-can-i-be-able-to-perform-a-filter-on-a-nested-list-within-another-java-list)'s Code provided by [devblack-exe User](https://stackoverflow.com/users/14738350/devblack-exe) was used because it gave me the idea on how to filter out FoodProviders based on provided search filter.
+
+
+-  [Stack Overflow's chat thread](https://stackoverflow.com/questions/75896970/how-can-i-be-able-to-perform-a-filter-on-a-nested-list-within-another-java-list)'s Code provided by [devblack-exe User](https://stackoverflow.com/users/14738350/devblack-exe) was modified by using the combination of map() and filter() function together to meet the requirement.
+
+
+### FoodServiceProviderController.java
+
+*Line 41 - 47*
+
+```
+@RequestPart("mealImage") MultipartFile mealImage,
+@RequestPart("mealName") String mealName,
+@RequestPart("mealDescription") String mealDescription,
+@RequestPart("mealPrice") String mealPrice,
+@RequestPart("mealType") String mealType,
+@RequestPart("cuisineType") String cuisineType
+```
+The code above was created by adapting the code in [Multipart File with Springboot](https://medium.com/techpanel/multipartfile-with-springboot-d4901ee3e77d) as shown below:
+
+```
+public ResponseEntity<String> uploadFile(@RequestPart(value = "file") MultipartFile file) {
+  service.uploadFile(file);
+  return new ResponseEntity<>("success", HttpStatus.OK);
+}
+```
+
+-  [Multipart File with Springboot](https://medium.com/techpanel/multipartfile-with-springboot-d4901ee3e77d) was implemented by properly reading the original source and understanding how Multipart files are recieved in the backend.
+
+-  [Multipart File with Springboot](https://medium.com/techpanel/multipartfile-with-springboot-d4901ee3e77d)'s Code was used because it provided the option to handle image upload without needing to convert the image to base64. This option also decreases frontEnd work as files will be passed to backend as they are uploaded by User.
+
+-  [Multipart File with Springboot](https://medium.com/techpanel/multipartfile-with-springboot-d4901ee3e77d)'s Code was modified by also accepting other details about meals such as mealName, mealDescription etc as part of the formData. 
+
+
+### AddAMeal.jsx
+
+*Line 24 - 35*
+```
+const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    setMealData({ ...mealData, mealImage: file });
+    console.log(e.target.files[0]);
+  };
+```
+
+*Line 78-87*
+```
+{preview && (
+            <div className="mt-4">
+              <p className="text-md font-bold text-gray-600">Image Preview:</p>
+              <img
+                src={preview}
+                alt="Preview"
+                className="max-w-full h-auto border border-gray-300 rounded-lg"
+              />
+            </div>
+          )}
+```
+The code above was created by adapting the code in [How to display preview of an image in React](https://nikolasbarwicki.com/articles/how-to-display-a-preview-of-an-image-upload-in-react/) as shown below:
+
+```
+useEffect(() => {
+    if (!file) {
+      return
+    }
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result)
+    }
+    reader.readAsDataURL(file)
+}, [file])
+return (
+    <>
+      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+      {previewUrl && <img src={previewUrl} alt="Preview" />}
+    </>
+  )
+}
+```
+
+### axiosConfig.jsx
+
+```
+// Add a response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If the error status is 401 and there is no originalRequest._retry flag,
+    // it means the token has expired and we need to refresh it
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        const response = await axios.post('/api/refresh-token', { refreshToken });
+        const { token } = response.data;
+
+        localStorage.setItem('token', token);
+
+        // Retry the original request with the new token
+        originalRequest.headers.Authorization = `Bearer ${token}`;
+        return axios(originalRequest);
+      } catch (error) {
+        // Handle refresh token error or redirect to login
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+```
+
+The code above was developed using the code below as reference to setup the frontend for the refresh token [medium](https://blog.theashishmaurya.me/handling-jwt-access-and-refresh-token-using-axios-in-react-app)
+
+```
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: '/api',
+});
+
+// Add a request interceptor
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export default api
+```
+
+- The code in [daisyUI](https://daisyui.com/components/table/) was taken as a reference from the official documentation.
+- [daisyUI](https://daisyui.com/components/table/) This code was used to implement table as per needed attributes.
+- [daisyUI](https://daisyui.com/components/table/) This code was modified by changing the dummy rows. I have used the map function of JavaScript to display rows. And conditional logic is added to display rows.
+- I want to extend my gratitude to the creators and developers of the sources mentioned above. Their ideas and it's implementation really helped me to complete as well as provide some additional functionality to my feature. It helped in creating the better User Experience.
+- This Article named [How to implement search...](https://www.geeksforgeeks.org/how-to-implement-search-filter-functionality-in-reactjs/) on GeeksForGeeks gave me idea of how to implement Search Functionality in ReactJs FrontEnd.
+
+## Acknowledgments
+- Spring Boot
+- Render
+- Docker
+- ViteJS
+- daisyUI
 - Tailwind CSS
-- Daisy UI
+- MongoDB Atlas
+- Netlify
 - Cloudinary
